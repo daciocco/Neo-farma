@@ -14,7 +14,7 @@ return [
 	'Database' => [
 		'name' 			=> 'HiperWin_Falsa',
 		'username' 		=> 'sa',
-		'password' 		=> 'Yoblondy1963',
+		'password' 		=> '',
 		'connection'	=> 'sqlsrv:Server=serverbd',
 		'charset'		=> '',
 		'options' 		=> [
