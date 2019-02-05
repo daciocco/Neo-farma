@@ -1,3 +1,3 @@
 # Neo-farma
 Proyecto de Laboratorio G
-Proyecto subido para uso de GitHub
+Subido para uso de GitHub
