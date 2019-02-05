@@ -1,0 +1,60 @@
+<?php
+session_start();
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
+if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
+	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+}
+
+$usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
+
+//*************************************************
+$empresa	= 	(isset($_POST['empresa']))	? 	$_POST['empresa']	:	NULL;
+$activos	= 	(isset($_POST['activos']))	? 	$_POST['activos']	:	NULL;
+$tipo		= 	(isset($_POST['tipo']))		?	$_POST['tipo']		:	NULL;
+$pag		= 	(isset($_POST['pag']))		?	$_POST['pag']		:	NULL;
+$_LPP		= 	(isset($_POST['rows']))		?	$_POST['rows']		:	NULL;
+//*************************************************
+$cuentas	= DataManager::getCuentas($pag, $_LPP, $empresa, $activos, "'".$tipo."'", $usrZonas);
+$_rows		= count($cuentas); //DataManager::getCuentas($pag, $_LPP, $empresa, $activos, $tipo, 
+
+echo	"<table id=\"tblCuentas\" class=\"datatab\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"table-layout:fixed;\">";
+
+if (count($cuentas)) {	
+	echo	"<thead><tr align=\"left\"><th>Id</th><th>Cuenta</th><th>Nombre</th><th>Provincia</th><th>Localidad</th><th>Cuit</th><th>Modificada</th><th align=\"center\">Acciones</th></tr></thead>";
+	echo	"<tbody>";
+	for( $k=0; $k < $_LPP; $k++ ) {
+		if ($k < $_rows) {
+			$cuenta 	= $cuentas[$k];
+			$id			= $cuenta['ctaid'];
+			$idCuenta	= $cuenta['ctaidcuenta'];
+			$empresa	= $cuenta['ctaidempresa'];
+			$cuit		= $cuenta['ctacuit'];
+			$nombre		= $cuenta['ctanombre'];
+			$provincia	= $cuenta['ctaidprov'];
+			$localidad	= $cuenta['ctaidloc'];	
+			$dateUpdate	= ($cuenta['ctaupdate']=='0000-00-00 00:00:00' || $cuenta['ctaupdate']=='2001-01-01 00:00:00' || $cuenta['ctaupdate']=='1900-01-01 00:00:00') ? '' : $cuenta['ctaupdate'];	
+			
+			
+			$provinciaNombre	=	DataManager::getProvincia('provnombre', $provincia);
+			$localidadNombre	=	DataManager::getLocalidad('locnombre', $localidad);			
+			$localidadNombre	=	(empty($localidadNombre)	?	$cuenta['ctalocalidad']	:	$localidadNombre);
+			
+			$_editar	= sprintf( "onclick=\"window.open('editar.php?ctaid=%d')\" style=\"cursor:pointer;\"",$id);
+			
+			$_status	= ($cuenta['ctaactiva']) ? "<img src=\"/pedidos/images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activa\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>" : "<img src=\"/pedidos/images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Inactiva\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>";
+			
+			((($k % 2) == 0)? $clase="par" : $clase="impar");
+			
+			echo "<tr class=".$clase.">";
+			echo "<td ".$_editar.">".$id."</td><td ".$_editar.">".$idCuenta."</td><td ".$_editar.">".$nombre."</td><td ".$_editar.">".$provinciaNombre."</td><td ".$_editar.">".$localidadNombre."</td><td ".$_editar.">".$cuit."</td><td ".$_editar.">".$dateUpdate."</td><td align=\"center\">".$_status."</td>";
+			echo "</tr>";			
+		}
+	}
+} else { 
+	echo	"<tbody>";
+	echo 	"<thead><tr><th colspan=\"8\" align=\"center\">No hay cuentas relacionadas</th></tr></thead>"; exit;
+}
+
+echo "</tbody></table>";
+	
+?>

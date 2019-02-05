@@ -1,0 +1,58 @@
+<?php
+require_once('class.PropertyObject.php');
+
+class TDrogueriaCAD extends PropertyObject {
+
+    protected $_tablename	= 'drogueriasCAD';
+	protected $_fieldid		= 'dcadId';
+    protected $_fieldactivo	= 'dcadActivo';
+	protected $_timestamp	= 0;
+    protected $_id			= 0;
+	
+    public function __construct($_id=NULL) {
+		$this->_timestamp	= time();		
+		$this->_id			= $_id;
+		if ($_id) {
+			$arData = DataManager::loadFromDatabase($this, $_id);
+	   		parent::__construct($arData);
+		}
+		$this->propertyTable['ID'] 			= 'dcadId';
+		$this->propertyTable['Empresa']		= 'dcadIdEmpresa';
+		$this->propertyTable['Nombre']		= 'dcadNombre';
+		$this->propertyTable['LastUpdate']	= 'dcadLastUpdate';
+		$this->propertyTable['UserUpdate']	= 'dcadUserUpdate';	
+		$this->propertyTable['Activa'] 		= 'dcadActivo';
+    }
+     
+	function __toString() {
+		$_classname = get_class($this);
+		echo "<h2>=== $_classname ===</h2><br/>";
+		echo "ID=" . $this->_id . "<br/>";
+		echo "tabla=" . $this->_tablename . "<br/>";
+		echo "timestamp=" . date('Y-m-d H:i:s',$this->_timestamp) . "<br/>";
+		foreach ($this->propertyTable as $k => $v) {
+			echo $k . '=>' . $this->__get($k) . '<br>';
+		}
+	}    
+
+	public function __getTableName()  {
+		return $this->_tablename;
+	}
+	
+	public function __getFieldID()  {
+		return $this->_fieldid;
+	}
+
+	public function __getFieldActivo()  {
+		return $this->_fieldactivo;
+	}
+	
+	public function __newID()  {
+		return ('#'.$this->_fieldid);
+	}
+
+	public function __validate()  {
+		return true;
+	}
+}
+?>
