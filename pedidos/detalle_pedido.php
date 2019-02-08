@@ -6,13 +6,10 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" &&  $_SESSION["_usrro
 	exit;
 }
 
-$_nropedido		=	empty($_REQUEST['nropedido']) 	?	0 : $_REQUEST['nropedido'];
-
-$_button_print	=	sprintf( "<a id=\"imprimir\" href=\"imprimir_pedido.php?nropedido=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $_nropedido, "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" />");
-$_btn_aprobar	=	sprintf( "<a id=\"aprobar\" title=\"Aprobar Negociaci&oacute;n\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-aprobar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-aprobar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-aprobar.png';\"/>");
-$_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-rechazar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-rechazar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-rechazar.png';\"/>");
-
-?>
+$nroPedido	= empty($_REQUEST['nropedido']) 	?	0 : $_REQUEST['nropedido'];
+$btnPrint	= sprintf( "<a id=\"imprimir\" href=\"imprimir_pedido.php?nropedido=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $nroPedido, "<img src=\"/pedidos/images/icons/icono-print.png\" onmouseover=\"this.src='/pedidos/images/icons/icono-print-hover';\"  onmouseout=\"this.src='/pedidos/images/icons/icono-print.png';\" border=\"0\" />");
+$btnAprobar	= sprintf( "<a id=\"aprobar\" title=\"Aprobar Negociaci&oacute;n\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-aprobar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-aprobar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-aprobar.png';\"/>");
+$btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-rechazar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-rechazar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-rechazar.png';\"/>"); ?>
 
 <!DOCTYPE html>
 <html>
@@ -27,42 +24,40 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
     </header><!-- cabecera -->	
    
     <nav class="menuprincipal"> <?php
-        $_section		=	"pedidos";
-        $_subsection 	=	"mis_pedidos";
+        $_section	= "pedidos";
+        $_subsection= "mis_pedidos";
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
             
-    <main class="cuerpo">        
-		 
+    <main class="cuerpo">
 		<div class="cbte"> <?php
-			if ($_nropedido) {
+			if ($nroPedido) {
 				//Si el usuario es vendedor o es el usrid de Ernesto
 				if($_SESSION["_usrrol"] !=  "V" || $_SESSION["_usrrol"] !=  "17") {
-					$_usr	=	NULL;
+					$usr	=	NULL;
 				} else {
-					$_usr	=	$_SESSION["_usrid"];
-				}							
-				//$_usr		=	($_SESSION["_usrrol"] !=  "V")	?	NULL	:	$_SESSION["_usrid"];
-				$_detalles	= 	DataManager::getPedidos($_usr, NULL, $_nropedido);
-				if ($_detalles) { 	
-					$_total_final	=	0;
-					foreach ($_detalles as $k => $_detalle) {	
+					$usr	=	$_SESSION["_usrid"];
+				}								
+				
+				$detalles	= 	DataManager::getPedidos($usr, NULL, $nroPedido);
+				if ($detalles) { 	
+					$totalFinal	=	0;
+					foreach ($detalles as $k => $detalle) {	
 						if ($k==0){ 
-							$empresa		= 	$_detalle["pidemp"]; 
-							$_empresas	= 	DataManager::getEmpresas();
-							if ($_empresas) { 
-								foreach ($_empresas as $i => $_emp) {
-									$_idempresa	= 	$_emp['empid'];
-									if ($empresa == $_idempresa){												
-										$_nombreemp		= 	$_emp['empnombre'];
-										$_diremp		= 	$_emp['empdomicilio'];   
-										$_localidademp	= 	" - ".$_emp['emplocalidad'];
-										$_cpemp			= 	" - CP".$_emp['empcp'];  
-										$_telemp		= 	" - Tel: ".$_emp['empcp']; 
-										$_correoemp		= 	$_emp['empcorreo']." / ";
+							$empresa	= $detalle["pidemp"]; 
+							$empresas	= DataManager::getEmpresas();
+							if ($empresas) { 
+								foreach ($empresas as $i => $emp) {
+									$empresaId	= 	$emp['empid'];
+									if ($empresa == $empresaId){
+										$empNombre		= $emp['empnombre'];
+										$empDir			= $emp['empdomicilio'];   
+										$empLocalidad	= " - ".$emp['emplocalidad'];
+										$empCP			= " - CP".$emp['empcp'];  
+										$empTel			= " - Tel: ".$emp['empcp']; 
+										$empCorreo		= $emp['empcorreo']." / ";
 									}
 								}
-								
 								//header And footer
 								include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php");
 							}
@@ -74,28 +69,29 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
 
 								<div class="cbte_boxheader">                        
 									<h1>PEDIDO WEB</h1> </br>
-									<?php echo $_diremp; ?> <?php echo $_cpemp; ?>  <?php echo $_localidademp; ?> <?php echo $_telemp; ?></br>
-									<?php echo $_correoemp; ?> www.neo-farma.com.ar</br>
+									<?php echo $empDir; ?> <?php echo $empCP; ?>  <?php echo $empLocalidad; ?> <?php echo $empTel; ?></br>
+									<?php echo $empCorreo; ?> www.neo-farma.com.ar</br>
 									IVA RESPONSABLE INSCRIPTO
 								</div>  <!-- cbte_boxheader -->   
 							</div>  <!-- boxtitulo -->
 
 							<?php
-							$_fecha_pedido		=	$_detalle['pfechapedido'];
-							$_idusuario			=	$_detalle['pidusr'];			
-							$_nombreusr			= 	DataManager::getUsuario('unombre', $_idusuario); 
-							$_idcliente			= 	$_detalle["pidcliente"];
-							$_nombrecli			= 	DataManager::getCuenta('ctanombre', 'ctaidcuenta', $_idcliente, $empresa);
-							$_domiciliocli		= 	DataManager::getCuenta('ctadireccion', 'ctaidcuenta', $_idcliente, $empresa)." ".DataManager::getCuenta('ctadirnro', 'ctaidcuenta', $_idcliente, $empresa)." ".DataManager::getCuenta('ctadirpiso', 'ctaidcuenta', $_idcliente, $empresa)." ".DataManager::getCuenta('ctadirdpto', 'ctaidcuenta', $_idcliente, $empresa);	
-							$_localidadcli		= 	DataManager::getCuenta('ctalocalidad', 'ctaidcuenta', $_idcliente, $empresa);
-							$_codpostalcli		= 	DataManager::getCuenta('ctacp', 'ctaidcuenta', $_idcliente, $empresa);
-							$_condpago			= 	$_detalle["pidcondpago"];
+							$fechaPedido		= $detalle['pfechapedido'];
+							$usrId				= $detalle['pidusr'];			
+							$usrNombre			= DataManager::getUsuario('unombre', $usrId); 
+							$clienteId			= $detalle["pidcliente"];
+							$ctaId				= DataManager::getCuenta('ctaid', 'ctaidcuenta', $clienteId, $empresa);
+							$cliNombre			= DataManager::getCuenta('ctanombre', 'ctaidcuenta', $clienteId, $empresa);
+							$_domiciliocli		= DataManager::getCuenta('ctadireccion', 'ctaidcuenta', $clienteId, $empresa)." ".DataManager::getCuenta('ctadirnro', 'ctaidcuenta', $clienteId, $empresa)." ".DataManager::getCuenta('ctadirpiso', 'ctaidcuenta', $clienteId, $empresa)." ".DataManager::getCuenta('ctadirdpto', 'ctaidcuenta', $clienteId, $empresa);	
+							$_localidadcli		= DataManager::getCuenta('ctalocalidad', 'ctaidcuenta', $clienteId, $empresa);
+							$_codpostalcli		= DataManager::getCuenta('ctacp', 'ctaidcuenta', $clienteId, $empresa);
+							$_condpago			= $detalle["pidcondpago"];
 							
-							$condicionesDePago = DataManager::getCondicionesDePago(0, 0, NULL, $_condpago); 
+							$condicionesDePago	= DataManager::getCondicionesDePago(0, 0, NULL, $_condpago); 
 							if (count($condicionesDePago)) { 
 								foreach ($condicionesDePago as $k => $condPago) {
-									$condPagoCodigo	=	$condPago["IdCondPago"];									
-									$_condnombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);										
+									$condPagoCodigo	=	$condPago["IdCondPago"];
+									$_condnombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);									
 									$_conddias	= "(";					
 									$_conddias	.= empty($condPago['Dias1CP']) ? '' : $condPago['Dias1CP'];
 									$_conddias	.= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
@@ -104,27 +100,25 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
 									$_conddias	.= empty($condPago['Dias5CP']) ? '' : ', '.$condPago['Dias5CP'];
 									$_conddias	.= " D&iacute;as)";
 								}
-							}							
+							}	
 							
-							
-							$_ordencompra		= 	($_detalle["pordencompra"] == 0)	?	''	:	"Orden Compra: ".$_detalle["pordencompra"];
-
-							$_negociacion		=	$_detalle["pnegociacion"];
-							$_aprobado			=	$_detalle["paprobado"];	
-							$_observacion		=	$_detalle["pobservacion"];
+							$ordenCompra	= ($detalle["pordencompra"] == 0)	?	''	:	"Orden Compra: ".$detalle["pordencompra"];
+							$negociacion	= $detalle["pnegociacion"];
+							$aprobado		= $detalle["paprobado"];	
+							$observacion	= $detalle["pobservacion"];
 							?>
 							
 							<div class="cbte_boxcontent"> 
 								<div class="cbte_box">
-									<?php echo $_fecha_pedido;?>
+									<?php echo $fechaPedido;?>
 								</div>
 								<div class="cbte_box">
 									Nro. Pedido: 
-									<input id="nropedido" name="nropedido" value="<?php echo $_nropedido; ?>" hidden/>
-									<?php echo str_pad($_nropedido, 9, "0", STR_PAD_LEFT); ?>
+									<input id="nropedido" name="nropedido" value="<?php echo $nroPedido; ?>" hidden/>
+									<?php echo str_pad($nroPedido, 9, "0", STR_PAD_LEFT); ?>
 								</div>
 								<div class="cbte_box" align="right">
-									<?php echo $_nombreusr;?>
+									<?php echo $usrNombre;?>
 								</div>
 							</div>  <!-- cbte_boxcontent -->
 
@@ -134,9 +128,8 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
 									Direcci&oacute;n: </br>
 								</div>  <!-- cbte_box -->
 
-								<div class="cbte_box2">  
-
-									<?php echo $_idcliente." - ".$_nombrecli;?></br>
+								<div class="cbte_box2">
+									<?php echo $clienteId." - ".$cliNombre;?></br>
 									<?php echo $_domiciliocli." - ".$_localidadcli." - ".$_codpostalcli; ?>
 								</div>  <!-- cbte_box2 -->
 							</div>  <!-- cbte_boxcontent -->
@@ -146,7 +139,7 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
 									Condici&oacute;n de Pago: <?php echo $_condpago." | ".$_condnombre." ".$_conddias;?>
 								</div>
 								<div class="cbte_box" align="right">
-									<?php echo $_ordencompra;?>
+									<?php echo $ordenCompra;?>
 								</div>
 							</div>  <!-- cbte_boxcontent -->
 
@@ -166,32 +159,31 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
 									</thead> <?php
 						}
 
-									$_total			=	0;
-											
-									$_idart			=	$_detalle['pidart'];
-									$laboratorio	=	$_detalle['pidlab'];
-									$_unidades		=	$_detalle['pcantidad'];
-									$_descripcion	=	DataManager::getArticulo('artnombre', $_idart, 1, $laboratorio);									
-									//$_precio		=	str_replace('EUR','', money_format('%.2n', $_detalle['pprecio']));
-									$_precio		=	$_detalle['pprecio'];
-									$_b1			=	($_detalle['pbonif1'] == 0)	?	''	:	$_detalle['pbonif1'];
-									$_b2			=	($_detalle['pbonif2'] == 0)	?	''	:	$_detalle['pbonif2'];
-									$_bonif			=	($_detalle['pbonif1'] == 0)	?	''	:	$_b1." X ".$_b2;
-									$_desc1			=	($_detalle['pdesc1'] == 0)	?	''	:	$_detalle['pdesc1'];
-									$_desc2			=	($_detalle['pdesc2'] == 0)	?	''	:	$_detalle['pdesc2'];
+									$total			=	0;
+									$artId			= $detalle['pidart'];
+									$laboratorio	= $detalle['pidlab'];
+									$unidades		= $detalle['pcantidad'];
+									$descripcion	= DataManager::getArticulo('artnombre', $artId, 1, $laboratorio);									
+									//$precio		=	str_replace('EUR','', money_format('%.2n', $detalle['pprecio']));
+									$precio	= $detalle['pprecio'];
+									$b1		= ($detalle['pbonif1'] == 0)	?	''	:	$detalle['pbonif1'];
+									$b2		= ($detalle['pbonif2'] == 0)	?	''	:	$detalle['pbonif2'];
+									$bonif	= ($detalle['pbonif1'] == 0)	?	''	:	$b1." X ".$b2;
+									$desc1	= ($detalle['pdesc1'] == 0)	?	''	:	$detalle['pdesc1'];
+									$desc2	= ($detalle['pdesc2'] == 0)	?	''	:	$detalle['pdesc2'];
 
 									//**************************************//
 									//	Calculo precio final por artículo	//
 									//**************************************//
-									$precio_f 	= 	$_precio * $_unidades;									
-									if ($_desc1 != ''){ $precio_f	= $precio_f - ($precio_f * ($_desc1/100)); }
-									if ($_desc2 != ''){ $precio_f	= $precio_f - ($precio_f * ($_desc2/100)); }	
-									$_total			=	round($precio_f, 2);
-									$_total_final	+=	$_total;
+									$precio_f	= $precio * $unidades;									
+									if ($desc1 != ''){ $precio_f = $precio_f - ($precio_f * ($desc1/100)); }
+									if ($desc2 != ''){ $precio_f = $precio_f - ($precio_f * ($desc2/100)); }	
+									$total		= round($precio_f, 2);
+									$totalFinal	+= $total;
 									//**************************************//
 
 									echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
-									echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $_idart, $_unidades, $_descripcion, $_precio, $_bonif, $_desc1, $_desc2, $_total); //str_replace('EUR','',money_format('%.2n', $_total))
+									echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $artId, $unidades, $descripcion, round($precio,2), $bonif, $desc1, $desc2, round($total,2));
 									echo sprintf("</tr>");  
 					} ?>						
 								</table>                                    
@@ -199,28 +191,51 @@ $_btn_rechazar	=	sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;
 							
 							<div class="cbte_boxcontent2"> 
 								<div class="cbte_box2">
-									<?php echo $_observacion;?>
+									<?php echo $observacion;?>
 								</div>
 								
 								<div class="cbte_box" align="right" style="font-size:18px; float: right;">
-									TOTAL: <?php echo $_total_final; //str_replace('EUR','',money_format('%.2n', $_total_final));?>
+									TOTAL: $ <?php echo round($totalFinal, 2); //str_replace('EUR','',money_format('%.2n', $totalFinal));?>
 								</div>
 							</div>  <!-- cbte_boxcontent-->
 							<?php
 				}
 			} ?>
-
-			<div class="cbte_boxcontent2" align="center"> <?php 
+			
+			<div class="bloque_1" align="center"> <?php 
 				echo $piePedido;
-				echo $_button_print; 
-
-				if($_SESSION["_usrrol"]!="V"){														
-					if($_negociacion == 1 && $_aprobado == 1){
-						echo $_btn_aprobar; 
-						echo $_btn_rechazar;				
+				echo $btnPrint;
+				if($_SESSION["_usrrol"]!="V"){
+					if($negociacion == 1 && $aprobado == 1){
+						echo $btnAprobar; 
+						echo $btnRechazar;				
+					} 
+				} 
+				
+				$ruta	= $_SERVER['DOCUMENT_ROOT']."/pedidos/cuentas/archivos/".$ctaId."/pedidos/".$nroPedido."/";	
+				$data	=	dac_listar_directorios($ruta);
+				if($data){ 	
+					foreach ($data as $file => $timestamp) {
+						//saco la extensión del archivo
+						$extencion	= explode(".", $timestamp);
+						$ext		= $extencion[1];
+						$name 		= explode("-", $timestamp, 4);
+						$archivo 	= trim($name[3]);
+						?>
+						<a href="<?php echo "/pedidos/cuentas/archivos/".$ctaId."/pedidos/".$nroPedido."/".$archivo; ?>" title="Orden de Compra" target="_blank"> <?php
+							if($ext == "pdf"){ ?> 
+								<img id="imagen" 
+									src="/pedidos/images/icons/icono-ordencompra.png"	onmouseover="this.src='/pedidos/images/icons/icono-pdf-hover.png';" 	onmouseout="this.src='/pedidos/images/icons/icono-ordencompra.png';"/>
+								<?php 	  
+							} else { ?>
+								<img id="imagen" 
+									src="/pedidos/images/icons/icono-ordencompra.png"	onmouseover="this.src='/pedidos/images/icons/icono-jpg-hover';" 	onmouseout="this.src='/pedidos/images/icons/icono-ordencompra.png';"/>
+								<?php  
+							} ?>
+						</a> <?php 
 					} 
 				} ?>
-			</div>  <!-- cbte_boxcontent2 -->  
+			</div> 
 		</div>  <!-- cbte -->   
 	</main> <!-- CUERPO -->
 

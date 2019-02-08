@@ -15,29 +15,6 @@ if(empty($laboratorio)) { echo "Indique un laboratorio."; exit; }
 if(empty($idCuenta))	{ 	echo "Seleccione una cuenta"; exit; }
 if(!empty($nroOrden) && !is_numeric($nroOrden)){ echo "El N&uacute;mero de Orden debe ser num&eacute;rico"; exit; }
 
-//***********************//
-// PROPUESTAS PENDIENTES //
-//La cuenta no puede tener pedidos PENDIENTES o APROBADOS para hacer una nuevo pedido/propuesta.	
-//QUITO ÉSTE CONTROL PORQUE HABRÍA QUE SACAR LOS DUPLICADOS DE PROPUESTAS APROBADAS QUE NUNCA SE PASARON
-//Y AGREGAR EL MISMO CONTROL AL ENVIARSE EL PEDIDO EN COMO PROPUESTA PORQUE DEJA ENVÍAR MAS DE UNA PROPUESTA AL MISMO CLIENTE
-/*
-$propuestas	=	DataManager::getPropuestas($idCuenta);
-if (count($propuestas) > 0) {
-	$contProp = 0;
-	foreach ($propuestas as $k => $prop) {		
-		$propEstado	= $prop['propestado'];
-		switch($propEstado){
-			case '1': //Pendientes
-			case '2': //Aprobados
-				$contProp++;
-				break;
-		}				
-	}
-	if($contProp > 2){
-		echo "La cuenta tiene propuestas pendientes, no puede cargar un nuevo pedido.", exit;
-	}
-}*/
-
 //------------------------//
 // Control COND DE PAGO	 //
 if(empty($condPago)){ 	
@@ -140,8 +117,8 @@ if($idCondComercial){
 	$cuentas		= $condicion->__get('Cuentas');
 	$tipo	 		= $condicion->__get('Tipo');
 	$condCondPago	= $condicion->__get('CondicionPago');
-	$cantMinima		= ($condicion->__get('CantidadMinima')) 		? $condicion->__get('CantidadMinima') : '';
-	$minReferencias	= ($condicion->__get('MinimoReferencias')) 		? $condicion->__get('CantidadMinima') : '';
+	$cantMinima		= ($condicion->__get('CantidadMinima')) ? $condicion->__get('CantidadMinima') : '';
+	$minReferencias	= ($condicion->__get('MinimoReferencias')) ? $condicion->__get('CantidadMinima') : '';
 	$minMonto		= ($condicion->__get('MinimoMonto') == '0.000') ? '' : $condicion->__get('MinimoMonto');
 	
 	//*******************************//
@@ -222,20 +199,17 @@ if($idCondComercial){
 				echo "La condición de pago seleccionada es mayor a la permitida."; exit;	
 			}
 		}
-	}
-		
+	}	
 	if($cantMinima){
 		if(array_sum($articulosCant) < $cantMinima){
 			echo "La cantidad de unidades no v&aacute;lida."; exit;
 		}
 	}
-	
 	if($minReferencias){
 		if($minReferencias < count($articulosIdArt)){
 			echo "Cantidad de referencias no v&aacute;lida."; exit;
 		}
 	}
-		
 	$montoFinal = 0;			
 	$articulosCond	= DataManager::getCondicionArticulos($idCondComercial);
 	if (count($articulosCond)) {	
@@ -264,7 +238,6 @@ if($idCondComercial){
 					
 					//**************************************//
 					//	Calculo Condiciones del Vendedor	//
-					//**************************************//	
 					$articulosBonifB1		= 	($articulosB1[$key]) ? $articulosB1[$key] : 1;
 					$articulosBonifB2		= 	($articulosB2[$key]) ? $articulosB2[$key] : 1;	
 					$articulosBonifD1		= 	($articulosD1[$key]) ? $articulosD1[$key] : 0;
@@ -282,7 +255,6 @@ if($idCondComercial){
 					//YA QUE solo basta que EL RESULTADO NO SEa MENOR A X								
 					//**************************************//
 					//	Calculo Condiciones de la Empresa	// según la cantidad pedida por el vendedor!
-					//**************************************//	
 					$artBonifCant	= 	1;
 					$artBonifB1		= 	1;
 					$artBonifB2		= 	1;	
@@ -369,8 +341,7 @@ if($idCondComercial){
 							echo "Las condiciones del art&iacute;culo ".$articulosIdArt[$key]." dan precio menor al acordado. "; exit; //$precioFinalVendido < $precioFinalEmpresa
 						}
 					}				
-					//************************************//
-					
+					//----------------					
 					//Sumo monto final
 					$montoFinal	+= $precioFinalVendido * $articulosCant[$key];	
 				}
@@ -379,4 +350,19 @@ if($idCondComercial){
 	}
 }
 
+//Control de archivo
+$filePeso		= $_FILES["file"]["size"]; 
+$fileType		= $_FILES["file"]["type"];
+$fileNombre 	= $_FILES["file"]["name"];
+$fileTempName 	= $_FILES["file"]["tmp_name"];
+
+//Control de archivo por orden de compra
+if ($filePeso != 0){
+	if($filePeso > MAX_FILE){ 
+		echo "El archivo Orden de compra no debe superar los 4MB"; exit;
+	}	
+	if(!dac_fileFormatControl($fileType, 'imagen')){
+		echo "El archivo debe tener formato imagen." ; exit;		
+	}
+}
 ?>

@@ -59,27 +59,30 @@ if($idPropuesta) {
 		$_subsection 	=	"nuevo_pedido";
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav>
-                	
-	<main class="cuerpo">
-    	<div class="box_body">               
-        	<form id="fmPedidoWeb" name="fmPedidoWeb" class="fm_edit2" method="post">
+    
+    <main class="cuerpo">
+    	<div class="box_body">  
+            <div class="bloque_1">     
+                <fieldset id='box_error' class="msg_error">          
+                    <div id="msg_error"></div>
+                </fieldset>                                                                         
+                <fieldset id='box_cargando' class="msg_informacion">
+                       <div id="msg_cargando"></div>      
+                </fieldset> 
+                <fieldset id='box_confirmacion' class="msg_confirmacion">
+                    <div id="msg_confirmacion"></div>      
+                </fieldset>
+                <fieldset id='box_observacion' class="msg_alerta">
+					<div id="msg_atencion" align="center"></div>       
+				</fieldset>
+            </div>      
+
+        	<form id="fmPedidoWeb" name="fmPedidoWeb" method="post">
             	<input type="text" id="pwestado" name="pwestado" value="<?php echo $estado; ?>" hidden="hidden"/>
             	<input type="text" id="pwidcondcomercial" name="pwidcondcomercial" hidden="hidden"/>
             	<fieldset>
                 	<legend>Pedido Web</legend>
-                    <div class="bloque_3" align="center">     
-                        <fieldset id='box_error' class="msg_error">          
-                            <div id="msg_error" align="center"></div>
-                        </fieldset>                                                                         
-                        <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                        	
-                            <div id="msg_cargando" align="center"></div>      
-                        </fieldset> 
-                        <fieldset id='box_confirmacion' class="msg_confirmacion">
-                            <div id="msg_confirmacion" align="center"></div>      
-                        </fieldset>
-                    </div>
-                    
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                     	<label for="pwusrasignado">Asignado a</label>
                         <select id="pwusrasignado" name="pwusrasignado">
                         	<option id="0" value="0" selected></option> <?php
@@ -104,7 +107,7 @@ if($idPropuesta) {
                     
                     <?php 
 					$hiddenTipo = ($_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]=="M"  || $_SESSION["_usrrol"]=="G") ? "" : "hidden";?>
-                    <div class="bloque_2" <?php echo $hiddenTipo; ?> >
+                    <div class="bloque_7" <?php echo $hiddenTipo; ?> >
                     	<label for="pwtipo" <?php echo $hiddenTipo; ?> >Tipo</label>
                         <select name="pwtipo" <?php echo $hiddenTipo; ?> >
                         	<option value=""></option> 
@@ -115,14 +118,16 @@ if($idPropuesta) {
                         </select>	
                     </div> 
                     
-                    
-                    <div class="bloque_2">
-                        <a id="btsend" title="Enviar" style="float:left;">
-                            <img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle"/>
+                    <div class="bloque_7">
+                        <a id="btsend" title="Enviar">
+                            <img 
+                                src="/pedidos/images/icons/icono-send.png" 
+                                onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png'" 
+                                onmouseout="this.src='/pedidos/images/icons/icono-send.png'">
                         </a>
                     </div>                   
                     
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                         <label for="empselect">Empresa</label>                        
                         <select id="empselect" name="empselect" onchange="javascript:dac_selectChangeEmpresa(this.value);"> <?php
                             $empresas	= DataManager::getEmpresas(1); 
@@ -140,7 +145,7 @@ if($idPropuesta) {
                         </select>
                     </div>
                     
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                         <label for="labselect">Laboratorio</label> 
                         <select name="labselect" id="labselect" onchange="javascript:dac_selectChangeLaboratorio(this.value);"><?php 			
                             $laboratorios	= DataManager::getLaboratorios(); 
@@ -158,28 +163,28 @@ if($idPropuesta) {
                         </select>
                     </div>
                     
-                    <div class="bloque_3"  align="center">     
-                        <fieldset id='box_observacion' class="msg_alerta">
-                            <div id="msg_atencion" align="center"></div>       
-                        </fieldset>
-                    </div>
-                    
-                    <div class="bloque_2"> 
+                    <div class="bloque_8"> 
                         <label for="pwidcta">Cuenta</label>
                         <input type="text" name="pwidcta" id="pwidcta" value="<?php echo $idCuenta; ?>" readonly style="border:none;"/>
                     </div>
                     
-                    <div class="bloque_1"> 
+                    <div class="bloque_5"> 
                     	<label>Raz&oacute;n social</label>
                     	<input type="text" name="pwnombrecta" id="pwnombrecta" value="<?php echo $nombreCuenta; ?>" readonly style="border:none;"/>
                     </div>
                     
-                    <div class="bloque_2">
+                    <div class="bloque_8">
                         <label for="pworden">Nro Orden</label>
                         <input type="text" name="pworden" id="pworden" maxlength="10"/>
                     </div>
                     
-                   	<div class="bloque_1">  
+                    <div class="bloque_7">
+						<div class="inputfile">
+							<input name="file" class="file" type="file">
+						</div>  
+					</div>
+                    
+                   	<div class="bloque_5">  
                         <label>Condici&oacute;n de pago </label>
                         <select name="condselect" id="condselect"> <?php
                             $condicionesPago	=	DataManager::getCondicionesDePago(0, 0, 1); 
@@ -213,23 +218,25 @@ if($idPropuesta) {
                             } ?>
                         </select>
                     </div>
-                    <div class="bloque_2">
-                    	<input type="text" name="pwidpropuesta" id="pwidpropuesta" value="<?php echo $idPropuesta; ?>" hidden="hidden"/>
-                       
-                        <input type="checkbox" name="pwpropuesta" id="pwpropuesta" value="1" style="margin-top:15px; float: left;" <?php if($idPropuesta){ echo "checked='checked'";}; ?> />
-                        <label for="pwpropuesta" style="padding:20px 0 0 10px"><strong>PROPUESTA</strong></label>
+                    <div class="bloque_7">                    	
+                    	<input type="text" name="pwidpropuesta" id="pwidpropuesta" value="<?php echo $idPropuesta; ?>" hidden="hidden"> 
+                                             
+                        <input type="checkbox" name="pwpropuesta" id="pwpropuesta" value="1" style="margin-top:15px; float: left;" <?php if($idPropuesta){ echo "checked='checked'";}; ?>>
+                        <br>
+                    	<label for="pwpropuesta"><strong>PROPUESTA</strong></label>
+                        
                     </div>
                     
-					<div class="bloque_2">
+					<div class="bloque_7">
 						<input type="checkbox" name="cadena" id="cadena" style="margin-top:15px; float: left;"/>
+						<br>
 						<label for="cadena" style="padding:20px 0 0 10px"><strong>CADENA</strong></label>
 					</div>              
                     
-                   	<div class="bloque_3">
+                   	<div class="bloque_1">
                    		<label>Observaci&oacute;n</label>  
-                        <textarea type="text" name="pwobservacion" id="pwobservacion" cols="30" rows="5" maxlength="200" ><?php echo $observacion; ?></textarea>
+                        <textarea type="text" name="pwobservacion" id="pwobservacion" maxlength="200" ><?php echo $observacion; ?></textarea>
                    	</div>
-                   	
                	</fieldset>
                
                	<fieldset>
@@ -244,7 +251,7 @@ if($idPropuesta) {
         
         <div class="box_seccion">
         	<div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_1">
                     <h1>Condiciones Comerciales</h1>                	
                 </div>
                 <hr>
@@ -254,10 +261,10 @@ if($idPropuesta) {
             </div> <!-- Fin lista -->	
             
             <div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_5">
                     <h1>Cuentas</h1>                	
                 </div>
-                <div class="buscadorder">
+                <div class="bloque_5">
                 	<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
                     <input id="txtBuscarEn" type="text" value="tblTablaCta" hidden/>
                 </div> 
@@ -268,10 +275,10 @@ if($idPropuesta) {
             </div> <!-- Fin lista -->		
             
             <div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_5">
                     <h1>Art&iacute;culos</h1>                	
                 </div>
-                <div class="buscadorder">
+                <div class="bloque_5">
                 	<input id="txtBuscar2" type="search" autofocus placeholder="Buscar..."/> 
                     <input id="txtBuscarEn2" type="text" value="tblTablaArt" hidden/>
                 </div>

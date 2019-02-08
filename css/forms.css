@@ -38,7 +38,6 @@ legend {
 	margin-left:20px;
 }
 
-/*input por defecto*/
 input, textarea, select  {
 	font: normal 14px Arial, Helvetica, sans-serif;
 	color:#2d567f;
@@ -303,10 +302,6 @@ input[type=radio]:checked + label {
 	height:40px;
 }
 
-.fm_edit .inputfile{
-	float:none;
-}
-
 /**********************************/
 /* 		FORMULARIOS EDITAR 2	  */
 /**********************************/
@@ -347,10 +342,6 @@ input[type=radio]:checked + label {
 
 .fm_edit2 #googleMap{
 	height:270px;
-}
-
-.fm_edit2 .inputfile{
-	float:none;
 }
 
 .fm_edit2 .bloque_1, .fm_edit2 .bloque_2, .fm_edit2 .bloque_3, .fm_edit2 .bloque_4, .fm_edit2 .bloque_5 {
@@ -481,10 +472,6 @@ input[type=radio]:checked + label {
 	font-size:14px;
 }
 
-.fm_edit_seccion .inputfile{
-	float:none;
-}
-
 .fm_edit_seccion .bloque_1, .fm_edit_seccion .bloque_1B, .fm_edit_seccion .bloque_2, .fm_edit_seccion .bloque_2B, .fm_edit_seccion .bloque_3, .fm_edit_seccion .bloque_4 {
 	padding: 5px;
 	float:left;
@@ -578,9 +565,6 @@ input[type=radio]:checked + label {
 	color:#5c788e;
 }
 
-.fm_edit_iframe .inputfile{
-	float:none;
-}
 .fm_edit_iframe .bloque_1, .fm_edit_iframe .bloque_2, .fm_edit_iframe .bloque_3, .fm_edit_iframe .bloque_4 {
 	padding: 5px;
 	float:left;

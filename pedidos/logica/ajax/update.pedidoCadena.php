@@ -4,21 +4,32 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	echo 'SU SESION HA EXPIRADO.'; exit;
 }
 
-$usrAsignado	=	(isset($_POST['pwusrasignado']))? $_POST['pwusrasignado'] 	:	NULL;
-$empresa		=	(isset($_POST['empselect']))	? $_POST['empselect'] 		:	NULL;
-$laboratorio	=	(isset($_POST['labselect']))	? $_POST['labselect'] 		:	NULL;
-$condPago		=	(isset($_POST['condselect']))	? $_POST['condselect'] 		: 	NULL;
-$idCondComercial=	(isset($_POST['pwidcondcomercial']))? $_POST['pwidcondcomercial']	:	NULL;
+$usrAsignado = (isset($_POST['pwusrasignado']))? $_POST['pwusrasignado'] : NULL;
+$empresa	 = (isset($_POST['empselect']))	? $_POST['empselect'] :	NULL;
+$laboratorio = (isset($_POST['labselect']))	? $_POST['labselect'] :	NULL;
+$condPago	 = (isset($_POST['condselect'])) ? $_POST['condselect'] : NULL;
+$idCondComercial=(isset($_POST['pwidcondcomercial']))? $_POST['pwidcondcomercial'] : NULL;
+
 //Arrays
-$idCuentas		=	(isset($_POST['pwidcta']))		? $_POST['pwidcta'] 		: 	NULL; 
-$nroOrdenes		=	(isset($_POST['pworden']))		? $_POST['pworden'] 		: 	NULL;
-$observaciones	=	(isset($_POST['pwobservacion']))? $_POST['pwobservacion']	: 	NULL;
-$articulosIdArtS= 	(isset($_POST['pwidart']))		? unserialize(stripslashes($_POST['pwidart'])) 		:	NULL;
-$articulosCantS	= 	(isset($_POST['pwcant']))		? unserialize(stripslashes($_POST['pwcant'])) 		:	NULL;
-$articulosB1S 	= 	(isset($_POST['pwbonif1']))		? unserialize(stripslashes($_POST['pwbonif1'])) 	:	NULL;
-$articulosB2S 	= 	(isset($_POST['pwbonif2']))		? unserialize(stripslashes($_POST['pwbonif2'])) 	:	NULL;
-$articulosD1S 	= 	(isset($_POST['pwdesc1']))		? unserialize(stripslashes($_POST['pwdesc1'])) 		:	NULL;
-$articulosD2S 	= 	(isset($_POST['pwdesc2']))		? unserialize(stripslashes($_POST['pwdesc2'])) 		:	NULL;
+$idCuentas	= (isset($_POST['pwidcta'])) ? $_POST['pwidcta'] : 	NULL; 
+$nroOrdenes	= (isset($_POST['pworden'])) ? $_POST['pworden'] : 	NULL;
+
+//Control de archivo por orden de compra
+$filesPesos		= $_FILES["file"]["size"]; 
+$filesTypes		= $_FILES["file"]["type"];
+$filesNombres 	= $_FILES["file"]["name"];
+$filesTempName 	= $_FILES["file"]["tmp_name"];
+
+$observaciones=(isset($_POST['pwobservacion'])) ? $_POST['pwobservacion'] : NULL;
+
+$articulosIdArtS=(isset($_POST['pwidart'])) ? unserialize(stripslashes($_POST['pwidart'])) : NULL;
+$articulosCantS	= (isset($_POST['pwcant'])) ? unserialize(stripslashes($_POST['pwcant'])) : NULL;
+$articulosB1S = (isset($_POST['pwbonif1'])) ? unserialize(stripslashes($_POST['pwbonif1']))  : NULL;
+$articulosB2S = (isset($_POST['pwbonif2'])) ? unserialize(stripslashes($_POST['pwbonif2'])) : NULL;
+$articulosD1S = (isset($_POST['pwdesc1'])) ? unserialize(stripslashes($_POST['pwdesc1'])) : NULL;
+$articulosD2S = (isset($_POST['pwdesc2'])) ? unserialize(stripslashes($_POST['pwdesc2'])) : NULL;
+
+$tipoPedido	= (isset($_POST['pwtipo'])) ? $_POST['pwtipo'] : NULL;
 
 //Controlo cuentas repetidas
 if(count($idCuentas) != count(array_unique($idCuentas))){
@@ -33,9 +44,9 @@ $cantidades = [];
 $bonificados = [];
 foreach ($idCuentas as $k => $idCuenta) {
 	//Arrays por número de cuenta
-	$articulosIdArt	= 	(isset($_POST['pwidart'.$idCuenta])) 		? $_POST['pwidart'.$idCuenta] 		: NULL;
-	$articulosCant	= 	(isset($_POST['pwcant'.$idCuenta])) 		? $_POST['pwcant'.$idCuenta] 		: NULL;
-	$articulosB1	= 	(isset($_POST['pwbonif1'.$idCuenta])) 		? $_POST['pwbonif1'.$idCuenta] 		: NULL;
+	$articulosIdArt	= (isset($_POST['pwidart'.$idCuenta])) ? $_POST['pwidart'.$idCuenta] : NULL;
+	$articulosCant	= (isset($_POST['pwcant'.$idCuenta])) ? $_POST['pwcant'.$idCuenta] : NULL;
+	$articulosB1	= (isset($_POST['pwbonif1'.$idCuenta])) ? $_POST['pwbonif1'.$idCuenta] : NULL;
 	
 	if(empty($articulosCant)) {
 		echo "Indique una cantidad en el artículo ".$articulosIdArt[$k]." de la cuenta ".$idCuenta;	exit;
@@ -82,12 +93,27 @@ foreach ($idCuentas as $k => $idCuenta) {
 	unset($articulosB1);
 	unset($articulosB2);
 	
-	$nroOrden 		= 	$nroOrdenes[$k];
-	$observacion	=	$observaciones[$k];
-	$articulosIdArt	= 	(isset($_POST['pwidart'.$idCuenta])) 	? $_POST['pwidart'.$idCuenta] 		: NULL;
-	$articulosCant	= 	(isset($_POST['pwcant'.$idCuenta])) 	? $_POST['pwcant'.$idCuenta] 		: NULL;
-	$articulosPrecio= 	(isset($_POST['pwprecioart'.$idCuenta]))? $_POST['pwprecioart'.$idCuenta] 	: NULL;			
-	$pwbonif1		=	(isset($_POST['pwbonif1'.$idCuenta])) 	? $_POST['pwbonif1'.$idCuenta] 		: NULL;	
+	//Control de adjuntos Cadenas
+	$nroOrden		= $nroOrdenes[$k];
+	$filePeso		= $filesPesos[$k];	
+	$fileType		= $filesTypes[$k];	
+	$fileNombre		= $filesNombres[$k];
+	$fileTempName 	= $filesTempName[$k];	
+	if ($filePeso != 0){
+		if($filePeso > MAX_FILE){ 
+			echo "El archivo de la cuenta ".$idCuenta." no debe superar los 4MB"; exit;
+		}
+		if(!dac_fileFormatControl($fileType, 'imagen')){
+			echo "El archivo de la cuenta ".$idCuenta." debe tener formato imagen."; exit;		
+		}
+	}
+	
+	$observacion	= $observaciones[$k];
+	
+	$articulosIdArt	= (isset($_POST['pwidart'.$idCuenta])) ? $_POST['pwidart'.$idCuenta] : NULL;
+	$articulosCant	= (isset($_POST['pwcant'.$idCuenta])) ? $_POST['pwcant'.$idCuenta] : NULL;
+	$articulosPrecio= (isset($_POST['pwprecioart'.$idCuenta]))? $_POST['pwprecioart'.$idCuenta] : NULL;			
+	$pwbonif1		= (isset($_POST['pwbonif1'.$idCuenta])) ? $_POST['pwbonif1'.$idCuenta] : NULL;
 	
 	foreach($articulosCant as $j => $artCant){
 		if(!empty($pwbonif1[$j])){
@@ -99,22 +125,17 @@ foreach ($idCuentas as $k => $idCuenta) {
 		}
 	}
 	
-	$articulosD1	= 	(isset($_POST['pwdesc1'.$idCuenta]))	? $_POST['pwdesc1'.$idCuenta] 		: NULL;
-	$articulosD2	= 	(isset($_POST['pwdesc2'.$idCuenta]))	? $_POST['pwdesc2'.$idCuenta] 		: NULL;
+	$articulosD1 = (isset($_POST['pwdesc1'.$idCuenta]))	? $_POST['pwdesc1'.$idCuenta] : NULL;
+	$articulosD2 = (isset($_POST['pwdesc2'.$idCuenta]))	? $_POST['pwdesc2'.$idCuenta] : NULL;
 	
-	$idPropuesta	=	0;
-	$estado			=	0;
+	$idPropuesta = 0;
+	$estado		 = 0;
 	
-	$observacion	=	"Pedido CADENA. ".$observacion;
+	$observacion = "Pedido CADENA. ".$observacion;
 	
 	//********************//
-	// 	Generar Pedido	 //
+	// 	Generar Pedido	 
 	require($_SERVER['DOCUMENT_ROOT']."/pedidos/pedidos/logica/ajax/generarPedido.php" );
 }
 echo "1"; exit;
-
-//**********************************//	
-//	Controla si Existe Nro Pedido	//	en otro usuario
-/*function dac_controlNroPedido() {
-} */
 ?>

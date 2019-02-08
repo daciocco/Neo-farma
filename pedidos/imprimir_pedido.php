@@ -150,12 +150,13 @@ $_nropedido	= empty($_REQUEST['nropedido']) ? 0 : $_REQUEST['nropedido'];
 							}
 
 							$_total			=	0;
-							$_total_final	+=	0;			
+							$_total_final	=	0;			
 
 							$_idart			=	$_detalle['pidart'];
 							$_unidades		=	$_detalle['pcantidad'];
-							$_descripcion	=	DataManager::getArticulo('artnombre', $_idart, 1, 1);									
-							$_precio		=	str_replace('EUR','',money_format('%.2n', $_detalle['pprecio']));
+							$_descripcion	=	DataManager::getArticulo('artnombre', $_idart, 1, 1);		
+							//$_precio		=	str_replace('EUR','',money_format('%.2n', $_detalle['pprecio']));
+							$_precio		=	$_detalle['pprecio'];
 							$_b1			=	($_detalle['pbonif1'] == 0)	?	''	:	$_detalle['pbonif1'];
 							$_b2			=	($_detalle['pbonif2'] == 0)	?	''	:	$_detalle['pbonif2'];
 							$_bonif			=	($_detalle['pbonif1'] == 0)	?	''	:	$_b1." X ".$_b2;
@@ -173,13 +174,11 @@ $_nropedido	= empty($_REQUEST['nropedido']) ? 0 : $_REQUEST['nropedido'];
 							//**************************************//
 
 							echo sprintf("<tr style=\"%s\">", ((($k % 2) == 0)? "background-color:#fff; height:40px;" : "background-color:#C3C3C3; height:40px; font-weight:bold;"));										
-							echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td style=\"border-left:1px solid #999; padding-left:15px;\">%s</td><td align=\"right\" style=\"border-left:1px solid #999; padding-right:15px;\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td align=\"right\" style=\"border-left:1px solid #999; padding-right:5px;\">%s</td>", $_idart, $_unidades, $_descripcion, $_precio, $_bonif, $_desc1, $_desc2, str_replace('EUR','',money_format('%.2n', $_total)));
+							echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td style=\"border-left:1px solid #999; padding-left:15px;\">%s</td><td align=\"right\" style=\"border-left:1px solid #999; padding-right:15px;\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td align=\"center\" style=\"border-left:1px solid #999;\">%s</td><td align=\"right\" style=\"border-left:1px solid #999; padding-right:5px;\">%s</td>", $_idart, $_unidades, $_descripcion, round($_precio,2), $_bonif, $_desc1, $_desc2, round($_total, 2)); //str_replace('EUR','',money_format('%.2n', $_total))
 							echo sprintf("</tr>");  
 						} ?>						
 							</table>                                    
 						</div>  <!-- cbte_boxcontent2 -->
-
-						
 
 						<div class="cbte_boxcontent2" align="left" style="font-size: 14px; background-color: #cfcfcf; padding: 5px; padding-left: 15px; padding-right: 15px; min-height: 20px; overflow: hidden;"> 
 
@@ -187,10 +186,10 @@ $_nropedido	= empty($_REQUEST['nropedido']) ? 0 : $_REQUEST['nropedido'];
 							</div>
 
 							<div class="cbte_box" align="right" style="height: auto; line-height: 20px; float:left; width: 33%; font-size:26px;"><span style=" color: #2D567F; font-weight:bold;">TOTAL: </span>
-							<span style="font-weight:bold;"><?php echo str_replace('EUR','',money_format('%.2n', $_total_final));?></span></div>
+							<span style="font-weight:bold;"><?php echo round($_total_final, 2); ?></span></div>
 
 						</div>  <!-- cbte_boxcontent2 -->
-						<?php
+						<?php // str_replace('EUR','',money_format('%.2n', $_total_final));
 					}
 				} ?>	
 				<div class="cbte_boxcontent2" align="center"> 

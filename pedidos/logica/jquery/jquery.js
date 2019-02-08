@@ -237,24 +237,24 @@ function dac_LimpiarArticulos(){
 	$("#lista_articulos2").empty();
 }
 
-/****************************************/
-/* 	Carga Datos del Artículo al Pedido	*/
-/****************************************/
+//-----------------------------
+//	Carga Artículo al Pedido	
 var nextinput = 0;
 function dac_CargarArticulo(idart, nombre, precio, b1, b2, desc1, desc2, cant){
 	"use strict";
 	nextinput++;
 	var campo =		'<div id="rut'+nextinput+'">';		
-		campo += 	'<input id="pwidart'+nextinput+'" name="pwidart[]" type="text" value="'+idart+'" hidden/>';
-		campo += 	'<div class="bloque_3"><strong> Art&iacute;culo '+idart+ '</strong></br>'+nombre+' <strong><div id="artalert'+idart+'" class="msg_alerta" style="" align="center"></div></strong></div>';
-		campo += 	'<div class="bloque_4"></br><input id="btmenos" type="button" value="-" onClick="dac_eliminarArt('+nextinput+')"  style="width:25px; background-color:#C22632;"></div>'; //el hover es #901C25
-		campo += 	'<div class="bloque_4"><strong> Cantidad </strong> <input id="pwcant'+nextinput+'" name="pwcant[]" type="text" value="'+cant+'" size="2" onblur="javascript:dac_CalcularSubtotal()"  maxlength="5"/></div>';
-		campo += 	'<div class="bloque_4"><strong> Precio </strong> <input id="pwprecioart'+nextinput+'" name="pwprecioart[]" type="text" size="5" value="'+precio+'" onkeydown="ControlComa(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); javascript:dac_CalcularSubtotal()"  maxlength="6"/> </div>';
-		campo += 	'<div class="bloque_4"><strong>Bonif 1</strong> <input id="pwbonif1'+nextinput+'" name="pwbonif1[]" type="text" value="'+b1+'" size="2" maxlength="2"/></div>';
-		campo += 	'<div class="bloque_4"><strong>Bonif 2 </strong><input id="pwbonif2'+nextinput+'" name="pwbonif2[]" type="text" value="'+b2+'" size="2" maxlength="2"/> </div>';		
-		campo += 	'<div class="bloque_4"><strong>Desc 1 </strong> <input id="pwdesc1'+nextinput+'" name="pwdesc1[]" type="text" value="'+desc1+'" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotal()" maxlength="5"/></div>';
-		campo += 	'<div class="bloque_4"><strong>Desc 2 </strong> <input id="pwdesc2'+nextinput+'" name="pwdesc2[]" type="text" maxlength="5" value="'+desc2+'" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotal()"/></div>';		
-	campo += 	'</div>';	
+			campo += 	'<input id="pwidart'+nextinput+'" name="pwidart[]" type="text" value="'+idart+'" hidden/>';
+			campo += 	'<div class="bloque_1"><strong> Art&iacute;culo '+idart+ '</strong></br>'+nombre+' <strong><div id="artalert'+idart+'" align="center"></div></strong></div>';
+			campo += 	'<div class="bloque_9"><br><input id="btmenos" type="button" value="-" onClick="dac_eliminarArt('+nextinput+')"  style="background-color:#C22632;"></div>';
+			campo += 	'<div class="bloque_8"><strong> Cantidad </strong> <input id="pwcant'+nextinput+'" name="pwcant[]" type="text" value="'+cant+'" onblur="javascript:dac_CalcularSubtotal()"  maxlength="5"/></div>';
+			campo += 	'<div class="bloque_7"><strong> Precio </strong> <input id="pwprecioart'+nextinput+'" name="pwprecioart[]" type="text" value="'+precio+'" onkeydown="ControlComa(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); javascript:dac_CalcularSubtotal()"  maxlength="6"/> </div>';
+			campo += 	'<div class="bloque_8"><strong>Bonif 1</strong> <input id="pwbonif1'+nextinput+'" name="pwbonif1[]" type="text" value="'+b1+'" maxlength="2"/></div>';
+			campo += 	'<div class="bloque_8"><strong>Bonif 2 </strong><input id="pwbonif2'+nextinput+'" name="pwbonif2[]" type="text" value="'+b2+'" maxlength="2"/> </div>';		
+			campo += 	'<div class="bloque_8"><strong>Desc 1 </strong> <input id="pwdesc1'+nextinput+'" name="pwdesc1[]" type="text" value="'+desc1+'" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotal()" maxlength="5"/></div>';
+			campo += 	'<div class="bloque_8"><strong>Desc 2 </strong> <input id="pwdesc2'+nextinput+'" name="pwdesc2[]" type="text" maxlength="5" value="'+desc2+'" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotal()"/></div>';
+			campo += 	'<hr style="border-bottom: 1px solid #117db6;">';
+		campo += 	'</div>';	
 
 	$("#lista_articulos2").append(campo);	
 }		
@@ -380,8 +380,7 @@ $(document).ready(function() {
 		var url		=	"";
 		if(cadena){			
 			url 	= '/pedidos/pedidos/logica/ajax/controlCadena.php';
-			form	= "form#fmPedidoWeb";
-			
+			form	= "form#fmPedidoWeb";			
 			var formData = new FormData($(form)[0]);	
 			$.ajax({
 				url			: url,
@@ -402,7 +401,6 @@ $(document).ready(function() {
 							$('#box_confirmacion').css({'display':'none'});
 							$('#fmPedidoWeb').attr('action', '/pedidos/pedidos/editar.cadena.php');
 							$('#fmPedidoWeb').submit();
-							
 						} else {
 							//El pedido No cumple Condiciones
 							var scrolltohere = "#box_error";

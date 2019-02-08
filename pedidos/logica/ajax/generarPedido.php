@@ -4,33 +4,35 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	echo 'SU SESION HA EXPIRADO.'; exit;
 }
 
-//SE AGREGA ARTICULO PROMOCIONAL OBLIGATORIO
-//siempre que la categoría sea <> 1 (droguerías) AND empresa == 1 AND $idCondComercial no sea una ListaEspecial
-$categoria	= 	DataManager::getCuenta('ctacategoriacomercial', 'ctaidcuenta', $idCuenta, $empresa);
-
-//Discrimina los pedidos con Condicion de Lista Especial
-//se aplica aquí y en Pedido CADENA
-$condTipo	= 0;
+//----------------------------------
+//SE AGREGA ARTICULO PROMOCIONAL OBLIGATORIO A LAS SIGUIENTES CUENTAS CON
+//se aplica aquí y en editar.cadena.php
+//categoría sea <> 1 (distintas de droguerías) AND 
+$categoria = DataManager::getCuenta('ctacategoriacomercial', 'ctaidcuenta', $idCuenta, $empresa);
+//empresa == 1 AND 
+//$idCondComercial <> de ListaEspecial DR AHORRO, FARMACITY, FARMACITY 2
+// originalmente $idCondComercial != 1764  && $idCondComercial != 1765 && $idCondComercial != 1761
+$condBonificar	= 0;
 $condiciones = DataManager::getCondiciones(0, 0, 1, $empresa, $laboratorio, NULL, NULL, NULL, NULL, $idCondComercial);
 if (count($condiciones) > 0) {
-	foreach ($condiciones as $k => $cond) {
-		$tipo	= 	$cond['condtipo'];
-		//$condNombre= 	$cond['condnombre'];
-		if($tipo == 'ListaEspecial'){
-			$condTipo = 1;
+	foreach ($condiciones as $i => $cond) {
+		$condTipo 	= $cond['condtipo'];
+		$condNombre = $cond['condnombre'];
+		if($condTipo == 'ListaEspecial' && ($condNombre == 'DR AHORRO' || $condNombre == 'FARMACITY' || $condNombre == 'FARMACITY 2')){
+			$condBonificar = 1;
 		}
 	}
 } 
-
-if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $idCondComercial != 1764  && $idCondComercial != 1765 && $idCondComercial != 1761){ //&& $condTipo == 0
-	array_unshift ( $articulosIdArt		, 369 );
-	array_unshift ( $articulosCant 		, 1 );
-	array_unshift ( $articulosPrecio 	, 0 );
-	array_unshift ( $articulosB1 		, 0 );
-	array_unshift ( $articulosB2 		, 0 );
-	array_unshift ( $articulosD1 		, 0 );
-	array_unshift ( $articulosD2 		, 0 );
+if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0){
+	array_unshift ( $articulosIdArt	, 369 );
+	array_unshift ( $articulosCant 	, 1 );
+	array_unshift ( $articulosPrecio, 0 );
+	array_unshift ( $articulosB1 	, 0 );
+	array_unshift ( $articulosB2 	, 0 );
+	array_unshift ( $articulosD1 	, 0 );
+	array_unshift ( $articulosD2 	, 0 );
 }
+//-------------------------------------
 
 //TIPO DE PEDIDOS ADMINISTRACIÓN PARA VALES, SALIDAS PROMOCION, ETC
 $nombre 	= '';
@@ -114,16 +116,6 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 		$fechaPedido	=	date("Y-m-d H:i:s");		
 		$nroPedido 		= 	dac_controlNroPedido();	
 		$IdPedido[] 	= 	$nroPedido;	
-		/*$ctaId	= DataManager::getCuenta('ctaid', 'ctaidcuenta', $idCuenta, $empresa);
-		if (count($ctaId)) {	
-			$ctaObject	= ($ctaId) ? DataManager::newObjectOfClass('TCuenta', $ctaId) : DataManager::newObjectOfClass('TCuenta');
-			$ctaObject->__set('FechaCompra', 	$fechaPedido);
-			if ($ctaId) {
-			   $ID = DataManager::updateSimpleObject($ctaObject);
-			}
-		} else {
-			echo "Error al buscar la cuenta $ctaId para registrar fecha de compra."; exit;	
-		}	*/	
 	}
 
 	//	GRABAR	//
@@ -183,9 +175,9 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 			$ID	= DataManager::insertSimpleObject($pedidoObject);
 			if(empty($ID)){ 
 				echo "Error. No se grabó el pedido $nroPedido. P&oacute;ngase en contacto con el administrador de la web"; exit;
-			}	
-		}	
-		
+			}
+		}
+				
 		// División de Facturas //
 		if($cantFacturas > 0){			
 			$observacion	=	substr($observacion, 0, 250);
@@ -221,16 +213,14 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 			$pedidoObject->__set('Aprobado'			, ($estado == 2) ? 0 : $estado);
 			$pedidoObject->__set('Observacion'		, $observacion);
 			$pedidoObject->__set('FechaPedido'		, $fechaPedido);
-			$pedidoObject->__set('Activo'			, 1); //Queda activo porque aún no está exportado
-			
+			$pedidoObject->__set('Activo'			, 1); //Queda activo porque aún no está exportado			
 			$pedidoObject->__set('Tipo'				, $tipoPedido);
 			$pedidoObject->__set('Nombre'			, $nombre);
 			$pedidoObject->__set('Provincia'		, $provincia);
 			$pedidoObject->__set('Localidad'		, $localidad);
 			$pedidoObject->__set('Direccion'		, $direccion);
 			$pedidoObject->__set('CP'				, $cp);
-			$pedidoObject->__set('Telefono'			, $telefono);
-			
+			$pedidoObject->__set('Telefono'			, $telefono);			
 			$pedidoObject->__set('ID'				, $pedidoObject->__newID());
 			
 			if ($unidBonifXFactura != 0){
@@ -238,7 +228,7 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 				if(empty($ID)){ 
 					echo "Error. No se grabó el pedido $nroPedido. P&oacute;ngase en contacto con el administrador de la web."; exit; 
 				}		
-			}
+			}			
 			
 			if($contado == 0 && $contadorFacturas == 0){
 				$cantFacturas	=	1;
@@ -287,8 +277,29 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 				$IdPedido[] 	= 	$nroPedido;
 			}
 		} 		
-	} while ($cantFacturas > 0);
+	} while ($cantFacturas > 0);	
+	
 } //fin for articulos
 
+
+//Al crear los pedidos, carga  el archivo de la orden de compra.
+if ($filePeso != 0){	
+	$ctaId 		= DataManager::getCuenta('ctaid', 'ctaidcuenta', $idCuenta, $empresa);
+	$rutaFile	= "/pedidos/cuentas/archivos/".$ctaId."/pedidos/".$nroPedido."/";
+	$ext		= explode(".", $fileNombre);
+	$name		= 'ordenCompra'.$nroOrden; //$ext[0];
+	
+	$rutaFile = $_SERVER['DOCUMENT_ROOT'].$rutaFile;
+	if(file_exists($rutaFile) || @mkdir($rutaFile, 0777, true))  {		
+		$origen		=	$fileTempName;		
+		$ext		=	explode(".", $fileNombre);
+		$name		= 	$name.".".$ext[1];
+		$destino	=	$rutaFile.$name; //nombre del archivo	
+		# movemos el archivo
+		if(@move_uploaded_file($origen, $destino)) {
+		} else { echo "Error al intentar subir el archivo."; exit;}
+	} else { echo "Error al intentar subir el archivo."; exit; }
+}
+//------------------------
 		
 ?>

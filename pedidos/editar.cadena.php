@@ -30,53 +30,82 @@ $articulosB1	= 	(isset($_POST['pwbonif1'])) 	? $_POST['pwbonif1'] 		: NULL;
 $articulosB2	= 	(isset($_POST['pwbonif2'])) 	? $_POST['pwbonif2'] 		: NULL;
 $articulosD1	= 	(isset($_POST['pwdesc1'])) 		? $_POST['pwdesc1'] 		: NULL;
 $articulosD2	= 	(isset($_POST['pwdesc2'])) 		? $_POST['pwdesc2'] 		: NULL;
-$cadena			=	(isset($_POST['cadena']))		? $_POST['cadena'] 			: 	NULL;
+$cadena			=	(isset($_POST['cadena']))		? $_POST['cadena'] 			: NULL;
 
-//SE AGREGA ARTICULO PROMOCIONAL OBLIGATORIO
-//siempre que la categoría sea <> 1 (droguerías) AND empresa == 1
-$categoria	= 	DataManager::getCuenta('ctacategoriacomercial', 'ctaidcuenta', $idCuenta, $empresa);
-if($empresa == 1 && $categoria <> 1){
-	array_unshift ( $articulosIdArt 	, 369 );
-	array_unshift ( $articulosCant 		, 1 );
-	array_unshift ( $articulosPrecio	, 0 );
-	array_unshift ( $articulosB1 		, 0 );
-	array_unshift ( $articulosB2 		, 0 );
-	array_unshift ( $articulosD1 		, 0 );
-	array_unshift ( $articulosD2 		, 0 );
-} ?>
+//----------------------------------
+//SE AGREGA ARTICULO PROMOCIONAL OBLIGATORIO A LAS SIGUIENTES CUENTAS CON
+//se aplica aquí y en generar.pedido.php.php
+//categoría sea <> 1 (distintas de droguerías) AND 
+$categoria = DataManager::getCuenta('ctacategoriacomercial', 'ctaidcuenta', $idCuenta, $empresa);
+//empresa == 1 AND 
+//$idCondComercial <> de ListaEspecial DR AHORRO, FARMACITY, FARMACITY 2
+// originalmente $idCondComercial != 1764  && $idCondComercial != 1765 && $idCondComercial != 1761
+$condBonificar	= 0;
+$condiciones = DataManager::getCondiciones(0, 0, 1, $empresa, $laboratorio, NULL, NULL, NULL, NULL, $idCondComercial);
+if (count($condiciones) > 0) {
+	foreach ($condiciones as $i => $cond) {
+		$condTipo 	= $cond['condtipo'];
+		$condNombre = $cond['condnombre'];
+		if($condTipo == 'ListaEspecial' && ($condNombre == 'DR AHORRO' || $condNombre == 'FARMACITY' || $condNombre == 'FARMACITY 2')){
+			$condBonificar = 1;
+		}
+	}
+} 
+if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0){
+	array_unshift ( $articulosIdArt	, 369 );
+	array_unshift ( $articulosCant 	, 1 );
+	array_unshift ( $articulosPrecio, 0 );
+	array_unshift ( $articulosB1 	, 0 );
+	array_unshift ( $articulosB2 	, 0 );
+	array_unshift ( $articulosD1 	, 0 );
+	array_unshift ( $articulosD2 	, 0 );
+}
+//-------------------------------------
+
+
+?>
 
 <!DOCTYPE html>
 <html lang='es'>
 <head>
 	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php"; ?>  
 	<script language="JavaScript"  src="/pedidos/pedidos/logica/jquery/jquery.js" type="text/javascript"></script>
+	
+	
 	<script>
 		/****************************************/
 		/*  Carga Datos de Cuentas al Pedido	*/
-		/****************************************/
 		function dac_cargarCuentaCadena(idcli, nombre, observacion, fijo) {
 			"use strict";
-			var campo 	=  '<fieldset id="cta'+idcli+'">';	
-
-			campo 		+= '<div class="bloque_2"> ';
+			var campo 	=  '<fieldset id="cta'+idcli+'">';
+			if(fijo === 0){
+				campo 	+= '<div class="bloque_9"><br><input id="btmenos" type="button" value="-" onClick="dac_eliminarCuentaCadena('+idcli+')"></div>';
+			}
+			campo 		+= '<div class="bloque_8"> ';
 			campo 		+= '	<label for="pwidcta">Cuenta</label>';
 			campo 		+= '	<input type="text" name="pwidcta[]" value="'+idcli+'" readonly style="border:none;"/>';
 			campo 		+= '</div>';
-			campo 		+= '<div class="bloque_1"> ';
+			campo 		+= '<div class="bloque_3">';
 			campo 		+= '	<label>Raz&oacute;n social</label>';
 			campo 		+= '	<input type="text" value="'+nombre+'" readonly style="border:none;"/>';
 			campo 		+= '</div>';
-			campo 		+= '<div class="bloque_2">';
+			
+			campo 		+= '<div class="bloque_4">';
+			campo 		+= '	<label>Observaci&oacute;n</label> '; 
+			campo 		+= '	<textarea type="text" name="pwobservacion[]" maxlength="200" >'+observacion+'</textarea>';
+			campo 		+= '</div> ';
+			
+			campo 		+= '<div class="bloque_7">';
 			campo 		+= '	<label for="pworden">Nro Orden</label>';
 			campo 		+= '	<input type="text" name="pworden[]" maxlength="10"/>';
-			campo 		+= '</div>';  
-			campo 		+= '<div class="bloque_3">';
-			campo 		+= '	<label>Observaci&oacute;n</label> '; 
-			campo 		+= '	<textarea type="text" name="pwobservacion[]" cols="30" rows="5" maxlength="200" >'+observacion+'</textarea>';
-			campo 		+= '</div> ';			
-			if(fijo === 0){
-				campo 		+= '<div class="bloque_4"></br><input id="btmenos" type="button" value="-" onClick="dac_eliminarCuentaCadena('+idcli+')"  style="width:25px; background-color:#C22632;"></div>';
-			}
+			campo 		+= '</div>';
+			//if(fijo === 1){
+				campo 		+= '<div class="bloque_7">';
+				campo 		+= '	<div class="inputfile">';
+				campo 		+= '		<input name="file[]" class="file" type="file">';
+				campo 		+= '	</div>';
+				campo 		+= '</div>';
+			//}
 			campo 		+= '</fieldset>';	
 
 			campo 		+= '<fieldset id="art'+idcli+'">';
@@ -89,26 +118,18 @@ if($empresa == 1 && $categoria <> 1){
 			for(var i=0;i<idArticulos.length;i++){
 				campo +=	'<div id="rut'+idcli+'-'+idArticulos[i]+'">';				
 					campo += 	'<input name="pwidart'+idcli+'[]" type="text" value="'+idArticulos[i]+'" hidden/>';
-					campo += 	'<div class="bloque_3"><strong> Art&iacute;culo '+idArticulos[i]+ '</strong></br>'+nombresArt[i]+'</div>';
-					campo += 	'<div class="bloque_4"></br><input id="btmenos" type="button" value="-" onClick="dac_eliminarArt('+idcli+', '+idArticulos[i]+')"  style="width:25px; background-color:#C22632;"></div>';
-					campo += 	'<div class="bloque_4"><strong> Cantidad </strong> <input name="pwcant'+idcli+'[]" type="text" maxlength="5"/></div>';
-					campo += 	'<div class="bloque_2"><strong> Precio </strong> <input type="text" name="pwprecioart'+idcli+'[]" value="'+preciosArt[i]+'"  readonly style="border:none"/> </div>';
-					campo += 	'<div class="bloque_4"><strong>Bonifica</strong> <input name="pwbonif1'+idcli+'[]" type="text" maxlength="5"/></div>';
-					campo += 	'<div class="bloque_4"><strong>Desc 1 </strong> <input type="text" name="pwdesc1'+idcli+'[]" value="'+desc1[i]+'" readonly style="border:none"/></div>';
-					campo += 	'<div class="bloque_4"><strong>Desc 2 </strong> <input type="text" name="pwdesc2'+idcli+'[]" value="'+desc2[i]+'" readonly style="border:none"/></div>';	
-				
-				
-				
-				
-				campo += 	'</div>';
-				
+					
+					campo += 	'<div class="bloque_9"><input id="btmenos" type="button" value="-" onClick="dac_eliminarArt('+idcli+', '+idArticulos[i]+')" style="background-color:#C22632;"></div>';
+					campo += 	'<div class="bloque_2"><strong> Art&iacute;culo '+idArticulos[i]+ '</strong></br>'+nombresArt[i]+'</div>';
+					
+					campo += 	'<div class="bloque_8"><strong> Cantidad </strong> <input name="pwcant'+idcli+'[]" type="text" maxlength="5"/></div>';
+					campo += 	'<div class="bloque_8"><strong> Precio </strong> <input type="text" name="pwprecioart'+idcli+'[]" value="'+preciosArt[i]+'"  readonly style="border:none"/> </div>';
+					campo += 	'<div class="bloque_8"><strong>Bonifica</strong> <input name="pwbonif1'+idcli+'[]" type="text" maxlength="5"/></div>';
+					campo += 	'<div class="bloque_8"><strong>Desc 1 </strong> <input type="text" name="pwdesc1'+idcli+'[]" value="'+desc1[i]+'" readonly style="border:none"/></div>';
+					campo += 	'<div class="bloque_8"><strong>Desc 2 </strong> <input type="text" name="pwdesc2'+idcli+'[]" value="'+desc2[i]+'" readonly style="border:none"/></div>';	
+				campo += 	'</div><hr>';
 			};
-
-			campo 		+= '    <div class="bloque_3">';
-			campo 		+= '      	<div id="pwsubtotal" style="display:none;"></div>';
-			campo 		+= '    </div>';
 			campo 		+= '</fieldset>';
-
 			$("#fmPedidoWebCadena").append(campo);	
 		}
 
@@ -137,19 +158,17 @@ if($empresa == 1 && $categoria <> 1){
 <body>
 	<header class="cabecera">
         <?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/header.inc.php"); ?>
-        
-        
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php 
-       	$_section		=	"pedidos";
-		$_subsection 	=	"nuevo_pedido";
+       	$_section	 = "pedidos";
+		$_subsection = "nuevo_pedido";
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav>
                 	
 	<main class="cuerpo">
     	<div class="box_body">               
-        	<form id="fmPedidoWebCadena" name="fmPedidoWebCadena" class="fm_edit2" method="post">
+        	<form id="fmPedidoWebCadena" name="fmPedidoWebCadena" method="post">
             	<input type="text" name="pwestado" value="<?php echo $estado; ?>" hidden="hidden"/>
             	<input type="text" name="pwidcondcomercial" value="<?php echo $idCondComercial; ?>" hidden="hidden"/>
             	<input type="hidden" name="pwidart" value='<?php echo serialize($articulosIdArt) ?>'/>
@@ -161,32 +180,35 @@ if($empresa == 1 && $categoria <> 1){
             	<input type="hidden" name="pwdesc2" value='<?php echo serialize($articulosD2) ?>'/>
             	
                	<fieldset>
-                	<legend>Pedido Web CADENA</legend>
-                    <div class="bloque_3" align="center">     
+                	<legend>Pedido CADENA</legend>
+                   	<div class="bloque_1" align="right">
+                        <a id="btsendPedidoCadena" title="Enviar">
+                            <img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle"/>
+                        </a>
+                    </div> 
+                    
+                    <div class="bloque_1" align="center">     
                         <fieldset id='box_error' class="msg_error">          
                             <div id="msg_error" align="center"></div>
-                        </fieldset>                                                                         
-                        <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">
+                        </fieldset>    
+                        <fieldset id='box_cargando' class="msg_informacion">
                             <div id="msg_cargando" align="center"></div>      
                         </fieldset> 
                         <fieldset id='box_confirmacion' class="msg_confirmacion">
                             <div id="msg_confirmacion" align="center"></div>      
                         </fieldset>
+                        <fieldset id='box_observacion' class="msg_alerta">
+                            <div id="msg_atencion" align="center"></div>       
+                        </fieldset>
                     </div>
                     
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                     	<label for="pwusrasignado">Asignado a</label>
                       	<input type="text" name="pwusrasignado" id="pwusrasignado" value="<?php echo $usrAsignado; ?>" hidden/>
                        	<input type="text" value="<?php echo $usrAsigName; ?>" readonly style="border:none;"/>
-                    </div> 
+                    </div>        
                     
-                    <div class="bloque_1">
-                        <a id="btsendPedidoCadena" title="Enviar" style="float:left;">
-                            <img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle"/>
-                        </a>
-                    </div>                   
-                    
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                         <label for="empselect">Empresa</label>                        
                         <select id="empselect" name="empselect"> <?php
                             $empresas	= DataManager::getEmpresas(1); 
@@ -194,7 +216,7 @@ if($empresa == 1 && $categoria <> 1){
                                 foreach ($empresas as $k => $emp) {
                                     $idEmp		=	$emp["empid"];
                                     $nombreEmp	=	$emp["empnombre"];
-                                    if ($idEmp == $empresa){ ?>                        		
+                                    if ($idEmp == $empresa){ ?>     
                                         <option id="<?php echo $idEmp; ?>" value="<?php echo $idEmp; ?>" selected><?php echo $nombreEmp; ?></option><?php
                                     } 
                                 }                            
@@ -202,29 +224,23 @@ if($empresa == 1 && $categoria <> 1){
                         </select>
                     </div>
                     
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                         <label for="labselect">Laboratorio</label> 
                         <select name="labselect" id="labselect"><?php 				
                             $laboratorios	= DataManager::getLaboratorios(); 
                             if (count($laboratorios)) {	
                                 foreach ($laboratorios as $k => $lab) {
                                     $idLab			=	$lab["idLab"];
-                                    $descripcion	=	$lab["Descripcion"];							
-                                    if ($idLab == $laboratorio){ ?>                        		
-                                        <option id="<?php echo $idLab; ?>" value="<?php echo $idLab; ?>" selected><?php echo $descripcion; ?></option><?php											
+                                    $descripcion	=	$lab["Descripcion"];
+                                    if ($idLab == $laboratorio){ ?>         
+                                        <option id="<?php echo $idLab; ?>" value="<?php echo $idLab; ?>" selected><?php echo $descripcion; ?></option><?php						
                                     }
                                 }                            
                             } ?>
                         </select>
                     </div>
                     
-                    <div class="bloque_3"  align="center">     
-                        <fieldset id='box_observacion' class="msg_alerta">
-                            <div id="msg_atencion" align="center"></div>       
-                        </fieldset>
-                    </div>
-                    
-                   	<div class="bloque_1">  
+                   	<div class="bloque_5">  
                         <label>Condici&oacute;n de pago</label>
                         <select name="condselect" id="condselect"> <?php
                             $condicionesPago	=	DataManager::getCondicionesDePago(0, 0, 1); 
@@ -241,7 +257,6 @@ if($empresa == 1 && $categoria <> 1){
 									$condDias	.= empty($cond['Dias5CP']) ? '' : ', '.$cond['Dias5CP'];
 									$condDias	.= " D&iacute;as)";					
 									$condPorc	= ($cond['Porcentaje1CP']== '0.00') ? '' : $cond['Porcentaje1CP'];
-									
 									
                                     //Descarto la opción FLETERO
                                     if(trim($condNombre) != "FLETERO"){

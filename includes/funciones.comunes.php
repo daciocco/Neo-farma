@@ -138,8 +138,8 @@ function listar_mes_anio($nombre, $_anio, $_mes, $_onchange, $_style){
 
 function dac_listar_directorios($ruta){ 
 	// abrir un directorio y listarlo recursivo 
-	$entradas = array();
-	$data = array();
+	$entradas 	= array();
+	$data 		= array();
 	if (is_dir($ruta)) { 
 		if ($dh = opendir($ruta)) { 
 	  		//echo "<b>Directorio actual:</b> <br>$ruta<br>";		
@@ -182,7 +182,8 @@ function dac_listar_directorios($ruta){
 			}			
 	  	} 
 	} else  {
-		echo "<br>No hay ruta valida. "; 
+		return false;
+		//echo "No hay ruta valida."; 
 	}
 		
 	return ($data);
@@ -539,21 +540,18 @@ function dac_fileFormatControl($type, $tipo){
 	}
 }
 
+
 function dac_fileUpload($FILE, $_destino, $filename){
 	$_destino = $_SERVER['DOCUMENT_ROOT'].$_destino;
-	if(file_exists($_destino) || @mkdir($_destino, 0777, true))  {
-		
-		$origen		=	$FILE["tmp_name"];
-		
+	if(file_exists($_destino) || @mkdir($_destino, 0777, true))  {		
+		$origen		=	$FILE["tmp_name"];		
 		$ext		=	explode(".", $FILE["name"]);
-		$_name		= 	$filename.".".$ext[1];
-		$destino	=	$_destino.$_name; //nombre del archivo	
+		$name		= 	$filename.".".$ext[1];
+		$destino	=	$_destino.$name; //nombre del archivo	
 		# movemos el archivo
-		if(@move_uploaded_file($origen, $destino)) { return($_destino); return TRUE; 
-		} else { return FALSE;}			
-	} else { return FALSE; }
-	
-	return TRUE;
+		if(@move_uploaded_file($origen, $destino)) { return true; 
+		} else { return false;}
+	} else { return false; }
 }
 
 

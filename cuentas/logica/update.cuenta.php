@@ -1909,14 +1909,12 @@ if ($ctaId){
 	}
 	
 	if($tipo == "C" || $tipo == "CT") {
-		$ctaObjectHiper->__set('ID'	, $ID);	
-		
+		$ctaObjectHiper->__set('ID'	, $ID);			
 		$IDHiper	= DataManagerHiper::insertSimpleObject($ctaObjectHiper);
 		if(!$IDHiper){
 			echo "Error al insertar la cuenta Hiper."; exit;
 		}
-	}
-	
+	}	
 	//MOVIMIENTO de CUENTA
 	$ctaId		=  $ID;
 	$movimiento = 'CUENTA_'.$tipo;
@@ -1931,8 +1929,8 @@ if($ctaId){
 			echo '! Fallo en el env&iacute;o de notificaci&oacute;n por mail'.$mail->ErrorInfo; exit;
 		}
 	}	
-	//*********************//	
-	//	Registro MOVIMIENTO	//
+	//-----------------------
+	//	Registro MOVIMIENTO	
 	dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", $ctaId);
 } else {
 	echo "El registro de datos no se realizó correctamente."; exit;

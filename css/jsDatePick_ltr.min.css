@@ -22,7 +22,7 @@
 	height:13px;
 	background:url(/pedidos/images/calendar/closeButton_over.gif) left top no-repeat;}
 	
-.JsDatePickBox .jsDatePickCloseButtonDown{Ç
+.JsDatePickBox .jsDatePickCloseButtonDown{
 	cursor:pointer;
 	position:absolute;
 	z-index:1;

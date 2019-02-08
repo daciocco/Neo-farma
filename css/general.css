@@ -309,12 +309,12 @@ section subtitulo{
 }
 
 .inputfile{
-	float: left;
-	width: 190px;
-	margin:auto;
-	padding:5px;
+	float: none;
 	text-align:center;
+	margin:auto;
 	height: 50px;
+	width: 94%;/*190px;*/
+	padding: 3% 0; /*5px;*/
 }
 
 .file{
