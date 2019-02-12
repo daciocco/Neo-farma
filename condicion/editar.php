@@ -83,8 +83,8 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 						<fieldset id='box_error' class="msg_error">          
 							<div id="msg_error" align="center"></div>
 						</fieldset>
-						<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">  
-							<div id="msg_cargando" align="center"></div>      
+						<fieldset id='box_cargando' class="msg_informacion">
+							<div id="msg_cargando" align="center"></div>    
 						</fieldset>
 						<fieldset id='box_confirmacion' class="msg_confirmacion">
 							<div id="msg_confirmacion" align="center"></div>      

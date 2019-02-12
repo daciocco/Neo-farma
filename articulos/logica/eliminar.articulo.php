@@ -1,6 +1,6 @@
 <?php 
-session_start();
-require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
+require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.hiper.php");
 
 if ($_SESSION["_usrrol"]!="A"){ 	
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
@@ -9,15 +9,23 @@ if ($_SESSION["_usrrol"]!="A"){
 	exit;	
 }
 
-$artId		= empty($_REQUEST['artid']) 	? 0 					: $_REQUEST['artid'];
-$backURL	= empty($_REQUEST['backURL']) 	? '/pedidos/articulos/'	: $_REQUEST['backURL'];
+$artId		= empty($_REQUEST['artid']) ? 0 : $_REQUEST['artid'];
+$backURL	= '/pedidos/articulos/';
 
-if ($artId) {
+if ($artId) {	
+	//Delete Hiperwin
+	$artObjectHiper	= DataManagerHiper::newObjectOfClass('THiperArticulo', $artId);
+	$artObjectHiper->__set('ID', $artId);
+	DataManagerHiper::deleteSimpleObject($artObjectHiper, $artId);
+	
+	
 	// Elimia artículo, dispone y fórmula
 	$artObject		= DataManager::newObjectOfClass('TArticulo', $artId);
 	$artIdDispone	= $artObject->__get('Dispone');
 	$artImagen	 	= $artObject->__get('Imagen');	
-	$artObject->__set('ID', $artId );
+	$artObject->__set('ID', $artId );	
+	
+	//Delete Web
 	DataManager::deleteSimpleObject($artObject);
 	
 	//FALTA desarrollar ELIMINAR IMAGEN DEL ARTÍCULO

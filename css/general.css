@@ -62,36 +62,35 @@ body {
 	width: 960px;
 	margin:auto;
 	height: auto;
-	padding: 15px 0px 15px 0px;
-	min-height: calc(100% - 35px - 85px - 60px - 30px); /*Alto de la web - alto pie - alto cabecera - alto menu*/
+	/*padding: 15px 0px 15px 0px;*/
+	min-height: calc(100% - 35px - 85px - 60px - 30px); 
+	/*Alto de la web - alto pie - alto cabecera - alto menu*/
 }
-
 .cuerpo hr{
 	clear:both;
 	border:none;
 }
-
-.box_body, .box_seccion, .box_down, .box_body2 {	
-	margin:5px;
+.box_body, .box_seccion, .box_down, .box_body2 {
+	margin: 1%;
+	/*margin:5px;*/
 	float:left;
-} 
-
+}
 .box_body {
-	width: 580px;
+	width: 58%;
+	/*width: 580px;*/
 }
-
 .box_body2 {
-	width: 465px;
+	width: 48%;
+	/*width: 465px;*/
 }
-
 .box_seccion {
-	width:360px;
+	width: 38%;
+	/*width:360px;*/
 }
-
 .box_down {
-	width: 950px;
+	width: 98%;
+	/*width: 950px;*/
 }
-
 .barra{
 	padding: 10px;	
 	background-color: #bdbebf; /*EAEAEA;*/
@@ -206,14 +205,12 @@ tit_5 {
 	
 }
 
-/*************************/
-/*	CUADROS EDITAR
-/*************************/
+/*******************/
+/*	CUADROS EDITAR */
 .temas2 {
 	text-align: center;
 	width: 100%;
 }
-
 .temas2:hover {
 	color: #0f6b9c;	
 }
@@ -719,7 +716,7 @@ small {
 	}
 }
 
-@media screen and (max-width:360px) {
+@media screen and (max-width:375px) {
 	.cuerpo {
 		min-height: calc(100% - 35px - 90px); /* Alto de la web - alto pie - alto menu*/
 		width: 360px;

@@ -29,6 +29,7 @@
 			Localidades
 		</div> <!-- box_mini -->
 	</a>
+	<hr>
 </div> <!-- Fin temas  -->
 
 
@@ -49,9 +50,7 @@
 			Webmail
 		</div> <!-- box_mini -->
 	</a>		
-	<div class="box_mini2 box_mini2_vacio" > </div> <!-- box_mini -->
-	<div class="box_mini2 box_mini2_vacio" > </div> <!-- box_mini -->
-	<div class="box_mini2 box_mini2_vacio" > </div> <!-- box_mini -->
+	<hr>
 </div> <!-- Fin temas  -->
 
 <div class="temas2">
@@ -84,7 +83,8 @@
 		<div class="box_mini2">
 			Pedidos Pendientes <br> <p>Neo-farma</p>
 		</div>
-	</a>      
+	</a>   
+	<hr>   
 </div>  <!-- Fin temas  --> 
 
 <div class="temas2">
@@ -120,6 +120,7 @@
 		</div>
 	</a>	   
 	<?php } ?> 
+	<hr>
 </div>  <!-- Fin temas  --> 
 
 <hr>

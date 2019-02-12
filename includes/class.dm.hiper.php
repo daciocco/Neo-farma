@@ -100,6 +100,7 @@ class DataManagerHiper {
 				$sWhere = "$_fieldID AND $_fieldTwo AND $_fieldThree";
 			}*/
 			$_theSQL	= sprintf("DELETE FROM %s WHERE %s=%s", $_object->__getTableName(), $_fieldID, $_ID);
+			
       		//$_theSQL	= sprintf("DELETE FROM %s WHERE %s", $_object->__getTableName(), $sWhere);
 			$_rows 		= $hDB->select($_theSQL);
       		$hDB->commit();

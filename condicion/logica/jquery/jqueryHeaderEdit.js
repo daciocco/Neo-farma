@@ -228,7 +228,7 @@ function dac_addBonificacion(nextcondicion, id, idart, cant, b1, b2, d1, d2, idb
 	d2 = (d2===0) ? d2 = '' : d2;
 
 	nextbonificacion++;			
-	var campo =		'<div id="rutbonificacion'+nextbonificacion+'" class="bloque_5" style="background-color:#DDD;">';
+	var campo =		'<div id="rutbonificacion'+nextbonificacion+'" class="bloque_5" style="background-image: linear-gradient(to bottom, transparent 98%, grey);">';
 		campo += 	'<div class="bloque_8"><label>Cant.</label><input type="text" name="condcant'+idart+'[]" size="2" value="'+cant+'" maxlength="2"/></div>';		
 		campo += 	'<div class="bloque_8"><label>Bonif 1</label><input type="text" name="condbonif1'+idart+'[]" size="2" value="'+b1+'" maxlength="2"/></div>';
 		//campo += 	'<div class="bloque_10"><br><label>X</label></div>';	

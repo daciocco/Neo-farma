@@ -80,6 +80,10 @@ if(empty($rubro)) {
 if (empty($precio)) { 
 	echo "El precio es obligatoria."; exit; 
 }
+if (empty($precioCompra)) { 
+	echo "Controle que exista un valor de precio de Compra."; exit; 
+}
+
 if (empty($ean)) { 
 	echo "El c&oacute;digo de barras es obligatoria."; exit; 
 }

@@ -99,13 +99,13 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 			campo 		+= '	<label for="pworden">Nro Orden</label>';
 			campo 		+= '	<input type="text" name="pworden[]" maxlength="10"/>';
 			campo 		+= '</div>';
-			//if(fijo === 1){
-				campo 		+= '<div class="bloque_7">';
-				campo 		+= '	<div class="inputfile">';
-				campo 		+= '		<input name="file[]" class="file" type="file">';
-				campo 		+= '	</div>';
-				campo 		+= '</div>';
-			//}
+			
+			campo 		+= '<div class="bloque_7">';
+			campo 		+= '	<div class="inputfile">';
+			campo 		+= '		<input name="file[]" class="file" type="file">';
+			campo 		+= '	</div>';
+			campo 		+= '</div>';
+			
 			campo 		+= '</fieldset>';	
 
 			campo 		+= '<fieldset id="art'+idcli+'">';

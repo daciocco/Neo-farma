@@ -220,10 +220,11 @@ div.titulobox {
 }
 
 div.box_mini{
-	float:	left;
-	width: 100%;
+	float:	left;	
     height: 80px;
-	margin: 0 5px 0 5px;
+	width: 98%;
+	margin: 0 1%;
+	/*margin: 0 5px 0 5px;*/
 }
 
 div.box_mini2{
@@ -231,9 +232,11 @@ div.box_mini2{
 	text-decoration: none;
 	cursor: pointer;
 	color: #1c4f81;
-	width: 143px;
+	width: 14%;
+	/*width: 143px;*/
     height: 60px;
-	margin: 5px;
+	/*margin: 5px;*/
+	margin: 1%;
 	padding-top: 20px;
 	background-color: transparent;
 	border: 2px solid #1c4f81;
@@ -256,15 +259,7 @@ div.box_mini2:hover {
 	color: #FFF;
 	background-color: #1c4f81;
 }
-div.box_mini2_vacio {
-	display: inline;
-	cursor:auto;
-	margin: 7px;
-	border: none;
-}
-div.box_mini2_vacio:hover {
-	background-color: transparent !important;
-}
+
 .temas2:nth-child(2) .box_mini2{
 	color: #0069a6;
 	border-color: #0069a6;
@@ -510,20 +505,21 @@ ul.mainmenu li a:hover {
 		width: 100%;
 	}
 	
-	div.box_mini2_vacio {
-		display: none;
+	
+	div.box_mini2 {
+		width: 30%;
 	}
 	
 }
 
 /******************************************/
-@media screen and (max-width:360px) {
+@media screen and (max-width:375px) {
 	div.box_mini{
 		height: 40px;
 	}
 	
-	div.box_mini2{
-		width: 95%;
+	div.box_mini2 {
+		width: 46%;
 	}
 	
 	div.titulobox {

@@ -33,7 +33,7 @@ if (count($articulos)) {
 			
 			$statusStock = ($art['artstock']) ? "<img src=\"/pedidos/images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Stock Activo\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/articulos/logica/changestock.php', $id, $pag)\"/>" : "<img src=\"/pedidos/images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Stock Inactivo\" onclick=\"javascript:dac_changeStatus('/pedidos/articulos/logica/changestock.php', $id, $pag)\"/>";
 						
-			$eliminar 	= 	sprintf ("<a href=\"logica/eliminar.articulo.php?artid=%d&backURL=%s\" title=\"eliminar articulo\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR LA ARTÍCULO?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /></a>", $id, $_SERVER['PHP_SELF'], "Eliminar");
+			$eliminar 	= 	sprintf ("<a href=\"logica/eliminar.articulo.php?artid=%d\" title=\"eliminar articulo\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR LA ARTÍCULO?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /></a>", $id, "Eliminar");
 			
 			((($k % 2) == 0)? $clase="par" : $clase="impar");
 			
