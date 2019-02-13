@@ -17,7 +17,7 @@ try {
 		)
 	);
 	$mail->Username 	= 'infoweb@neo-farma.com.ar';
-	$mail->Password 	= 'Noti9851';
+	$mail->Password 	= '';
 	$mail->SMTPDebug 	= 0;  //2 es el recomendado
 } catch (Exception $e) {
 	echo 'Excepción Mail: ',  $e->getMessage(), "\n";
