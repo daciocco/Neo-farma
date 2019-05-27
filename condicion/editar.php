@@ -7,7 +7,8 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol
 	exit;
 }
 
-$condId	=	empty($_GET['condid']) ? 0 : $_GET['condid'];
+$condId	= empty($_GET['condid']) ? 0 : $_GET['condid'];
+
 if ($condId) {
 	$condicionObject= DataManager::newObjectOfClass('TCondicionComercial', $condId);
 	$empresa		= $condicionObject->__get('Empresa');

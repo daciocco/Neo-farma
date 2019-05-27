@@ -3680,10 +3680,6 @@ class DataManager {
 		return $data;
   	}
 
-	
-
-	
-
 	//-------------------------------
 	// Tabla CATEGORÍAS COMERCIALES	
   	public static function getCategoriasComerciales($mostrarTodos = TRUE) {
