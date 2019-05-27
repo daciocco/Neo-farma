@@ -17,12 +17,11 @@ if (!empty($_laboratorio))	{
 	$_articulos	= DataManager::getArticulos(0, 1000, 1, 1, $_laboratorio, $_empresa);	
 	if (count($_articulos)) {								 
 	  foreach ($_articulos as $k => $_articulo) {																			
-		  $_articulo	= 	$_articulos[$k];
-		  $_id			= 	$_articulo['artid'];
-		  $_idart		= 	$_articulo['artidart'];
-		  //str_replace('"', '', json_encode($_articulo["artnombre"]));	$_articulo["artnombre"];					
-		  $_nombre		= 	$_articulo["artnombre"];
-		  $_precio		= 	str_replace('"', '', json_encode($_articulo["artprecio"]));	$_articulo["artprecio"];
+		  $_articulo	= $_articulos[$k];
+		  $_id			= $_articulo['artid'];
+		  $_idart		= $_articulo['artidart'];				
+		  $_nombre		= $_articulo["artnombre"];
+		  $_precio		= str_replace('"', '', json_encode($_articulo["artprecio"]));	$_articulo["artprecio"];
 		  
 		  ((($k % 2) == 0)? $clase="par" : $clase="impar");
 		  

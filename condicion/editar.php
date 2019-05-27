@@ -1,5 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.hiper.php");
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M"){ 	
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	header("Location: $_nextURL");
@@ -8,46 +9,45 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol
 
 $condId	=	empty($_GET['condid']) ? 0 : $_GET['condid'];
 if ($condId) {
-	$condicion		= DataManager::newObjectOfClass('TCondicionComercial', $condId);
-	$empresa 		= $condicion->__get('Empresa');
-	$laboratorio	= $condicion->__get('Laboratorio');	
-	$cuentas		= $condicion->__get('Cuentas');
-	$nombre 		= $condicion->__get('Nombre');
-	$tipo	 		= $condicion->__get('Tipo');
-	$condPago 		= $condicion->__get('CondicionPago');
-	$cantMinima		= ($condicion->__get('CantidadMinima')) ? $condicion->__get('CantidadMinima') : '';
-	$minReferencias	= ($condicion->__get('MinimoReferencias')) ? $condicion->__get('MinimoReferencias') : '';
-	$minMonto		= ($condicion->__get('MinimoMonto') == '0.000') ? '' : $condicion->__get('MinimoMonto');
-	
-	$fechaInicio	= dac_invertirFecha( $condicion->__get('FechaInicio'));
-	$fechaFin 		= dac_invertirFecha($condicion->__get('FechaFin'));	
-	$observacion	= $condicion->__get('Observacion');
-	
-	$habitualCant	= ($condicion->__get('Cantidad') == '0') ? '' : $condicion->__get('Cantidad');
-	$habitualBonif1 = ($condicion->__get('Bonif1') == '0') ? '' : $condicion->__get('Bonif1');
-	$habitualBonif2 = ($condicion->__get('Bonif2') == '0') ? '' : $condicion->__get('Bonif2');
-	$habitualDesc1	= ($condicion->__get('Desc1') == '0.00') ? '' : $condicion->__get('Desc1');
-	$habitualDesc2	= ($condicion->__get('Desc2') == '0.00') ? '' : $condicion->__get('Desc2');
+	$condicionObject= DataManager::newObjectOfClass('TCondicionComercial', $condId);
+	$empresa		= $condicionObject->__get('Empresa');
+	$laboratorio	= $condicionObject->__get('Laboratorio');	
+	//$cuentas		= $condicionObject->__get('Cuentas');
+	$nombre 		= $condicionObject->__get('Nombre');
+	$tipo			= $condicionObject->__get('Tipo');
+	$condPago 		= $condicionObject->__get('CondicionPago');
+	$cantMinima		= ($condicionObject->__get('CantidadMinima')) ? $condicionObject->__get('CantidadMinima') : '';
+	$minReferencias	= ($condicionObject->__get('MinimoReferencias')) ? $condicionObject->__get('MinimoReferencias') : '';
+	$minMonto		= ($condicionObject->__get('MinimoMonto') == '0.000') ? '' : $condicionObject->__get('MinimoMonto');
+	$fechaInicio	= dac_invertirFecha( $condicionObject->__get('FechaInicio'));
+	$fechaFin 		= dac_invertirFecha($condicionObject->__get('FechaFin'));	
+	$observacion	= $condicionObject->__get('Observacion');
+	$habitualCant	= ($condicionObject->__get('Cantidad') == '0') ? '' : $condicionObject->__get('Cantidad');
+	$habitualBonif1 = ($condicionObject->__get('Bonif1') == '0') ? '' : $condicionObject->__get('Bonif1');
+	$habitualBonif2 = ($condicionObject->__get('Bonif2') == '0') ? '' : $condicionObject->__get('Bonif2');
+	$habitualDesc1	= ($condicionObject->__get('Desc1') == '0.00') ? '' : $condicionObject->__get('Desc1');
+	$habitualDesc2	= ($condicionObject->__get('Desc2') == '0.00') ? '' : $condicionObject->__get('Desc2');
+	$lista	 		= $condicionObject->__get('Lista');
 } else {
 	$empresa 		= 1;
-	$laboratorio	= 1;	
-	$cuentas		= "";
-	$nombre 		= "";
-	$tipo	 		= "";
-	$cantMinima		= "";
-	$minReferencias	= "";
-	$minMonto		= "";
-	$condPago 		= "";
-	$fechaInicio	= "";
-	$fechaFin 		= "";	
-	$observacion	= "";	
-	$habitualCant	= "";
-	$habitualBonif1 = "";
-	$habitualBonif2 = "";
-	$habitualDesc1	= "";
+	$laboratorio	= 1;
+	$lista			= 0;
+	//$cuentas		= 
+	$nombre 		= 
+	$tipo	 		= 
+	$cantMinima		= 
+	$minReferencias	= 
+	$minMonto		= 
+	$condPago 		= 
+	$fechaInicio	= 
+	$fechaFin 		= 	
+	$observacion	= 	
+	$habitualCant	= 
+	$habitualBonif1 = 
+	$habitualBonif2 = 
+	$habitualDesc1	= 
 	$habitualDesc2	= "";
 } 
-
 $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" value=\"Actualizar Alta Condiciones\" title=\"Actualizar Alta en Condiciones Comerciales\"/>");
 ?>
 
@@ -55,7 +55,6 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 <html xml:lang='es'>
 <head>
 	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php";?> 
-   
     <script src="logica/jquery/jqueryHeaderEdit.js"></script>
 </head>
 
@@ -71,7 +70,7 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 	</nav>
     
     <main class="cuerpo">
-    	<form id="fm_condicion_edit" name="fm_condicion_edit" method="POST">
+    	<form method="POST">
 			<div class="box_body"> 
 				<input type="text" id="condid" name="condid" value="<?php echo $condId;?>" hidden="hidden"/>
 				<fieldset>
@@ -81,20 +80,19 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 							<div id="msg_atencion" align="center"></div>       
 						</fieldset>
 						<fieldset id='box_error' class="msg_error">          
-							<div id="msg_error" align="center"></div>
+							<div id="msg_error"></div>
 						</fieldset>
 						<fieldset id='box_cargando' class="msg_informacion">
-							<div id="msg_cargando" align="center"></div>    
+							<div id="msg_cargando"></div>    
 						</fieldset>
 						<fieldset id='box_confirmacion' class="msg_confirmacion">
-							<div id="msg_confirmacion" align="center"></div>      
+							<div id="msg_confirmacion"></div>      
 						</fieldset>
 					</div>
-
 					<div class="bloque_5">
 						<label for="empselect">Empresa</label> 
-						<select id="empselect" name="empselect" onchange="javascript:dac_changeEmpresa(this.value, labselect.value);"><?php
-							$empresas	= DataManager::getEmpresas(1); 
+						<select id="empselect" name="empselect" onchange="javascript:dac_changeLaboratorio(this.value, labselect.value);"><?php
+							$empresas	= DataManager::getEmpresas(1);
 							if (count($empresas)) {	
 								foreach ($empresas as $k => $_emp) {
 									$_idemp		=	$_emp["empid"];
@@ -102,7 +100,7 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 									?><option id="<?php echo $_idemp; ?>" value="<?php echo $_idemp; ?>" <?php if ($empresa == $_idemp){ echo "selected"; } ?>><?php echo $_nombreemp; ?></option><?php
 								} 
 								echo "<script>";
-								echo "javascript:dac_changeEmpresa($empresa, $laboratorio)";
+								echo "javascript:dac_changeLaboratorio($empresa, $laboratorio)";
 								echo "</script>";                           
 							} ?>
 						</select>
@@ -128,7 +126,7 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 					<div class="bloque_5"> 
 						<label for="tiposelect">Tipo</label>
 						<select id="tiposelect" name="tiposelect"> 
-							<option id=0 value=0 		<?php if ($tipo == 0){ echo "selected"; } ?>></option> 
+							<option id=0 value=0  		<?php if ($tipo == 0){ echo "selected"; } ?>></option> 
 							<option id=1 value='Pack' 	<?php if ($tipo == 'Pack'){ echo "selected"; } ?>>Pack</option> 
 							<option id=2 value='ListaEspecial' 		<?php if ($tipo == 'ListaEspecial'){ echo "selected"; } ?>>Lista Especial</option> 
 							<option id=3 value='CondicionEspecial' 	<?php if ($tipo == 'CondicionEspecial'){ echo "selected"; } ?>>Condici&oacute;n Especial</option> 
@@ -156,6 +154,23 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 						<label for="minReferencias">Min de Referencias</label>
 						<input name="minReferencias" id="minReferencias" type="text" maxlength="5" value="<?php echo $minReferencias;?>"/>
 					</div>
+					
+					<div class="bloque_7">
+                        <label for="listaPrecio">Lista</label>
+                        <select id="listaPrecio" name="listaPrecio"/>
+                           <?php
+                            $listas = DataManager::getListas(); 
+                            if (count($listas)) { ?>
+                                <option value="0" selected></option><?php
+                                foreach ($listas as $k => $list) {
+                                    $listId		= $list["IdLista"];
+                                    $listNombre	= $list["NombreLT"];
+									$selected	= ($listId == $lista) ? 'selected' : ''; ?>
+                                    <option value="<?php echo $listId; ?>" <?php echo $selected; ?>><?php echo $listNombre; ?></option> <?php
+                                }                              
+                            } ?>
+                        </select>
+                    </div>
 
 					<div class="bloque_7"> 
 						<label for="fechaInicio">Fecha Inicio</label>
@@ -169,11 +184,11 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 
 					<?php if($tipo == 'Bonificacion') { ?>                   
 						<div class="bloque_6"> <br><?php echo $btnAltasCondiciones; ?> </div>
-					<?php } ?> 
+					<?php } ?>
 
 					<div class="bloque_1">
 						<label for="observacion">Observaci&oacute;n</label>
-						<textarea name="observacion" id="observacion" type="text" onkeyup="javascript:dac_LimitaCaracteres(event, 'observacion', 200);" onkeydown="javascript:dac_LimitaCaracteres(event, 'observacion', 200);" value="<?php echo $observacion;?>"/><?php echo $observacion;?></textarea> 
+						<textarea name="observacion" id="observacion" maxlength="500"  onkeyup="javascript:dac_LimitaCaracteres(event, 'observacion', 500);" onkeydown="javascript:dac_LimitaCaracteres(event, 'observacion', 500);" value="<?php echo $observacion;?>"/><?php echo $observacion;?></textarea> 
 						
 						<fieldset id='box_informacion' class="msg_informacion">
 							<div id="msg_informacion" align="center"></div> 
@@ -181,8 +196,6 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 					</div>
 
 					<div class="bloque_7">
-						<?php $_url = '/pedidos/condicion/logica/update.condicion.php';?>
-						<?php $_urlBack	= '/pedidos/condicion/';?>
 						<input id="btsend" type="button" value="Enviar" title="Enviar"/> 
 					</div>  
 				</fieldset>
@@ -194,19 +207,21 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 					if ($condId) {
 						if(!empty($condPago)){
 							$condicionesPago = explode(",", $condPago);						
-							foreach ($condicionesPago as $condicionPago) {	
-
-								$condicionesPago	=	DataManager::getCondicionesDePago(0, 0, NULL, $condicionPago); 
+							foreach ($condicionesPago as $condicionPago) {
+								$condicionesPago = DataManager::getCondicionesDePago(0, 0, NULL, $condicionPago); 
 								if (count($condicionesPago)) { 
 									foreach ($condicionesPago as $k => $condPago) {	
-										$condPagoNombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);				
-										$condPagoDias	= "(";					
-										$condPagoDias	.= empty($condPago['Dias1CP']) ? '' : $condPago['Dias1CP'];
-										$condPagoDias	.= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
-										$condPagoDias	.= empty($condPago['Dias3CP']) ? '' : ', '.$condPago['Dias3CP'];
-										$condPagoDias	.= empty($condPago['Dias4CP']) ? '' : ', '.$condPago['Dias4CP'];
-										$condPagoDias	.= empty($condPago['Dias5CP']) ? '' : ', '.$condPago['Dias5CP'];
-										$condPagoDias	.= " D&iacute;as)";
+										$condPagoNombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);	
+										
+										$condPagoDias = "(";					
+										$condPagoDias .= empty($condPago['Dias1CP']) ? '0' : $condPago['Dias1CP'];
+										$condPagoDias .= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
+										$condPagoDias .= empty($condPago['Dias3CP']) ? '' : ', '.$condPago['Dias3CP'];
+										$condPagoDias .= empty($condPago['Dias4CP']) ? '' : ', '.$condPago['Dias4CP'];
+										$condPagoDias .= empty($condPago['Dias5CP']) ? '' : ', '.$condPago['Dias5CP'];
+										$condPagoDias .= " D&iacute;as)";
+										
+										$condPagoDias .= ($condPago['Porcentaje1CP'] == '0.00') ? '' : ' '.$condPago['Porcentaje1CP'].' %';
 									}
 								}
 								echo "<script>";
@@ -216,8 +231,6 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 						}
 					} ?>
 				</fieldset>
-
-
 				<fieldset>
 					<legend>Condici&oacute;n Habitual</legend>
 					<div class="bloque_8">
@@ -242,12 +255,12 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 					</div>
 				</fieldset>
 
-				<fieldset>
+				<!--fieldset>
 					<legend>Cuentas</legend> 
 					<div id="detalle_cuenta"></div>
-				</fieldset> 
+				</fieldset--> 
 				<?php
-				if ($condId) {
+				/*if ($condId) {
 					if(!empty($cuentas)){
 						$cuentasCondiciones = explode(",", $cuentas);
 						foreach ($cuentasCondiciones as $ctaCond) {							
@@ -258,44 +271,30 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 							echo "</script>";
 						}
 					}
-				} ?> 
+				}*/ ?> 
 			</div> <!-- END box_body -->   
 
 			<div class="box_seccion"> 
-				<div class="barra">
-				   <div class="buscadorizq">
+				<!--div class="barra">
+				   <div class="bloque_5">
 						<h2>Cuentas</h2>  
 				   </div>
-					<div class="buscadorder">               
+					<div class="bloque_5">               
 						<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
 						<input id="txtBuscarEn" type="text" value="tblCuentas" hidden/>
 					</div>
 					<hr>
 				</div> <!-- Fin barra -->  
 
-				<div class="lista">
+				<!--div class="lista">
 					<div id='tablacuentas'></div>
-				</div> <!-- Fin listar -->	             
+				</div> <!-- Fin listar -->	 
 
 				<div class="barra">
-					<div class="buscadorizq">
-						<h2>Art&iacute;culos</h2> 
-					</div>
-					<div class="buscadorder">
-						<input id="txtBuscar2" type="search" autofocus placeholder="Buscar..."/>
-						<input id="txtBuscarEn2" type="text" value="tblArticulos" hidden/>
-					</div>
-					<hr>
-				</div> <!-- Fin barra -->    
-				<div class="lista">
-					<div id='tablaarticulos'></div>
-				</div> <!-- fin lista --> 
-
-				<div class="barra">
-					<div class="buscadorizq">
+					<div class="bloque_5">
 						<h2>Condiciones de Pago</h2> 
 					</div>
-					<div class="buscadorder">
+					<div class="bloque_5">
 						<input id="txtBuscar3" type="search" autofocus placeholder="Buscar..."/>
 						<input id="txtBuscarEn3" type="text" value="tblCondicionesPago" hidden/>
 					</div>
@@ -304,19 +303,22 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 				<div class="lista"><?php
 					$condicionesDePago	= DataManager::getCondicionesDePago(0,0,1);
 					if (count($condicionesDePago)) {	
-						echo '<table id="tblCondicionesPago" class="datatab" width="100%" border="0" align="center" style=\"table-layout:fixed\">';
+						echo '<table id="tblCondicionesPago" style=\"table-layout:fixed\">';
 						echo '<thead><tr align="left"><th>Cod</th><th>Nombre</th><th>D&iacute;as</th></tr></thead>';
 						echo '<tbody>';
 						foreach ($condicionesDePago as $k => $condDePago) {	
 							$condCod	= $condDePago['IdCondPago'];
 							$nombre		= DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condDePago['condtipo']);
-							$dias		= "(";					
-							$dias		.= empty($condDePago['Dias1CP']) ? '' : $condDePago['Dias1CP'];
-							$dias		.= empty($condDePago['Dias2CP']) ? '' : ', '.$condDePago['Dias2CP'];
-							$dias		.= empty($condDePago['Dias3CP']) ? '' : ', '.$condDePago['Dias3CP'];
-							$dias		.= empty($condDePago['Dias4CP']) ? '' : ', '.$condDePago['Dias4CP'];
-							$dias		.= empty($condDePago['Dias5CP']) ? '' : ', '.$condDePago['Dias5CP'];
-							$dias		.= " D&iacute;as)";
+							
+							$dias = "(";					
+							$dias .= empty($condDePago['Dias1CP']) ? '0' : $condDePago['Dias1CP'];
+							$dias .= empty($condDePago['Dias2CP']) ? '' : ', '.$condDePago['Dias2CP'];
+							$dias .= empty($condDePago['Dias3CP']) ? '' : ', '.$condDePago['Dias3CP'];
+							$dias .= empty($condDePago['Dias4CP']) ? '' : ', '.$condDePago['Dias4CP'];
+							$dias .= empty($condDePago['Dias5CP']) ? '' : ', '.$condDePago['Dias5CP'];
+							$dias .= " D&iacute;as)";
+							
+							$dias .= ($condDePago['Porcentaje1CP'] == '0.00') ? '' : ' '.$condDePago['Porcentaje1CP'].' %';
 
 							((($k % 2) == 0)? $clase="par" : $clase="impar");
 
@@ -328,9 +330,24 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 						}
 						echo "</tbody></table>";
 					} else { 
-						echo 	'<table border="0" width="100%"><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
+						echo 	'<table><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
 					} ?>
 				</div> <!-- fin lista --> 
+				
+				<div class="barra">
+					<div class="bloque_5">
+						<h2>Art&iacute;culos</h2> 
+					</div>
+					<div class="bloque_5">
+						<input id="txtBuscar2" type="search" autofocus placeholder="Buscar..."/>
+						<input id="txtBuscarEn2" type="text" value="tblArticulos" hidden/>
+					</div>
+					<hr>
+				</div> <!-- Fin barra -->    
+				<div class="lista">
+					<div id='tablaarticulos'></div>
+				</div> <!-- fin lista --> 
+				
 			</div> <!-- Fin box_seccion --> 
 			<hr>
 
@@ -357,9 +374,12 @@ $btnAltasCondiciones =	sprintf("<input type=\"button\" id=\"btAltaCondiciones\" 
 							//--> precio digitado o precio de venta.
 							$condArtPrecioDigit	= ($artCond["cartpreciodigitado"] == '0.000')?	''	:	$artCond["cartpreciodigitado"];                     
 							$condArtCantMin	= empty($artCond['cartcantmin'])?	''	:	$artCond['cartcantmin'];
-							$condArtOAM		= $artCond["cartoam"];
+														
+							$condArtOAM		= $artCond["cartoam"];							
+							$condArtOferta	= $artCond["cartoferta"];
+														
 							echo "<script>";
-							echo "javascript:dac_cargarArticuloCondicion('".$condArtId."', '".$condArtIdArt."', '".$condArtNombre."', '".$condArtPrecio."', '".$condArtCantMin."', '".$condArtPrecioDigit."', '".$condArtOAM."', '".$condArtMedicinal."', '".$condArtIva."', '".$empresa."', '".$condArtGanancia."')";
+							echo "javascript:dac_cargarArticuloCondicion('".$condArtId."', '".$condArtIdArt."', '".$condArtNombre."', '".$condArtPrecio."', '".$condArtCantMin."', '".$condArtPrecioDigit."', '".$condArtOAM."', '".$condArtMedicinal."', '".$condArtIva."', '".$empresa."', '".$condArtGanancia."', '".$condArtOferta."')";
 							echo "</script>";
 
 							//Controlo si tiene Bonificaciones para cargar

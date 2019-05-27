@@ -16,7 +16,7 @@ header("content-disposition: attachment;filename=TablaArticulos-".date('d-m-y').
 <TITLE>::. Exportacion de Datos .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0">
+	<table border="0">
 		<thead>
 			<tr>
 				<td scope="col" >artid</td>

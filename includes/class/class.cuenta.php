@@ -18,7 +18,7 @@ class TCuenta extends PropertyObject {
 		
 		$this->propertyTable['ID'] 					= 	'ctaid';
 		$this->propertyTable['Empresa']				= 	'ctaidempresa';
-		$this->propertyTable['Cuenta']				= 	'ctaidcuenta';	//(NroVendedor + nrolibre)	
+		$this->propertyTable['Cuenta']				= 	'ctaidcuenta';	//(NroVendedor + nrolibre)
 		$this->propertyTable['Tipo']				= 	'ctatipo'; //CLIENTE/TRANSFER/PROSPECTO/PROVEEDOR
 		$this->propertyTable['Estado']				= 	'ctaestado'; //Estado actual Ej: Solicita Alta	
 		$this->propertyTable['Nombre'] 				= 	'ctanombre';
@@ -66,7 +66,7 @@ class TCuenta extends PropertyObject {
 		$this->propertyTable['UsrUpdate'] 			= 	'ctausrupdate';
 		$this->propertyTable['LastUpdate'] 			= 	'ctaupdate';
 		$this->propertyTable['Activa'] 				=	'ctaactiva';
-		//$this->propertyTable['Lista']	= 	'Lista'; //Esto sería para cuando un cliente tenga una lista de precios predeterminada, más allá de que luego pueda utilizar otra lista de precios. Funciona como la condpago
+		$this->propertyTable['Lista']				= 	'ctalista';
     }
      
 	function __toString() {

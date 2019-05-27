@@ -1,30 +1,31 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G"){	
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 } ?>
 
 <script type="text/javascript" language="JavaScript"  src="/pedidos/soporte/motivos/logica/jquery/script.js"></script>
 
 <div class="box_body">
-	<form id="fmMotivo" name="fmMotivo" class="fm_edit2" method="post">
+	<form id="fmMotivo" name="fmMotivo" method="post">
 		<fieldset>
-			<legend>Datos de Motivo</legend>
-			<input type="text" id="motid" name="motid" hidden="hidden">
-			
-			<div class="bloque_3" align="center">
+			<legend>Datos de Motivo</legend>			
+			<div class="bloque_1" align="center">
 				<fieldset id='box_error' class="msg_error">          
-					<div id="msg_error" align="center"></div>
+					<div id="msg_error"></div>
 				</fieldset>                                                                         
-				<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">    
-					<div id="msg_cargando" align="center"></div>      
+				<fieldset id='box_cargando' class="msg_informacion">    
+					<div id="msg_cargando"></div>      
 				</fieldset>
 				<fieldset id='box_confirmacion' class="msg_confirmacion">
-					<div id="msg_confirmacion" align="center"></div>      
+					<div id="msg_confirmacion"></div>      
 				</fieldset>
 			</div>
 			
-			<div class="bloque_1"> 
+			
+			<input type="text" id="motid" name="motid" hidden="hidden">
+			
+			<div class="bloque_5"> 
 				<label for="sector">Sector</label>
 				<select id="sector" name="sector">   
 					<option id="0" value="0" selected></option> 
@@ -38,14 +39,14 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G"){
 				</select>
 			</div>
 			
-			<div class="bloque_2">
+			<div class="bloque_5">
 				<?php $urlSend	=	'/pedidos/soporte/motivos/logica/update.motivo.php';?>
-				<a id="btnSend" title="Enviar" style="cursor:pointer;"> 
-					<img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(fmMotivo, '<?php echo $urlSend;?>');"/>
+				<a id="btnSend" title="Enviar"> 
+					<img class="icon-send" onclick="javascript:dac_sendForm(fmMotivo, '<?php echo $urlSend;?>');"/>
 				</a>
 			</div>
 			
-			<div class="bloque_1">
+			<div class="bloque_5">
 				<label for="responsable">Responsable</label>
 				<select id="responsable" name="responsable">   
 					<option id="0" value="0" selected></option> <?php
@@ -60,11 +61,10 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G"){
 				</select>
 			</div>
 			
-			<div class="bloque_1">
+			<div class="bloque_5">
 				<label for="motivo">Motivo</label>	
 				<input type="text" id="motivo" name="motivo">
 			</div>
-			
 			
 		</fieldset>
 	</form>
@@ -72,10 +72,10 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G"){
 
 <div class="box_seccion">
 	<div class="barra">
-		<div class="buscadorizq">
+		<div class="bloque_5">
 			<h1>Motivos</h1>                	
 		</div>
-		<div class="buscadorder">
+		<div class="bloque_5">
 			<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
 			<input id="txtBuscarEn" type="text" value="tblmotivos" hidden/>
 		</div> 

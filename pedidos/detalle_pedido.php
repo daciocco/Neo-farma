@@ -7,9 +7,9 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" &&  $_SESSION["_usrro
 }
 
 $nroPedido	= empty($_REQUEST['nropedido']) 	?	0 : $_REQUEST['nropedido'];
-$btnPrint	= sprintf( "<a id=\"imprimir\" href=\"imprimir_pedido.php?nropedido=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $nroPedido, "<img src=\"/pedidos/images/icons/icono-print.png\" onmouseover=\"this.src='/pedidos/images/icons/icono-print-hover';\"  onmouseout=\"this.src='/pedidos/images/icons/icono-print.png';\" border=\"0\" />");
-$btnAprobar	= sprintf( "<a id=\"aprobar\" title=\"Aprobar Negociaci&oacute;n\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-aprobar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-aprobar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-aprobar.png';\"/>");
-$btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-rechazar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-rechazar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-rechazar.png';\"/>"); ?>
+$btnPrint	= sprintf( "<a id=\"imprimir\" href=\"imprimir_pedido.php?nropedido=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $nroPedido, "<img class=\"icon-print\" />");
+$btnAprobar	= sprintf( "<a id=\"aprobar\" title=\"Aprobar Negociaci&oacute;n\">%s</a>", "<img class=\"icon-proposal-approved\"/>");
+$btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\">%s</a>", "<img class=\"icon-proposal-rejected\"/>"); ?>
 
 <!DOCTYPE html>
 <html>
@@ -93,12 +93,14 @@ $btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\"
 									$condPagoCodigo	=	$condPago["IdCondPago"];
 									$_condnombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);									
 									$_conddias	= "(";					
-									$_conddias	.= empty($condPago['Dias1CP']) ? '' : $condPago['Dias1CP'];
+									$_conddias	.= empty($condPago['Dias1CP']) ? '0' : $condPago['Dias1CP'];
 									$_conddias	.= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
 									$_conddias	.= empty($condPago['Dias3CP']) ? '' : ', '.$condPago['Dias3CP'];
 									$_conddias	.= empty($condPago['Dias4CP']) ? '' : ', '.$condPago['Dias4CP'];
 									$_conddias	.= empty($condPago['Dias5CP']) ? '' : ', '.$condPago['Dias5CP'];
 									$_conddias	.= " D&iacute;as)";
+									
+									$_conddias .= ($condPago['Porcentaje1CP'] == '0.00') ? '' : ' '.$condPago['Porcentaje1CP'].' %';
 								}
 							}	
 							
@@ -144,7 +146,7 @@ $btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\"
 							</div>  <!-- cbte_boxcontent -->
 
 							<div class="cbte_boxcontent2">
-								<table class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+								<table>
 									<thead>
 										<tr align="left">
 											<th scope="col" width="10%" height="18" align="center">C&oacute;digo</th>
@@ -163,27 +165,26 @@ $btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\"
 									$artId			= $detalle['pidart'];
 									$laboratorio	= $detalle['pidlab'];
 									$unidades		= $detalle['pcantidad'];
-									$descripcion	= DataManager::getArticulo('artnombre', $artId, 1, $laboratorio);									
-									//$precio		=	str_replace('EUR','', money_format('%.2n', $detalle['pprecio']));
+									$descripcion	= DataManager::getArticulo('artnombre', $artId, 1, $laboratorio);			
 									$precio	= $detalle['pprecio'];
-									$b1		= ($detalle['pbonif1'] == 0)	?	''	:	$detalle['pbonif1'];
-									$b2		= ($detalle['pbonif2'] == 0)	?	''	:	$detalle['pbonif2'];
-									$bonif	= ($detalle['pbonif1'] == 0)	?	''	:	$b1." X ".$b2;
-									$desc1	= ($detalle['pdesc1'] == 0)	?	''	:	$detalle['pdesc1'];
-									$desc2	= ($detalle['pdesc2'] == 0)	?	''	:	$detalle['pdesc2'];
+									$b1		= ($detalle['pbonif1'] == 0)?	''	: $detalle['pbonif1'];
+									$b2		= ($detalle['pbonif2'] == 0)?	''	: $detalle['pbonif2'];
+									$bonif	= ($detalle['pbonif1'] == 0)?	''	: $b1." X ".$b2;
+									$desc1	= ($detalle['pdesc1'] == 0)	?	''	: $detalle['pdesc1'];
+									$desc2	= ($detalle['pdesc2'] == 0)	?	''	: $detalle['pdesc2'];
 
 									//**************************************//
 									//	Calculo precio final por artículo	//
-									//**************************************//
 									$precio_f	= $precio * $unidades;									
 									if ($desc1 != ''){ $precio_f = $precio_f - ($precio_f * ($desc1/100)); }
 									if ($desc2 != ''){ $precio_f = $precio_f - ($precio_f * ($desc2/100)); }	
-									$total		= round($precio_f, 2);
+									$total		= round($precio_f, 3);
 									$totalFinal	+= $total;
 									//**************************************//
 
 									echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
-									echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $artId, $unidades, $descripcion, round($precio,2), $bonif, $desc1, $desc2, round($total,2));
+									echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $artId, number_format($unidades,0), $descripcion, number_format(round($precio,2),2), $bonif, number_format(round($desc1,2),2), number_format(round($desc2,2),2), number_format(round($total,2),2));
+						
 									echo sprintf("</tr>");  
 					} ?>						
 								</table>                                    
@@ -195,7 +196,7 @@ $btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\"
 								</div>
 								
 								<div class="cbte_box" align="right" style="font-size:18px; float: right;">
-									TOTAL: $ <?php echo round($totalFinal, 2); //str_replace('EUR','',money_format('%.2n', $totalFinal));?>
+									TOTAL: $ <?php echo number_format(round($totalFinal,2),2); ?>
 								</div>
 							</div>  <!-- cbte_boxcontent-->
 							<?php
@@ -224,12 +225,10 @@ $btnRechazar= sprintf( "<a id=\"rechazar\" title=\"Rechazar Negociaci&oacute;n\"
 						?>
 						<a href="<?php echo "/pedidos/cuentas/archivos/".$ctaId."/pedidos/".$nroPedido."/".$archivo; ?>" title="Orden de Compra" target="_blank"> <?php
 							if($ext == "pdf"){ ?> 
-								<img id="imagen" 
-									src="/pedidos/images/icons/icono-ordencompra.png"	onmouseover="this.src='/pedidos/images/icons/icono-pdf-hover.png';" 	onmouseout="this.src='/pedidos/images/icons/icono-ordencompra.png';"/>
+								<img id="imagen" class="icon-order-pdf"/>
 								<?php 	  
 							} else { ?>
-								<img id="imagen" 
-									src="/pedidos/images/icons/icono-ordencompra.png"	onmouseover="this.src='/pedidos/images/icons/icono-jpg-hover';" 	onmouseout="this.src='/pedidos/images/icons/icono-ordencompra.png';"/>
+								<img id="imagen" class="icon-order-jpg"/>
 								<?php  
 							} ?>
 						</a> <?php 

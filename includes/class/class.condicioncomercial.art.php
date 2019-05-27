@@ -21,10 +21,12 @@ class TCondicionComercialArt extends PropertyObject {
 		$this->propertyTable['Articulo']		= 'cartidart';
 		$this->propertyTable['Precio']			= 'cartprecio';
 		$this->propertyTable['Digitado']		= 'cartpreciodigitado';
-		//$this->propertyTable['Iva']					= 'cartiva';		
+		
 		$this->propertyTable['CantidadMinima']	= 'cartcantmin'; //Cantidad de unidades mínima por artículo
 		$this->propertyTable['OAM']				= 'cartoam'; //Oferta, Alta y/o Modificación
 		$this->propertyTable['Activo'] 			= 'cartactivo';
+		
+		$this->propertyTable['Oferta']			= 'cartoferta';
 	
     }
     

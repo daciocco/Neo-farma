@@ -14,9 +14,7 @@ function ControlComa(id, precio) {
 	}
 }
 
-//**********************************//
-// Redondear Números en JAvascript	//
-//**********************************//
+// Redondear Números en JAvascript
 function dac_Redondeo(nro, decimales){
 	"use strict";
 	var flotante = parseFloat(nro);
@@ -40,7 +38,8 @@ function dac_ControlNegativo(id, precio) {
 //Ver de usar en los textos de observación de cuentas etc
 function dac_ValidarCaracteres(e){
 	"use strict";
-	var tecla = (document.all) ? e.keyCode : e.which;
+	var tecla = (document.all) ? e.keyCode : e.which;	
+	if (tecla===13){ return false; } //Enter
     if (tecla===8){ return true; }
 	var patron =/[\^$*+?=!:|\\/()\[\]{}¨º~#·&'¡¿`´><ª¬]/; //var patron =/[A-Za-z0-9]/;	
     var te = String.fromCharCode(tecla);
@@ -198,7 +197,7 @@ function dac_fileDelete(id, url, direccion) {
 				$('#box_confirmacion').css({'display':'none'});
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},		
 			success: function(result){	
 				$('#box_cargando').css({'display':'none'});	
@@ -245,7 +244,7 @@ function dac_changeStatus(url, id, pag) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (result) {			
 			if (result){
@@ -404,10 +403,11 @@ function dac_reprogramar(origen, idorigen, nroRel, contesta, telefono){
 		return i;
 	}
 	var contenido	= 
-		'<form class="fm_edit_iframe">'+
-			'<div class="bloque_2"><label>Fecha:</label><input id="fecha_reprog" type="text" name="fecha_reprog" readonly></div><div class="bloque_4"><label>Hora:</label><input id="hora_reprog" type="text" class="time" value="'+hm+'" maxlength="5"/></div>'+			
-			'<div class="bloque_1"><label>Motivo:</label><input id="motivo" name="motivo" type="text" value="'+contesta+'"></div>'+ 	
-			'<div class="bloque_1"><label>Tel&eacute;fono: </label><input id="telefono2" name="telefono2" type="text" value="'+telefono+'" maxlength="25"></div>'+
+		'<form>'+
+			'<div class="bloque_6"><label>Fecha</label><input id="fecha_reprog" type="text" name="fecha_reprog" readonly></div>'+
+			'<div class="bloque_7"><label>Hora</label><input id="hora_reprog" type="text" class="time" value="'+hm+'" maxlength="5"/></div>'+
+			'<div class="bloque_6"><label>Tel&eacute;fono: </label><input id="telefono2" name="telefono2" type="text" value="'+telefono+'" maxlength="25"></div>'+
+			'<div class="bloque_1"><label>Motivo:</label><input id="motivo" name="motivo" type="text" value="'+contesta+'"></div>'+ 				
 			'<div class="bloque_1"><label>Comentario:</label><textarea id="descripcion2" name="descripcion2" type="text" maxlength="200"></textarea></div>'+
 		'</form>';			
 
@@ -439,7 +439,7 @@ function dac_sendForm(form, url){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			$("#btsend").hide(100);
 		},			
 		success		: function(result) {					
@@ -479,10 +479,8 @@ function dac_sendForm(form, url){
 
 //******************//
 // GEOLOCALIZACIÓN	//
-//******************//
-/*****************/
+
 /*	GOOGLE MAPS  */
-/*****************/
 function dac_showMap(lat, long) {
 	"use strict";
 	var myCenter	=	new google.maps.LatLng(lat, long);
@@ -526,7 +524,7 @@ function dac_getLatitudLongitud(provincia, localidad, direccion, nro){
 	$('#box_confirmacion').css({'display':'none'});
 	$('#box_error').css({'display':'none'});
 	$('#box_cargando').css({'display':'block'});
-	$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+	$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 
 	if(provincia === "Provincia..."){
 		$('#box_cargando').css({'display':'none'});	
@@ -635,4 +633,30 @@ $(window).resize(function(){
 		});
 	}
 });
-//**********************************//
+
+//-------------------------------
+//	 Exportar archivo Excel
+function exportTableToExcel(table, filename){
+	var downloadLink;			
+	// Specify file name
+	filename = filename ? filename+'.xls' : 'excel_data.xls';
+
+	var uri 	= 'data:application/vnd.ms-excel;base64,'
+	, template 	= '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'			
+	, base64 	= function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+	, format 	= function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+
+	if (!table.nodeType) { table = document.getElementById(table); }
+	var ctx = { worksheet: filename || 'Worksheet', table: table.innerHTML }
+
+	// Create download link element
+	downloadLink 			= document.createElement("a");
+	document.body.appendChild(downloadLink);
+	// Create a link to the file
+	downloadLink.href 		= uri + base64(format(template, ctx));
+	// Setting the file name
+	downloadLink.download 	= filename;
+	//triggering the function
+	downloadLink.click();			
+	//window.location.href = uri + base64(format(template, ctx))
+}

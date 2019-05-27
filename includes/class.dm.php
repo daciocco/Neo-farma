@@ -26,8 +26,7 @@ require_once('class/class.liquidacion.php');
 require_once('class/class.condicion.php');
 require_once('class/class.condicionesdepago.php');
 require_once('class/class.condiciontransfer.php');
-require_once('class/class.lista.php'); //listas especiales
-require_once('class/class.listas.php');
+require_once('class/class.listas.php'); //listas de precios
 require_once('class/class.condicionespecial.php');
 require_once('class/class.proveedor.php');
 require_once('class/class.facturaprov.php');
@@ -52,6 +51,8 @@ require_once('class/class.ticket.php');
 require_once('class/class.ticketmotivo.php');
 require_once('class/class.ticketmensaje.php');
 require_once('class/class.localidad.php');
+require_once('class/class.areas.php');
+require_once('class/class.movimiento.php');
 
 class DataManager {
 	//--------------------------
@@ -661,11 +662,14 @@ class DataManager {
 		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
 		} else {$_condicionActivos 	= 	"drogtactiva=".$mostrarTodos;}
 		if  ((empty($empresa) && $empresa != 0)  || is_null($empresa)){ $_condicionEmpresa 	= 	"TRUE";
-		} else {$_condicionEmpresa 	= 	"drogtidemp=".$empresa;}		
+		} else {$_condicionEmpresa 	= 	"drogtidemp=".$empresa;}
+		
 		if  ((empty($drogueriaCuenta) && $drogueriaCuenta != 0)  || is_null($drogueriaCuenta)){ $_condicionCuenta 	= 	"TRUE";
 		} else {$_condicionCuenta 	= 	"drogtcliid=".$drogueriaCuenta;}
+		
 		if  ((empty($drogueriaCad) && $drogueriaCad != 0)  || is_null($drogueriaCad)){ $_condicionDrogueria 	= 	"TRUE";
 		} else {$_condicionDrogueria 	= 	"drgdcadId=".$drogueriaCad;}
+		
 		if  ((empty($destino) && $destino != 0)  || is_null($destino)){ $_condicionDestino 	= 	"TRUE";
 		} else {$_condicionDestino 	= 	"drogtcorreotransfer = '".$destino."'";}
 		
@@ -749,107 +753,71 @@ class DataManager {
 
 
 
-	//********************
-
+	//-----------------
 	// Tabla USUARIOS
-
-	//********************
-
 	public static function getUsuarios( $_pag=0, $_rows=0, $mostrarTodos = NULL, $_zona = NULL,  $_rol = NULL) {
-
 		$hDB = DataManager::_getConnection();
-
 		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
-
 		} else {$_condicionActivos 	= 	"uactivo=".$mostrarTodos;}
-
 		if  ((empty($_zona) && $_zona != '0')  || is_null($_zona)){ $_condicionZona 	= 	"TRUE";
-
 		} else {$_condicionZona 	= 	"zona IN (".$_zona.")";}
-
-		
-
 		if  ((empty($_rol) && $_zona != '0')  || is_null($_rol)){ $_condicionRol 	= 	"TRUE";
-
 		} else {$_condicionRol 	= 	"urol IN (".$_rol.")";}
 
-		
-
 		$sql = "SELECT * 
-
 				FROM usuarios 
-
 				WHERE ($_condicionActivos)
-
 				AND	($_condicionRol)
-
 				ORDER BY uactivo DESC, unombre ASC";
 
-				
-
 		if (($_pag) && ($_rows)) {
-
 			$_from = ($_pag-1)*$_rows;
-
 			$_offset = " LIMIT $_rows OFFSET $_from";
-
 			$sql .= $_offset;
-
 		}
-
 		try {
-
 			$data = $hDB->getAll($sql);
-
 		} catch (Exception $e) {
-
 			die("error ejecutando $sql<br>");
-
 		}
-
 		return $data;
-
   	}
 
-	
-
-	//********************
-
+	//---------------------
 	// Tabla USUARIO
-
-	//********************
-
 	public static function getUsuario($_field=NULL, $_ID) {
-
     	if ($_ID) {
-
       		$sql = "SELECT $_field FROM usuarios WHERE uid='$_ID' LIMIT 1";
-
       		$hDB = DataManager::_getConnection();
-
       		try {
-
         		$data = $hDB->getOne($sql);
-
       		} catch (Exception $e) {
-
         		die("Error en el SGBD : Q = $sql<br>");
-
       		}
-
       		return $data;
-
     	}
-
   	}
-
 	
-
-	//********************
-
+	//-----------------
+	// Tabla AREAS
+	public static function getAreas( $mostrarTodos = NULL ) {
+		$hDB = DataManager::_getConnection();
+		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
+		} else {$_condicionActivos 	= 	"activo=".$mostrarTodos;}
+		$sql = "SELECT * 
+				FROM areas
+				WHERE ($_condicionActivos)
+				ORDER BY descripcion DESC";
+		try {
+			$data = $hDB->getAll($sql);
+		} catch (Exception $e) {
+			die("error ejecutando $sql<br>");
+		}
+		return $data;
+  	}
+	
+	//-----------------------
 	// Tabla PROVEEDORES
-
-	//********************
 
   	public static function getProveedores( $_pag=0, $_rows=0, $empresa=NULL, $mostrarTodos = TRUE) {
 
@@ -893,19 +861,30 @@ class DataManager {
 
 	
 
-	//********************
+	//----------------------------------------
 	// Tabla FACTURAS A PAGAR DE PROVEEDORES
-	//********************
-  	public static function getFacturasProveedor( $empresa = NULL, $mostrarTodos = NULL, $_fecha_pago = NULL) {
+  	public static function getFacturasProveedor( $empresa = NULL, $mostrarTodos = NULL, $fechaPago = NULL, $tipo = NULL, $factNumero = NULL, $idProv = NULL, $fechaDesde = NULL, $fechaHasta = NULL) {
 		$hDB = DataManager::_getConnection();		
 		if  ((empty($empresa) && $empresa != 0)  || is_null($empresa)){ $_condicionEmpresa 	= 	"TRUE";
 		} else {$_condicionEmpresa 	= 	"factidemp=".$empresa;}
 		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
 		} else {$_condicionActivos 	= 	"factactiva=".$mostrarTodos;}		
-		if  ((empty($_fecha_pago) && $_fecha_pago != '0000-00-00')  || is_null($_fecha_pago) ){ $_condicionFechaPago 	= 	"TRUE";
-		} else {$_condicionFechaPago 	= 	"factfechapago='".$_fecha_pago."'";}
+		if  ((empty($fechaPago) && $fechaPago != '0000-00-00')  || is_null($fechaPago) ){ $_condicionFechaPago 	= 	"TRUE";
+		} else {$_condicionFechaPago 	= 	"factfechapago='".$fechaPago."'";}
+		
+		if  (empty($tipo) || is_null($tipo) ){ $_condicionTipo = "TRUE";
+		} else {$_condicionTipo = "facttipo='".$tipo."'";}
+		if  ((empty($factNumero) && $factNumero != '0')  || is_null($factNumero) ){ $_condicionFactNumero 	= 	"TRUE";
+		} else {$_condicionFactNumero 	= 	"factnumero='".$factNumero."'";}
+		if  ((empty($idProv) && $idProv != '0')  || is_null($idProv) ){ $_condicionIdProv = "TRUE";
+		} else {$_condicionIdProv 	= 	"factidprov='".$idProv."'";}
+		
+		if  ((empty($fechaDesde) && $fechaDesde != '0000-00-00')  || is_null($fechaDesde) ){ $_condicionFechaDesde 	= 	"TRUE";
+		} else {$_condicionFechaDesde 	= 	"factfechapago >='".$fechaDesde."'";}
+		if  ((empty($fechaHasta) && $fechaHasta != '0000-00-00')  || is_null($fechaHasta) ){ $_condicionFechaHasta 	= 	"TRUE";
+		} else {$_condicionFechaHasta 	= 	"factfechapago <='".$fechaHasta."'";}
 
-    	$sql = "SELECT * FROM facturas_proveedor WHERE ($_condicionEmpresa) AND ($_condicionActivos) AND ($_condicionFechaPago) ORDER BY factidemp ASC, factidprov DESC, factnumero DESC";	
+    	$sql = "SELECT * FROM facturas_proveedor WHERE ($_condicionEmpresa) AND ($_condicionActivos) AND ($_condicionFechaPago) AND ($_condicionTipo) AND ($_condicionFactNumero) AND ($_condicionIdProv) AND ($_condicionFechaDesde) AND ($_condicionFechaHasta) ORDER BY factidemp ASC, factidprov DESC, factnumero DESC";	
 		
 		try {
 			$data = $hDB->getAll($sql);
@@ -1348,7 +1327,6 @@ class DataManager {
 	
 	//--------------------
 	// Select LOCALIDAD
-	//--------------------
 	public static function getLocalidad($_field=NULL, $_ID) {
     	if ($_ID) {
       		$sql = "SELECT $_field FROM localidad WHERE locidloc='$_ID' LIMIT 1";
@@ -3091,111 +3069,6 @@ class DataManager {
     	return $_rows;
 
   	} 
-
-	
-
-	//********************
-
-	// LISTADO LISTAS ESPECIALES
-
-	//********************
-
-	public static function getListasEspeciales($_pag=0, $_rows=10, $mostrarTodos = NULL, $_date = NULL) {
-
-		$hDB = DataManager::_getConnection();
-
-		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
-
-		} else {$_condicionActivos 	= 	"listaactiva=".$mostrarTodos;}	
-
-		$_condicionDate	=	empty($_date) ? "TRUE" : "'".$_date."'"." BETWEEN listafechainicio AND listafechafin";
-
-    	$sql = "SELECT * FROM lista_especial WHERE ($_condicionActivos) AND ($_condicionDate) ORDER BY listafechainicio DESC";		
-
-		if (($_pag) && ($_rows)) {
-
-			$_from = ($_pag-1)*$_rows;
-
-			$_offset = " LIMIT $_rows OFFSET $_from";
-
-			$sql .= $_offset;
-
-		}
-
-		try {
-
-			$data = $hDB->getAll($sql);
-
-		} catch (Exception $e) {
-
-			die("error ejecutando $sql<br>");
-
-		}
-
-		return $data;
-
-  	}
-
-	
-
-	//********************
-
-	// DETALLE LISTA ESPECIAL CLIENTES
-
-	//********************
-
-	public static function getDetalleListaEspecialCli($_idlista) {
-
-		$hDB = DataManager::_getConnection();
-
-		$_condicionLista	= "leclistaid=".$_idlista;
-
-    	$sql = "SELECT * FROM lista_esp_cliente WHERE ($_condicionLista)";
-
-		try {
-
-	  		$data = $hDB->getAll($sql);
-
-		} catch (Exception $e) {
-
-	  		die("error ejecutando $sql<br>");
-
-		}
-
-		return $data;
-
-  	}
-
-	
-
-	//********************
-
-	// DETALLE LISTA ESPECIAL ARTÍCULOS
-
-	//********************
-
-	public static function getDetalleListaEspecialArt($_idlista) {
-
-		$hDB = DataManager::_getConnection();
-
-		$_condicionLista	= "lealistaid=".$_idlista;
-
-    	$sql = "SELECT * FROM lista_esp_art WHERE ($_condicionLista) ORDER BY leaidart ASC";
-
-		try {
-
-	  		$data = $hDB->getAll($sql);
-
-		} catch (Exception $e) {
-
-	  		die("error ejecutando $sql<br>");
-
-		}
-
-		return $data;
-
-  	}
-
 		
 
 	//******************************//
@@ -3499,7 +3372,7 @@ class DataManager {
 
 	//----------------------------------//
 	//	Tabla CONDICIONES COMERCIALES	//	
-  	public static function getCondiciones( $_pag=0, $_rows=0, $mostrarTodos=NULL, $empresa=NULL, $laboratorio=NULL, $fecha=NULL, $tipo=NULL, $fechaDesde=NULL, $fechaHasta=NULL, $id=NULL) {
+  	public static function getCondiciones( $_pag=0, $_rows=0, $mostrarTodos=NULL, $empresa=NULL, $laboratorio=NULL, $fecha=NULL, $tipo=NULL, $fechaDesde=NULL, $fechaHasta=NULL, $id=NULL, $lista=NULL) {
 		$hDB = DataManager::_getConnection();
 		if  ((empty($id) && $id != '0') || is_null($id)){ $_condicionId 	= 	"TRUE";
 		} else {$_condicionId 	= 	"condid=".$id;}
@@ -3517,9 +3390,11 @@ class DataManager {
 		} else {$_condicionHasta 	= 	"condfechafin >= '".$fechaHasta."'";}	
 		if  (empty($tipo) || is_null($tipo)){ $_condicionTipo	=	"TRUE";
 		} else {$_condicionTipo 	= 	"condtipo=".$tipo;}
+		if  ((empty($lista) && $lista != '0') || is_null($lista)){ $_condicionLista = "TRUE";
+		} else {$_condicionLista = "condlista=".$lista;}
 
-		$sql = "SELECT * FROM condicion WHERE ($_condicionId) AND ($_condicionEmpresa) AND ($_condicionActivos) AND ($_condicionLaboratorio) AND ($_condicionFecha) AND ($_condicionTipo) AND ($_condicionDesde) AND ($_condicionHasta) ORDER BY condfechafin DESC, condactiva DESC, condtipo ASC, condnombre ASC";
-		//echo "$sql"; exit;
+		$sql = "SELECT * FROM condicion WHERE ($_condicionId) AND ($_condicionEmpresa) AND ($_condicionActivos) AND ($_condicionLaboratorio) AND ($_condicionFecha) AND ($_condicionTipo) AND ($_condicionDesde) AND ($_condicionHasta) AND ($_condicionLista) ORDER BY condfechafin DESC, condactiva DESC, condtipo ASC, condnombre ASC";
+		
 		if (($_pag) && ($_rows)) {
 			$_from 		= ($_pag-1)*$_rows;
 			$_offset	= " LIMIT $_rows OFFSET $_from";
@@ -3533,73 +3408,31 @@ class DataManager {
 		return $data;
   	}
 
-	
-
-	//******************************//
-
-	//	SELECT CONDICION COMERCIAL	//		
-
-	//******************************//
-
-	// Con getOne Devuelve un solo registro
-
-  	public static function getCondicion( $ID=NULL ) {
-
-		$hDB = DataManager::_getConnection();
-
-		if  ((empty($ID) && $ID != '0') || is_null($ID)){ $_condicionId 	= 	"TRUE";
-
-		} else {$_condicionId 	= 	"condid=".$ID;} 
-
-
-    	$sql = "SELECT * FROM condicion WHERE ($_condicionId) LIMIT 1";
-
-		try {
-
-	  		$data = $hDB->getAll($sql);
-
-		} catch (Exception $e) {
-
-	  		die("error ejecutando $sql<br>");
-
-		}
-
-		return $data;
-
-  	}
-
-	
-
-	//**************************************//
-
+	//---------------------------------------//
 	//	Artículos de CONDICION COMERCIAL	//		
-
-	//**************************************//
-
-	public static function getCondicionArticulos($idCond = NULL) {
-
+	public static function getCondicionArticulos($idCond = NULL, $order = NULL) {
 		$hDB = DataManager::_getConnection();
-
 		if  ((empty($idCond) && $idCond != '0') || is_null($idCond)){ $_condicionId	= 	"TRUE"; 
-
-		} else {$_condicionId	=	"cartidcond=".$idCond; } 
-
-    	$sql = "SELECT * FROM condicion_art WHERE ($_condicionId) ORDER BY cartidart ASC";
-
+		} else {$_condicionId	=	"cartidcond=".$idCond; }
+		
+		if  ((empty($order) && $order <= 0) || is_null($idCond)){ $_condicionOrder	= 	"TRUE"; 
+		} else {
+			switch($order){
+				case 1: $_condicionOrder	=	"cartoferta DESC";
+					break;
+				default: $_condicionOrder	= 	"TRUE";
+					break;
+			}			
+		}		
+		
+    	$sql = "SELECT * FROM condicion_art WHERE ($_condicionId) ORDER BY $_condicionOrder, cartidart ASC";
 		try {
-
 	  		$data = $hDB->getAll($sql);
-
 		} catch (Exception $e) {
-
 	  		die("error ejecutando $sql<br>");
-
 		}
-
 		return $data;
-
   	}
-
 	
 
 	//****************************************//
@@ -3690,7 +3523,6 @@ class DataManager {
 
 	//----------------
 	// Tabla CUENTAS	
-	//----------------
   	public static function getCuentas( $_pag = 0, $_rows = 0, $empresa = NULL, $mostrarTodos = NULL, $tipo = NULL, $zonas = NULL, $sort = 1, $estado = NULL) {
 		$hDB = DataManager::_getConnection();
 		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
@@ -3698,9 +3530,10 @@ class DataManager {
 		if  ((empty($empresa) && $empresa != 0)  || is_null($empresa)){ $_condicionEmpresa 	= 	"TRUE";
 		} else {$_condicionEmpresa 	= 	"ctaidempresa=".$empresa;}
 		if  (empty($tipo) || is_null($tipo)){ $_condicionTipo 	= 	"TRUE";
-		} else {$_condicionTipo 	= 	"ctatipo IN (".$tipo.")";}
-		if  ((empty($zonas) && $zonas != '0') || is_null($zonas)){  $_condicionZonas 	= 	"ctazona LIKE ''";
+		} else {$_condicionTipo 	= 	"ctatipo IN (".$tipo.")";}		
+		if  ((empty($zonas) && $zonas != '0') || is_null($zonas)){  $_condicionZonas 	= 	"ctazona LIKE ''"; //Devuelve vacío ya que no existen cuentas sin zona
 		} else {$_condicionZonas 	= 	"ctazona IN (".$zonas.")";} 
+		
 		if  (empty($estado) || is_null($estado)){ $_condicionEstado 	= 	"TRUE";
 		} else {$_condicionEstado 	= 	"ctaestado='$estado'";}
 
@@ -3751,16 +3584,19 @@ class DataManager {
     	}
   	}	
 
-	//*******************************************//
-	// Select 1 campo de cuentas pasando el uid	//
-	//******************************************//
+	//---------------------------------------------
+	// Select 1 campo de cuentas pasando el uid
 	public static function getCuentaAll($_field=NULL, $_field2=NULL, $_ID, $empresa=NULL, $zonas=NULL) {
-		if  ((empty($empresa) && $empresa != 0)  || is_null($empresa)){ $_condicionEmpresa 	= 	"TRUE";
-		} else {$_condicionEmpresa 	= 	"ctaidempresa=".$empresa;}
-		if  ((empty($zonas) && $zonas != '0') || is_null($zonas)){  $_condicionZonas 	= 	"ctazona LIKE ''"; //"TRUE";
-		} else {$_condicionZonas 	= 	"ctazona IN (".$zonas.")";} 
+		if  ((empty($empresa) && $empresa != 0)  || is_null($empresa)){ $_condicionEmpresa 	= "TRUE";
+		} else {$_condicionEmpresa 	= 	"ctaidempresa=".$empresa;}		
+		if  ((empty($zonas) && $zonas != '0') || is_null($zonas)){
+			$_condicionZonas = "TRUE"; //OJO! Al pasar TRUE devuelve cualquier zona, ésto es IMPORTANTE al controlar existencia de CUIT EN ALTA DE CUENTAS. En FALSE devuelve todas las posibles ZONAS, tener cuidado si un usuario no tiene zonas registradas al mostrar los datos.
+		} else {
+			$_condicionZonas = "ctazona IN (".$zonas.")";
+		}
     	if ($_ID) {
       		$sql = "SELECT $_field FROM cuenta WHERE ($_field2 LIKE '$_ID') AND ($_condicionEmpresa) AND ($_condicionZonas)";
+			
       		$hDB = DataManager::_getConnection();
       		try {
         		$data = $hDB->getAll($sql);
@@ -3770,6 +3606,8 @@ class DataManager {
       		return $data;
     	}
   	}
+	
+	
 	
 	//**************************//
 
@@ -3846,34 +3684,34 @@ class DataManager {
 
 	
 
-	//********************
-
+	//-------------------------------
 	// Tabla CATEGORÍAS COMERCIALES	
-
-	//********************
-
   	public static function getCategoriasComerciales($mostrarTodos = TRUE) {
-
 		$hDB = DataManager::_getConnection();
-
 		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos 	= 	"TRUE";
-
 		} else {$_condicionActivos 	= 	"catactiva=".$mostrarTodos;}
-
-		$sql = "SELECT * FROM categoriaComercial WHERE ($_condicionActivos) ORDER BY catactiva DESC, catidcat ASC";
-
+		$sql = "SELECT * FROM categoriacomercial WHERE ($_condicionActivos) ORDER BY catactiva DESC, catidcat ASC";
 		try {
-
 	  		$data = $hDB->getAll($sql);
-
 		} catch (Exception $e) {
-
 	  		die("error ejecutando $sql<br>");
-
 		}
-
 		return $data;
-
+  	}
+	
+	public static function getCategoriaComercial($_field=NULL, $_field2=NULL, $_ID) {
+		if  ((empty($_ID) && $_ID != '0') || is_null($_ID)){ $_condicionID	=	"";
+		} else {$_condicionID = "$_field2='".$_ID."'";}	
+    	if ($_condicionID) {
+      		$sql = "SELECT $_field FROM categoriacomercial WHERE ($_condicionID) LIMIT 1";
+			$hDB = DataManager::_getConnection();
+      		try {
+        		$data = $hDB->getOne($sql);
+      		} catch (Exception $e) {
+        		die("Error en el SGBD : Q = $sql<br>");
+      		}
+      		return $data;
+    	}
   	}
 
 	
@@ -4163,14 +4001,15 @@ class DataManager {
 
   	}
 	
-	//----------------
-	// Tabla LISTAS de Precios para Cuentas	
-	//----------------
-  	public static function getListas( $id = NULL) {
+	//--------------------------
+	// Tabla LISTAS de Precios
+  	public static function getListas( $mostrarTodos = NULL, $id = NULL) {
 		$hDB = DataManager::_getConnection();
-		if  ((empty($id) && $id != 0)  || is_null($id)){ $_condicionLista 	= 	"TRUE";
+		if  ((empty($mostrarTodos) && $mostrarTodos != '0')  || is_null($mostrarTodos)){ $_condicionActivos = "TRUE";
+		} else {$_condicionActivos 	= 	"Activa=".$mostrarTodos; }
+		if  ((empty($id) && $id != 0)  || is_null($id)){ $_condicionLista =	"TRUE";
 		} else {$_condicionLista 	= 	"IdLista=".$id;}
-    	$sql = "SELECT * FROM listas WHERE ($_condicionLista) ORDER BY IdLista ASC";
+    	$sql = "SELECT * FROM listas WHERE ($_condicionLista) AND ($_condicionActivos) ORDER BY IdLista ASC";
 		try {
 	  		$data = $hDB->getAll($sql);
 		} catch (Exception $e) {
@@ -4179,5 +4018,38 @@ class DataManager {
 		return $data;
   	}
 	
-
+	public static function getLista($_field=NULL, $_field2=NULL, $_ID) {
+		if  ((empty($_ID) && $_ID != '0')  || is_null($_ID)){ $_condicionID	=	"";
+		} else {$_condicionID = "$_field2='".$_ID."'";}	
+    	if ($_condicionID) {
+      		$sql = "SELECT $_field FROM listas WHERE ($_condicionID) LIMIT 1"; //($_field2='$_ID')
+      		$hDB = DataManager::_getConnection();
+      		try {
+        		$data = $hDB->getOne($sql);
+      		} catch (Exception $e) {
+        		die("Error en el SGBD : Q = $sql<br>");
+      		}
+      		return $data;
+    	}
+  	}
+	
+	//--------------------------
+	// Tabla MOVIMIENTOS
+  	public static function getMovimientos( $_pag = 0, $_rows = 0 ) {
+		$hDB = DataManager::_getConnection();
+    	$sql = "SELECT * FROM movimiento ORDER BY movid DESC";
+		
+		if (($_pag) && ($_rows)) {
+			$_from 		= ($_pag-1)*$_rows;
+			$_offset	= " LIMIT $_rows OFFSET $_from";
+			$sql 		.= $_offset;
+		}
+		
+		try {
+	  		$data = $hDB->getAll($sql);
+		} catch (Exception $e) {
+	  		die("error ejecutando $sql<br>");
+		}
+		return $data;
+  	}
 } ?>

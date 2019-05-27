@@ -19,7 +19,7 @@ header("content-disposition: attachment;filename=PedidosTransfers-".date('d-m-y'
 <TITLE>::. Exportacion de Datos (Pedidos Transfers) .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0">
+	<table border="0">
 	<thead>
 		<tr>
 			<td scope="col" >Fecha</td>
@@ -76,21 +76,18 @@ header("content-disposition: attachment;filename=PedidosTransfers-".date('d-m-y'
 					} else {
 						$_idcliente_neo = "";
 					}									
-						
-					//$_cuit				=	$_detalle['ptclicuit'];
-					//$_domicilio			=	$_detalle['ptdomicilio'];
+					
 					$_contacto			=	$_detalle['ptcontacto'];						
 					$_unidades			=	$_detalle['ptunidades'];
 					$_descuento			=	$_detalle['ptdescuento'];						
 					$_ptidart			=	$_detalle['ptidart'];
 					$_ptprecio			=	$_detalle['ptprecio'];								
 					$_descripcion		=	DataManager::getArticulo('artnombre', $_ptidart, 1, 1);	
-					
 					$_precio_final		=	round( ($_ptprecio - (($_descuento/100)*$_ptprecio)), 3);	
 					$_importe_final		=	round( $_precio_final * $_unidades, 3);
 						
 					echo sprintf("<tr align=\"left\">");
-					echo sprintf("<td >%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", $_fecha, $_nropedido, $_dniven, $_nombreven, $_iddrogueria, $_nombredrog, $_idcliente_drog, $_idcliente_neo, $_nombre, $_ptidart, $_descripcion, $_unidades, $_ptprecio, $_descuento, $_precio_final, $_importe_final);
+					echo sprintf("<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", $_fecha, $_nropedido, $_dniven, $_nombreven, $_iddrogueria, $_nombredrog, $_idcliente_drog, $_idcliente_neo, $_nombre, $_ptidart, $_descripcion, $_unidades, $_ptprecio, $_descuento, number_format($_precio_final,2), number_format($_importe_final,2));
 						echo sprintf("</tr>");
 				}
 			}	

@@ -56,7 +56,7 @@ if($error == 0) {
 	}
 }
 
- $_button_print		= 	sprintf( "<a id=\"imprime\" title=\"Imprimir Rendici&oacute;n\"  onclick=\"javascript:dac_imprimirMuestra('rendicion')\">%s</a>", "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" align=\"absmiddle\" />");
+ $_button_print		= 	sprintf( "<a id=\"imprime\" title=\"Imprimir Rendici&oacute;n\"  onclick=\"javascript:dac_imprimirMuestra('rendicion')\">%s</a>", "<img class=\"icon-print\"/>");
 ?>
 
 <!DOCTYPE html>
@@ -77,7 +77,7 @@ if($error == 0) {
 			}
 			if (count($_rendicion) > 0) { ?>
 				<div id="muestra-rendicion" align="center">            
-					<table id="tabla_rendicion" cellpadding="0" cellspacing="0" border="1" class="display">
+					<table id="tabla_rendicion" border="1" class="display">
 						<thead>                    
 							<tr align="left">
 								<th colspan="7" align="center"><?php echo $_usrname;?></th>
@@ -333,7 +333,7 @@ if($error == 0) {
 									if ($total_efectivo != 0) {									
 										$total 			= $total_efectivo;
 										$total_efectivo = $total_efectivo - (floatval($_rendRetencionVend) + floatval($_rendDepositoVend)); ?>	
-										<?php echo round($total_efectivo, 2 ); 
+										<?php echo number_format(round($total_efectivo,2),2); 
 									}?>
 								</th>
 								<th align="right" style="font-weight:bold;"><?php  if ($total_transfer != 0) {echo "$".$total_transfer;} ?></th>
@@ -367,7 +367,7 @@ if($error == 0) {
 				</div> <!-- FIN muestra-rendicion -->  <?php 
 			} else { ?>
 				<div align="center">            
-					<table id="tabla_rendicion" cellpadding="0" cellspacing="0" border="1" class="display">
+					<table id="tabla_rendicion" border="1" class="display">
 						<thead>                    
 							<tr align="left">
 								<th colspan="7" align="center"><?php echo $_usrname;?></th>

@@ -11,7 +11,7 @@ $empresa	= 	(isset($_POST['empresa']))	? 	$_POST['empresa']	:	NULL;
 
 $cuentas	= DataManager::getCuentas(0, 0, $empresa, NULL, "'C', 'CT'", $_SESSION["_usrzonas"]);
 if (count($cuentas)) {	
-	echo '<table id="tblCuentas" class="datatab" width="100%" border="0" align="center" style="table-layout:fixed;">';
+	echo '<table id="tblCuentas" style="table-layout:fixed;">';
 	echo '<thead><tr align="left"><th>Id</th><th>Nombre</th><th>Localidad</th></tr></thead>';
 	echo '<tbody>';
 	foreach ($cuentas as $k => $cta) {	
@@ -34,7 +34,7 @@ if (count($cuentas)) {
 	}
 	echo "</tbody></table>";
 } else { 
-	echo 	'<table border="0" width="100%"><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
+	echo 	'<table><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
 }
 	
 ?>

@@ -1,12 +1,16 @@
 <?php
-$_img			= "/pedidos/images/logo/logosHeaderWeb.png";
+$_img = "/pedidos/images/logo/logosHeaderWeb.png";
 
 if (!empty($_SESSION['_usrname'])) {
-   if ($_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="A"){
-	  $TOPRight[]	= sprintf("<span>%s - ( %s )</span>", $_SESSION["_usrname"], substr($_SESSION["_usrzonas"], 0, 15));
-   } else {
-	  $TOPRight[]	= sprintf("<span>%s</span>", $_SESSION["_usrname"]);
-   }
+	if ($_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="A"){
+		if(isset($_SESSION["_usrzonas"])){
+			$TOPRight[]	= sprintf("<span>%s - ( %s )</span>", $_SESSION["_usrname"], substr($_SESSION["_usrzonas"], 0, 15));
+		} else {
+			$TOPRight[]	= sprintf("<span>%s</span>", $_SESSION["_usrname"]);
+		}
+	} else {
+	  	$TOPRight[]	= sprintf("<span>%s</span>", $_SESSION["_usrname"]);
+	}
 }
 $TOPRight[]	= sprintf("<span>%s</span>", infoFecha());
 $TOPRightNav	= implode(" | ", $TOPRight);

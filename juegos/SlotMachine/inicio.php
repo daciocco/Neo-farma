@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/pedidos/juegos/SlotMachine/css/frameworks.css" media="screen" />
 <script type="text/javascript" src="/pedidos/juegos/SlotMachine/jquery/jquery.ventana.js"></script>
 
 <style>
@@ -8,7 +9,7 @@
 		content:url(https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/icons/BotonParePress.png);
 	}
 	
-	#slotmachine {	
+	#slotmachine {
 		overflow:auto;
 		position:fixed;
 		display: none;
@@ -79,20 +80,25 @@
 	}
 </style>
 
-<div id="slotmachine" align="center"> <!-- marco -->	    
-    <div id="juego">    
+<div id="slotmachine" align="center"> <!-- marco -->
+    <div id="juego"> 
+    
+    	<div id="pyro" class="pyro">
+			<div class="before"></div>
+			<div class="after"></div>
+		</div>
+   	
     	<div id="barra_superior" align="right">
         	<a id="cerrar-slotmachine" href="#" height="100%"><img src="https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/icons/icono-close-bco.png" style="height:100%;" title="Cerrar"/></a>
         </div>
         
 		<div id="cuerpo-juego">                	
             <div id="barra-izq">            
-             	<div id="cuerpo-slot"></div>
-                
+             	<div id="cuerpo-slot"></div>                
                 <div id="barra-img-slot">                                    
                     <div id="img-slot" align="center">
-                        <img id="imagen1" class="imagen-slot" src="https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/0.jpg" height="80%" onclick="detener1()">                        
-                        <img id="imagen2" class="imagen-slot" src="https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/1.jpg" height="80%" onclick="detener2()"/>                        
+                        <img id="imagen1" class="imagen-slot" src="https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/0.jpg" height="80%" onclick="detener1()"/>
+                        <img id="imagen2" class="imagen-slot" src="https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/1.jpg" height="80%" onclick="detener2()"/>
                         <img id="imagen3" class="imagen-slot" src="https://neo-farma.com.ar/pedidos/juegos/SlotMachine/images/0.jpg" height="80%" onclick="detener3()"/>
                     </div>                                    	
                 </div>
@@ -113,7 +119,6 @@
 <script language="javascript">	
 	var ctrl	= 0;	
 	var iniciado = 0;
-	var timer;
 	function dac_cambiar() {
 		if(ctrl == 1){	
 			var images 		= ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg"];	
@@ -129,8 +134,10 @@
 			
 			if(document.getElementById("detener1") && document.getElementById("detener2") && document.getElementById("detener3")){
 				if ((document.getElementById("detener1").src == document.getElementById("detener2").src) && (document.getElementById("detener1").src == document.getElementById("detener3").src)){
-					//Ha ganado					
-					dac_ganador();			
+					//Ha ganado	
+					document.getElementById("pyro").style.display = "inline";
+					//alert("Ha ganado");
+					dac_pare();			
 				} else {
 					alert("Siga participando");
 					document.getElementById("detener1").id = "imagen1";
@@ -140,21 +147,21 @@
 			}
 		}
 	}
-		
+	
 	function dac_inicio() {
 		if(document.getElementById("detener1")){document.getElementById("detener1").id	=	"imagen1";	}
 		if(document.getElementById("detener2")){document.getElementById("detener2").id	=	"imagen2";	}
 		if(document.getElementById("detener3")){document.getElementById("detener3").id	=	"imagen3";	}				
 		if(iniciado == 0){
-			var timer = setInterval("dac_cambiar()", 550);			
+			setInterval("dac_cambiar()", 550);			
 			iniciado = 1;
-		} 
+		}
 		ctrl = 1;
+		document.getElementById("pyro").style.display = "none";
 	}
 	
-	function dac_pare() {		
-		ctrl = 0;		
-		//clearInterval(timer);	
+	function dac_pare() {	
+		ctrl = 0;
 	}
 	
 	function detener1 () {
@@ -168,10 +175,5 @@
 	function detener3 () {
 		var dir3 = document.getElementById("imagen3").value;
 		document.getElementById("imagen3").id = "detener3";	
-	}
-	
-	function dac_ganador(){
-		alert("Ha ganado");
-		dac_pare();
 	}
 </script> 

@@ -41,10 +41,6 @@
 
  $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=\"Enviar\"/>");
  $_action = sprintf("logica/update.noticia.php?idnt=%d", $_idnt);
- 
- $_Navegacion 	= array();
- $_Navegacion[] = sprintf("<a href=\"%s\" title=\"noticias\">%s</a>", "/pedidos/noticias/", "<img src=\"../images/icons/icono-lista.png\" border=\"0\" align=\"absmiddle\" />");
- $_Navegacion[] = ($_idnt) ? "Editar noticia" : "Nueva noticia";
 ?>
 
 <!DOCTYPE html>
@@ -67,25 +63,25 @@
     <main class="cuerpo">
 		
 		<div class="box_body"> 
-			<form name="fm_noticia" method="post" class="fm_edit2" action="<?php echo $_action;?>">
+			<form name="fm_noticia" method="post" action="<?php echo $_action;?>">
 				<fieldset>
 					<legend>Noticia</legend> 
-					<div class="bloque_3">
+					<div class="bloque_1">
 						<?php
 						if ($_sms) {
 							echo sprintf("<p style=\"background-color:#fcf5f4;color:#ba140c;border:2px solid #ba140c;font-weight:bold;padding:4px;\">%s</p>", $_info);
 						} ?>			
 					</div>
-					<div class="bloque_1">
+					<div class="bloque_5">
 						<label for="ntitulo">Titulo *</label>
 						<input type="text" id="ntitulo" name="ntitulo" maxlength="80" value="<?php echo @$_ntitulo; ?>"/>
 					</div>												
-					<div class="bloque_2">
+					<div class="bloque_5">
 						<label for="nfecha">Fecha *</label>
 						<input type="text" name="nfecha" id="nfecha" maxlength="10" value="<?php echo @$_nfecha; ?>" readonly/>&nbsp;
 					</div>
 
-					<div class="bloque_3">
+					<div class="bloque_1">
 						<label for="nnoticia">Noticia *</label>
 						<textarea id="nnoticia" name="nnoticia" value="<?php echo @$_nnoticia; ?>"/></textarea>
 					</div>
@@ -95,7 +91,7 @@
 					</div>
 					<input type="hidden" name="idnt" value="<?php echo @$_idnt;?>"/>
 					
-					<div class="bloque_2">
+					<div class="bloque_8">
 						<label for="_accion">&nbsp;</label> <?php echo $_button; ?>
 					</div>
 				</fieldset>	

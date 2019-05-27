@@ -35,7 +35,7 @@ if (count($condiciones)) {
 				//------------------
 				//MODIFICO fecha FIN de condición vigente para que cierre HOY
 				$condObject->__set('FechaFin', $dtHoy->format("Y-m-d"));
-				//DataManagerHiper::updateSimpleObject($condObject, $condId);
+				DataManagerHiper::updateSimpleObject($condObject, $condId);
 				DataManager::updateSimpleObject($condObject);
 				
 				//----------------		
@@ -60,11 +60,12 @@ if (count($condiciones)) {
 				$condObjectDup->__set('FechaFin'			, $dtFin->format("Y-m-d")); 
 				$condObjectDup->__set('UsrUpdate'			, $_SESSION["_usrid"]);
 				$condObjectDup->__set('LastUpdate'			, date("Y-m-d"));
-				$condObjectDup->__set('Activa'				, 1);				
+				$condObjectDup->__set('Activa'				, 1);
+				$condObjectDup->__set('Lista'				, $condObject->__get('Lista'));
 				$condObjectDup->__set('ID'					, $condObjectDup->__newID());
-				//DataManagerHiper::_getConnection('Hiper'); //Controla conexión a HiperWin
+				DataManagerHiper::_getConnection('Hiper'); //Controla conexión a HiperWin
 				$IDCondDup = DataManager::insertSimpleObject($condObjectDup);
-				//DataManagerHiper::insertSimpleObject($condObjectDup, $IDCondDup);
+				DataManagerHiper::insertSimpleObject($condObjectDup, $IDCondDup);
 				
 				//------------------//	
 				// Cargo Artículos  //
@@ -74,8 +75,7 @@ if (count($condiciones)) {
 						$detId		= $detArt['cartid'];
 						$detIdart	= $detArt['cartidart'];
 						$artPrecio	= DataManager::getArticulo('artpreciolista', $detIdart, $condEmpresa, $condLaboratorio);
-						$artPrecio 	= (empty($artPrecio)) ? '0.000' : $artPrecio;
-						
+						$artPrecio 	= (empty($artPrecio)) ? '0.000' : $artPrecio;						
 						//------------------------------//	
 						//	Clono Detalle de Artículo	//
 						$condArtObject		= DataManager::newObjectOfClass('TCondicionComercialArt', $detId);
@@ -86,14 +86,15 @@ if (count($condiciones)) {
 						$condArtObjectDup->__set('Digitado'			, $condArtObject->__get('Digitado'));
 						$condArtObjectDup->__set('CantidadMinima'	, $condArtObject->__get('CantidadMinima'));
 						$condArtObjectDup->__set('OAM'				, $condArtObject->__get('OAM'));
+						$condArtObjectDup->__set('Oferta'			, $condArtObject->__get('Oferta'));
 						$condArtObjectDup->__set('Activo'			, $condArtObject->__get('Activo'));
 						$condArtObjectDup->__set('Condicion'		, $IDCondDup);
 						$condArtObjectDup->__set('Precio'			, $artPrecio);
 						$condArtObjectDup->__set('ID'				, $condArtObjectDup->__newID());
 						
-						//DataManagerHiper::_getConnection('Hiper');
+						DataManagerHiper::_getConnection('Hiper');
 						$IDArt = DataManager::insertSimpleObject($condArtObjectDup);
-						//DataManagerHiper::insertSimpleObject($condArtObjectDup, $IDCondDup);						
+						DataManagerHiper::insertSimpleObject($condArtObjectDup, $IDCondDup);						
 						
 						//----------------------------------//	
 						//	Creo Detalle de Bonificaciones	//
@@ -116,9 +117,9 @@ if (count($condiciones)) {
 								$condArtBonifObjectDup->__set('Condicion'	, $IDCondDup);
 								$condArtBonifObjectDup->__set('ID'			, $condArtBonifObjectDup->__newID());
 								
-								//DataManagerHiper::_getConnection('Hiper');
+								DataManagerHiper::_getConnection('Hiper');
 								$IDArt = DataManager::insertSimpleObject($condArtBonifObjectDup);
-								//DataManagerHiper::insertSimpleObject($condArtBonifObjectDup, $IDCondDup);
+								DataManagerHiper::insertSimpleObject($condArtBonifObjectDup, $IDCondDup);
 							}
 						}
 					}
@@ -137,15 +138,16 @@ if (count($condiciones)) {
 						//+-----------------------------//
 						//	Update precios de Artículo	//
 						$condArtObject = DataManager::newObjectOfClass('TCondicionComercialArt', $detId);
-						$condArtObject->__set('Precio'	, $artPrecio);
+						$condArtObject->__set('Precio', $artPrecio);
 						
-						//DataManagerHiper::updateSimpleObject($condArtObject, $detId);
+						DataManagerHiper::updateSimpleObject($condArtObject, $detId);
 						DataManager::updateSimpleObject($condArtObject);
 					}
 				}			
 				$movimiento	= 'PRECIO_ID_'.$condId;
 				$movTipo	= 'UPDATE';
 			}
+			
 			//-----------------------//	
 			//  Registro MOVIMIENTO  //
 			dac_registrarMovimiento($movimiento, $movTipo, 'TCondicionComercial', $condId);			

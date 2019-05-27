@@ -31,38 +31,38 @@ if ($zId) {
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php
-        $_section 		= 'zonas';
+        $_section 		= 'planificar';
         $_subsection	= 'nueva_zona';
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
         
     <main class="cuerpo">
     	<div class="box_body">					
-			<form name="fmZona" class="fm_edit2" method="post">
+			<form name="fmZona" method="post">
 				<input type="hidden" name="zid" value="<?php echo @$zId; ?>" />
 				<fieldset>
 					<legend>Zona</legend>
-					<div class="bloque_3" align="center">
+					<div class="bloque_1" align="center">
 						<fieldset id='box_error' class="msg_error">          
-							<div id="msg_error" align="center"></div>
+							<div id="msg_error"></div>
 						</fieldset>
-						<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">    
-							<div id="msg_cargando" align="center"></div>      
+						<fieldset id='box_cargando' class="msg_informacion">    
+							<div id="msg_cargando"></div>      
 						</fieldset>
 						<fieldset id='box_confirmacion' class="msg_confirmacion">
-							<div id="msg_confirmacion" align="center"></div>      
+							<div id="msg_confirmacion"></div>      
 						</fieldset>
 					</div>
-					<div class="bloque_4">
+					<div class="bloque_8">
 						<label for="zzona">Zona</label>
 						<input name="zzona" type="text" maxlength="3" value="<?php echo @$zZona;?>"/>
 					</div> 
-					<div class="bloque_1">
+					<div class="bloque_6">
 						<label for="znombre">Nombre</label>
 						<input type="text" name="znombre" maxlength="30" value="<?php echo @$zNombre;?>"/>
 					</div>
 
-					<div class="bloque_2">
+					<div class="bloque_6">
 						<label for="asignado">Asignado a</label>
 						<select name="asignado">   
 							<option id="0" value="0" selected></option> <?php
@@ -81,10 +81,11 @@ if ($zId) {
 						</select>
 					</div>
 					
-					<div class="bloque_4">
+					<div class="bloque_8">
+						<br>
 						<?php $urlSend	=	'/pedidos/zonas/logica/update.zona.php';?>
 						<a id="btnSend" title="Enviar" style="cursor:pointer;"> 
-							<img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(fmZona, '<?php echo $urlSend;?>');"/>
+							<img class="icon-send" onclick="javascript:dac_sendForm(fmZona, '<?php echo $urlSend;?>');"/>
 						</a>
 					</div>
 				</fieldset>		

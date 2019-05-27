@@ -1,6 +1,5 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.ToolBar.php");
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="V"  && $_SESSION["_usrrol"]!="G"){ 	
 	echo 'SU SESION HA EXPIRADO.'; exit;
 }

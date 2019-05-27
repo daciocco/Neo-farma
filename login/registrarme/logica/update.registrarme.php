@@ -67,22 +67,10 @@ if (empty($_nroIBB)) {
 	header('Location:' . $_goURL); exit;
 }
 
-
 if ($_provincia == 0) {	
 	$_goURL = "../index.php?sms=13";
 	header('Location:' . $_goURL); exit;
-} else {
-	$_provincias	= DataManager::getProvincias(); 
-	if (count($_provincias)) {	
-		foreach ($_provincias as $k => $_prov) {
-			$_provid		=	$_prov["provid"];
-			$_provnombre	= 	$_prov["provnombre"];						
-			if ($_provincia == $_provid){
-				$_provincia = $_provnombre;
-			} 
-		}                  
-	}
-}
+} 
 
 if ($_localidad  == "Seleccione Localidad...") {
 	$_goURL = "../index.php?sms=14";

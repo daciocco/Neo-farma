@@ -4,51 +4,42 @@ $_LPP		= 1000;
 $_total 	= DataManager::getNumeroFilasTotales('TProveedor', 0);
 $_paginas 	= ceil($_total/$_LPP);
 $_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-$_GOFirst	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, 1,			$_imgFirst);
-$_GOPrev	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag-1,	$_imgPrev);
-$_GONext	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag+1,	$_imgNext);
-$_GOLast	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_paginas,	$_imgLast);
+$_GOFirst	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag=%d\"></a>", $backURL, 1);
+$_GOPrev	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag=%d\"></a>", $backURL, $_pag-1);
+$_GONext	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag=%d\"></a>", $backURL, $_pag+1);
+$_GOLast	= sprintf("<a class=\"icon-go-last\" href=\"%s?pag=%d\"></a>", $backURL, $_paginas);
 /*****************************************/
 $_total 	= count(DataManager::getProveedores($_pag, $_LPP, 3, NULL)); 
 $_paginas2 	= ceil($_total/$_LPP);
 $_pag2		= isset($_REQUEST['pag2']) ? min(max(1,$_REQUEST['pag2']),$_paginas2) : 1;
 
-$_GOFirst2	= sprintf("<a href=\"%s?pag2=%d\">%s</a>", $backURL, 1,			$_imgFirst);
-$_GOPrev2	= sprintf("<a href=\"%s?pag2=%d\">%s</a>", $backURL, $_pag2-1,	$_imgPrev);
-$_GONext2	= sprintf("<a href=\"%s?pag2=%d\">%s</a>", $backURL, $_pag2+1,	$_imgNext);
-$_GOLast2	= sprintf("<a href=\"%s?pa2g=%d\">%s</a>", $backURL, $_paginas2,$_imgLast);
+$_GOFirst2	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag2=%d\"></a>", $backURL, 1);
+$_GOPrev2	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag2=%d\"></a>", $backURL, $_pag2-1);
+$_GONext2	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag2=%d\"></a>", $backURL, $_pag2+1);
+$_GOLast2	= sprintf("<a class=\"icon-go-last\" href=\"%s?pa2g=%d\"></a>", $backURL, $_paginas2);
 
-//BARRA DE HERRAMIENTAS (PROVEEDORES)
-$_links 		= array();
-$_links[1][]	= array('url'=>'editar.php', 'texto'=>'<img src=../images/icons/icono-nuevo50.png border=0 align=absmiddle title=Nuevo Proveedor />', 'class'=>'newitem');
-$_params 		= array(
-	'modo'		=> 1,
-	'separador' => '',
-	'estilo'	=> 'toolbar',
-	'aspecto'	=> 'links',
-	'links'		=> $_links[1]);
-$bar = ToolBar::factory($_params);
-/****************************************/
+$btnNuevo	= sprintf( "<a href=\"editar.php\" title=\"Nuevo\"><img class=\"icon-new\"/></a>");
 ?>
 
 <div class="box_down"> 
     <div class="barra">
-    	<div class="buscadorizq">
+    	<div class="bloque_4">
             <h1>Proveedores</h1>                	
-        </div>
-        <div class="buscadorder">
+        </div>        
+        <div class="bloque_7">
             <input id="txtBuscar" type="search" autofocus placeholder="Buscar"/>
             <input id="txtBuscarEn" type="text" value="tblProveedores" hidden/>
-        </div> 
+        </div>      
+		<div class="bloque_9"> <?php
+			if ($_SESSION["_usrrol"]=="A"){
+				echo $btnNuevo;
+			} ?>
+       	</div>
         <hr>     
     </div> <!-- Fin barra -->
     
     <div class="lista_super">
-		<table id="tblProveedores" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+		<table id="tblProveedores">
 			<thead>
 				<tr>
 					<th scope="col" align="left">Emp</th>
@@ -75,12 +66,9 @@ $bar = ToolBar::factory($_params);
 					$_telefono	= $_prov['provtelefono'];
 					$_estado	= $_prov['provactivo'];                
 
-					$_status	= ($_estado) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activar\"/>";			
-					$_editar	= sprintf( "<a href=\"editar.php?provid=%d&backURL=%s&pag=%s\" title=\"Editar Proveedor\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag, "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
+					$_status	= ($_estado) ? "<a title=\"Desactivar\"><img class=\"icon-status-active\"/></a>" : "<a title=\"Activar\"><img class=\"icon-status-inactive\"/></a>";			
+					$_editar	= sprintf( "<a href=\"editar.php?provid=%d&backURL=%s&pag=%s\" title=\"Editar Proveedor\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag, "<img class=\"icon-edit\" />");
 					$_borrar	= sprintf( "<a href=\"logica/changestatus.php?provid=%d&backURL=%s&pag=%s\" title=\"Borrar Proveedor\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag, $_status);
-
-					//$_eliminar	=($_SESSION["_usrrol"]=="A")	?	sprintf ("<a href=\"logica/eliminar.proveedor.php?provid=%d&backURL=%s&pag=%s\" title=\"Eliminar Proveedor\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL PROVEEDOR?')\"> <img src=\"../images/icons/icono-eliminar.png\" border=\"0\" align=\"absmiddle\" /></a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag, "Eliminar")	:	'';
-
 				} else {
 					$_idempresa	= "&nbsp;";
 					$_providprov= "&nbsp;";
@@ -90,7 +78,6 @@ $bar = ToolBar::factory($_params);
 					$_telefono	= "&nbsp;";
 					$_editar	= "&nbsp;";
 					$_borrar	= "&nbsp;";
-					//$_eliminar 	= "&nbsp;";
 				}
 
 				if($_estado != 3){
@@ -109,22 +96,18 @@ $bar = ToolBar::factory($_params);
 		$_Prev	= ($_pag > 1) ? $_GOPrev : "&nbsp;";
 		$_Last	= ($_pag < $_paginas) ? $_GOLast : "&nbsp;";
 		$_Next	= ($_pag < $_paginas) ? $_GONext : "&nbsp;";
-		echo("<table class=\"paginador\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
+		echo("<table class=\"paginador\"><tr>"); 
 		echo sprintf("<td height=\"16\">Mostrando p&aacute;gina %d de %d</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td>", $_pag, $_paginas, $_First, $_Prev, $_Next, $_Last); 
 		echo("</tr></table>"); 
-	}
-
-	if ($_SESSION["_usrrol"]=="A"){ ?>
-		<div class="toolbar" style="margin:10px 0;padding-left:5px;"><?php $bar->show(); ?></div>
-	<?php } ?>
+	} ?>
 	
 	<hr>
 
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
             <h1>Solicitud de alta de Proveedores</h1>                	
         </div>
-        <div class="buscadorder">
+        <div class="bloque_5">
             <input id="txtBuscar2" type="search" autofocus placeholder="Buscar"/>
             <input id="txtBuscarEn2" type="text" value="tblProveedores2" hidden/>
         </div>   
@@ -132,7 +115,7 @@ $bar = ToolBar::factory($_params);
     </div> <!-- Fin barra -->
     
     <div class="lista_super">
-        <table id="tblProveedores2" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <table id="tblProveedores2">
             <thead>
 				<tr>
 					<th scope="col" align="left">Emp</th>
@@ -146,10 +129,10 @@ $bar = ToolBar::factory($_params);
 					<th scope="colgroup" colspan="3" align="center" width="15">Acciones</th>
 				</tr>
 			</thead>
-			<?php 	
-
+			<?php
+			
 			$_proveedores	= DataManager::getProveedores($_pag2, $_LPP, NULL, 3);
-			$_max	 		= count($_proveedores); 	// la última página vendrá incompleta
+			$_max	 		= count($_proveedores); // la última página vendrá incompleta
 			for( $k=0; $k < $_LPP; $k++ ) {
 				if ($k < $_max) {
 					$_prov 		= $_proveedores[$k];	
@@ -162,15 +145,14 @@ $bar = ToolBar::factory($_params);
 					$_correo	= $_prov['provcorreo'];
 					$_telefono	= $_prov['provtelefono'];            
 
-					$_editar	= sprintf( "<a href=\"editar.php?provid=%d&backURL=%s&pag=%s\" title=\"Editar Proveedor\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag2, "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
-
+					$_editar	= sprintf( "<a href=\"editar.php?provid=%d&backURL=%s&pag=%s\" title=\"Editar Proveedor\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag2, "<img class=\"icon-edit\"/>");
 					$_borrar = '';				
 					if($_providprov != 0){
-						$_status	= "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activar\"/>";
-						$_borrar	= sprintf( "<a href=\"logica/changestatus.php?provid=%d&backURL=%s&pag=%s\" title=\"Borrar Proveedor\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag2, $_status);
+						$_status	= "<img class=\"icon-status-inactive\"/>";
+						$_borrar	= sprintf( "<a href=\"logica/changestatus.php?provid=%d&backURL=%s&pag=%s\" title=\"Activar\">%s</a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag2, $_status);
 					}                
 
-					$_eliminar	= sprintf ("<a href=\"logica/eliminar.proveedor.php?provid=%d&backURL=%s&pag=%s\" title=\"Eliminar Proveedor\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL PROVEEDOR?')\"> <img src=\"../images/icons/icono-eliminar.png\" border=\"0\" align=\"absmiddle\" /></a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag2, "Eliminar");	                
+					$_eliminar	= sprintf ("<a href=\"logica/eliminar.proveedor.php?provid=%d&backURL=%s&pag=%s\" title=\"Eliminar Proveedor\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL PROVEEDOR?')\"> <img class=\"icon-delete\"/></a>", $_prov['provid'], $_SERVER['PHP_SELF'], $_pag2, "Eliminar");	                
 				} else {
 					$_idempresa	= "&nbsp;";
 					$_providprov= "&nbsp;";
@@ -199,7 +181,7 @@ $bar = ToolBar::factory($_params);
 		$_Prev2	= ($_pag2 > 1) ? $_GOPrev2 : "&nbsp;";
 		$_Last2	= ($_pag2 < $_paginas2) ? $_GOLast2 : "&nbsp;";
 		$_Next2	= ($_pag2 < $_paginas2) ? $_GONext2 : "&nbsp;";
-		echo("<table class=\"paginador\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
+		echo("<table class=\"paginador\"><tr>"); 
 		echo sprintf("<td height=\"16\">Mostrando p&aacute;gina %d de %d</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td>", $_pag2, $_paginas2, $_First2, $_Prev2, $_Next2, $_Last2); 
 		echo("</tr></table>"); 
 	} ?>

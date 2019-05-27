@@ -1,20 +1,9 @@
-
 	<div id="imgBloqueo" class="parpadeo">
-		<img id="bloqueoContenido" src="https://www.neo-farma.com.ar/pedidos/images/gif/loadingPage.gif">
+		<img id="bloqueoContenido">
 	</div>
 	
 	<script>
-		$('html, body, .cuerpo').css('overflow', 'hidden'); 
-		
-		var url = window.location.origin+'/pedidos/images/gif/loadingPage.gif';		
-		document.getElementById("bloqueoContenido").src = url;
-		
-		$('#imgBloqueo').css({
-			'position': 'absolute',
-			'z-index': '100',
-			'width': '100%', 
-			'height': '100%'
-		});
+		$('html, body, .cuerpo').css('overflow', 'hidden');
 		
 		$('#bloqueoContenido').css({
 			'margin-left': ($(window).width() / 2 - $(bloqueoContenido).width() / 2) + 'px', 

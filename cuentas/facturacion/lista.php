@@ -9,7 +9,7 @@
 
 <div class="box_seccion">   
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
             <h1> Facturas Contrarreembolso</h1>                	
         </div>
         <hr>
@@ -19,7 +19,7 @@
         $ruta 	= $_SERVER['DOCUMENT_ROOT'].'/pedidos/informes/archivos/facturas/contrareembolso/';
         $data	= dac_listar_directorios($ruta);	
         if($data){ ?>
-            <table border="0" width="100%" align="center">
+            <table align="center">
                 <thead>
                     <tr align="left">
                         <th>Subido</th>
@@ -50,7 +50,7 @@
                 </tbody>
             </table> <?php
         } else { ?>
-            <table border="0" width="100%" align="center">
+            <table align="center">
                 <tr>
                     <td colspan="3"><?php echo "No hay facturas cargadas."; ?></td>	
                 </tr>  

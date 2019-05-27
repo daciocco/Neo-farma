@@ -5,10 +5,12 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	echo 'SU SESION HA EXPIRADO.'; exit;
 }
 
-//******************************// 
+//------------------------------// 
 //		Controles Generales		//
-if(empty($idCondComercial) && empty($propuesta) && empty($tipoPedido)){ echo "Seleccione Condici&oacute;n Comercial o indique como Propuesta."; exit;}
-if(!empty($propuesta)){ $idCondComercial = "";}
+if(empty($idCondComercial) && empty($propuesta) && empty($tipoPedido) && empty($lista)){ 
+	echo "Seleccione Condici&oacute;n Comercial o indique como Propuesta."; exit;
+}
+if(!empty($propuesta)){ $idCondComercial = 0;}
 if(empty($usrAsignado)){echo "Seleccione usuario asignado."; exit;}
 if(empty($empresa)) { echo "Seleccione una empresa."; exit; }
 if(empty($laboratorio)) { echo "Indique un laboratorio."; exit; }
@@ -19,7 +21,7 @@ if(!empty($nroOrden) && !is_numeric($nroOrden)){ echo "El N&uacute;mero de Orden
 // Control COND DE PAGO	 //
 if(empty($condPago)){ 	
 	echo "Seleccione condici&oacute;n de pago"; exit; 
-} else {	
+} else {
 	//controla si la condición de pago de cond fechas para modificar los días según fecha actual
 	$condicionPago	=	DataManager::getCondicionesDePago(0,0,1,$condPago);
 	if (count($condicionPago)) {
@@ -30,7 +32,6 @@ if(empty($condPago)){
 				//Al ser con fechas controla la vigencia de las mismas y resta los días en caso 
 				//calcular días que restan
 				$dateFrom	= new DateTime();
-				
 				for($k=1; $k <= 5; $k++){
 					$condFechasDec[$k]	= ($condP["condfechadec$k"] == '2001-01-01') ? '' : $condP["condfechadec$k"];
 					$condDias[$k]		= ($condP["Dias".$k."CP"]) ? $condP["Dias".$k."CP"] : '' ;
@@ -41,7 +42,6 @@ if(empty($condPago)){
 						if($dateTo <  $dateFrom){
 							echo "La fecha de condición de pago a finalizado."; exit;
 						}
-						
 						//Controla los días para editar a la fecha actual
 						$dateFrom->modify('-1 day');
 						$interval = $dateFrom->diff($dateTo);						
@@ -56,7 +56,6 @@ if(empty($condPago)){
 							DataManager::updateSimpleObject($condObject);	
 							DataManagerHiper::updateSimpleObject($condObject, $condPagoId);
 						}
-						
 					}
 				}
 			}
@@ -76,15 +75,14 @@ if ($categoria) {
 	}
 } else {
 	echo "La categor&iacute; comercial no es correcta."; exit;
-	//echo "ERROR! al verificar la cuenta, p&oacute;ngase en contacto con el administrador de la web $idCuenta, $empresa"; exit;
 }
 
-//**********************//
+//----------------------//
 // Artículos cargados	//
 if(!count($articulosIdArt)){ echo "Debe cargar art&iacute;culos"; exit; }
 $precioIva	=	0;
 for($i = 0; $i < count($articulosIdArt); $i++){		
-	//**********************//
+	//----------------------//
 	// Artículos repetidos	//
 	for($j = 0; $j < count($articulosIdArt); $j++){
 		if ($i != $j){
@@ -93,17 +91,14 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 			}
 		}
 	}
-	//**************************//
 	//	Cantidad del Artículo	//
 	if(empty($articulosCant[$i]) || $articulosCant[$i] <= 0){ 
 		echo "Indique una cantidad correcta al art&iacute;culo ".$articulosIdArt[$i]; exit; 
 	}	
-	//**************************//
 	//	Controla Bonificacion	//
 	if($articulosB1[$i] < $articulosB2[$i]){
 		echo "Bonificaci&oacute;n del art&iacute;culo ".$articulosIdArt[$i]." incorrecta.";  exit;
 	}
-	//**************************//
 	// Control de MONTO_MAXIMO //
 	$medicinal		=	DataManager::getArticulo('artmedicinal', $articulosIdArt[$i], $empresa, $laboratorio);
 	$medicinal		=	($medicinal == 'S') ? 0 : 1;
@@ -121,7 +116,6 @@ if($idCondComercial){
 	$minReferencias	= ($condicion->__get('MinimoReferencias')) ? $condicion->__get('CantidadMinima') : '';
 	$minMonto		= ($condicion->__get('MinimoMonto') == '0.000') ? '' : $condicion->__get('MinimoMonto');
 	
-	//*******************************//
 	// Controles Condición Comercial //
 	if(!empty($cuentas)){
 		$cuentasId = explode(',', $cuentas);
@@ -137,7 +131,7 @@ if($idCondComercial){
 				$condId				=	$cond['condid'];
 				$condCuentas		= 	$cond['condidcuentas'];
 				$condNombre			= 	$cond['condnombre'];
-
+				
 				if($condCuentas){
 					if($condId != $idCondComercial){
 						$arrayCondIdCtas = explode(",", $condCuentas);
@@ -188,8 +182,7 @@ if($idCondComercial){
 				}				  
 			} else {
 				echo "Error al intentar consultar la condición de pago seleccionada."; exit;
-			}
-			
+			}			
 			//Controla diferencia de tipo
 			if($condTipoCuenta == 3 && $condTipo != 3){
 				echo "La condición de pago debe ser CONTRAREEMBOLSO."; exit;
@@ -227,8 +220,7 @@ if($idCondComercial){
 					//Controlo Precio
 					if($precioArt > $articulosPrecio[$key]){
 						echo "Precio de art&iacute;culo ".$articulosIdArt[$key]." no v&aacute;lido."; exit;
-					}
-					
+					}					
 					//Controlo Cantidad mínima
 					if($condArtCantMin){
 						if($articulosCant[$key] < $condArtCantMin){
@@ -242,13 +234,12 @@ if($idCondComercial){
 					$articulosBonifB2		= 	($articulosB2[$key]) ? $articulosB2[$key] : 1;	
 					$articulosBonifD1		= 	($articulosD1[$key]) ? $articulosD1[$key] : 0;
 					$articulosBonifD2		=	($articulosD2[$key]) ? $articulosD2[$key] : 0;
-					
 					$cantBonificada			=	($articulosBonifB1 * $articulosCant[$key]) / $articulosBonifB2;	
 					$cantEnteraBonificada	=	dac_extraer_entero($cantBonificada);				
 					$precioUno				= 	$articulosCant[$key] * $articulosPrecio[$key];				
 					$precioDos				=	$precioUno / $cantEnteraBonificada; 
 					$precioDesc1			=	$precioDos - ($precioDos * $articulosBonifD1/100);			
-					$precioDesc2 			=	$precioDesc1 - ($precioDesc1 * $articulosBonifD2/100);						
+					$precioDesc2 			=	$precioDesc1 - ($precioDesc1 * $articulosBonifD2/100);
 					$precioFinalVendido 	= 	$precioDesc2;
 					
 					//NO CONTROLO EXACTAMENTE LAS BONIFICACIONES y DESCUENTOS
@@ -273,8 +264,7 @@ if($idCondComercial){
 								$artBonifD2		=	($artBonif['cbdesc2']) ? $artBonif['cbdesc2'] 	: '0';
 							}
 						}
-					} 
-					
+					}
 					$cantBonificada			=	($artBonifB1 * $articulosCant[$key]) / $artBonifB2;	  	
 					$cantEnteraBonificada	=	dac_extraer_entero($cantBonificada);
 					$precioUno				= 	$articulosCant[$key] * $precioArt;	
@@ -300,7 +290,7 @@ if($idCondComercial){
 									if (count($articulosCondBonif)) {
 										foreach ($articulosCondBonif as $q => $artCondBonif) {
 											$condArtIdArtBonif			= $artCondBonif['cartidart'];
-											$condArtPrecioBonif			= $artCondBonif["cartprecio"];					
+											$condArtPrecioBonif			= $artCondBonif["cartprecio"];
 											$condArtPrecioDigitBonif	= ($artCondBonif["cartpreciodigitado"] == '0.000')?	''	:	$artCondBonif["cartpreciodigitado"]; 
 											$precioArtBonif 			= ($artCondBonif["cartpreciodigitado"] == '0.000')?	$condArtPrecioBonif		:	$condArtPrecioDigitBonif;
 											
@@ -336,7 +326,6 @@ if($idCondComercial){
 							} else {
 								echo "Las condiciones del art&iacute;culo ".$articulosIdArt[$key]." dan precio menor al acordado. "; exit;
 							}
-							
 						} else {
 							echo "Las condiciones del art&iacute;culo ".$articulosIdArt[$key]." dan precio menor al acordado. "; exit; //$precioFinalVendido < $precioFinalEmpresa
 						}
@@ -364,5 +353,4 @@ if ($filePeso != 0){
 	if(!dac_fileFormatControl($fileType, 'imagen')){
 		echo "El archivo debe tener formato imagen." ; exit;		
 	}
-}
-?>
+} ?>

@@ -2,7 +2,6 @@ $(document).ready(function() {
 	"use strict";
 	$("#guardar_pagos").click(function (event) {
 		var idfact = [];
-		//		= new Array();
 		var empresa		= [];
 		var idprov		= [];
 		var nombre		= [];
@@ -27,7 +26,6 @@ $(document).ready(function() {
 		$('input[name="saldo[]"]:text').each(function() 		{ saldo 		=  saldo+"-"+$(this).val();});
 		$('input[name="fechapago[]"]:text').each(function() 	{ fechapago 	=  fechapago+"-"+$(this).val();});
 		$('input[name="observacion[]"]:text').each(function() 	{ observacion	=  observacion+"-"+$(this).val();});
-		
 		var fecha	=	$('input[name="fecha"]:text').val();
 		
 		$.ajax({
@@ -51,7 +49,7 @@ $(document).ready(function() {
 				$('#box_confirmacion').css({'display':'none'});
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});					
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},
 			success	: 	function(result) {
 				if(result){	
@@ -76,9 +74,8 @@ $(document).ready(function() {
 });
 
 $(function(){ "use strict"; $('#importar').click(ImportarFacturasProveedores); });
-/****************************/
+
 //	archivo de liquidacion	//
-/****************************/
 function ImportarFacturasProveedores(){	
 	"use strict";
 	var archivos 	= 	document.getElementById("file");
@@ -107,10 +104,10 @@ function ImportarFacturasProveedores(){
 								$('#box_confirmacion').css({'display':'none'});								
 								$('#box_error').css({'display':'none'});	
 								$('#box_cargando').css({'display':'block'});					
-								$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+								$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 							},
 			afterSend	:	function() {									
-								$('#box_cargando').css({'display':'none'});											
+								$('#box_cargando').css({'display':'none'});								
 							},
 			success		: 	function(result) {			
 								if(result){	
@@ -146,8 +143,23 @@ function ImportarFacturasProveedores(){
 	} else {
 		alert("Debe adjuntar un archivo para importar.");
 	}
-	
 }
+
+g_globalObject = new JsDatePick({
+	useMode:	2,
+	isStripped:	false, //borde gris
+	yearsRange: new Array (1971,2100),
+	target:	"fechaDesde",
+	dateFormat:"%d-%M-%Y"
+});	
+
+g_globalObject = new JsDatePick({
+	useMode:	2,
+	isStripped:	false, //borde gris
+	yearsRange: new Array (1971,2100),
+	target:	"fechaHasta",
+	dateFormat:"%d-%M-%Y"
+});	
 
 g_globalObject = new JsDatePick({
 	useMode:	2,
@@ -160,9 +172,34 @@ g_globalObject = new JsDatePick({
 
 g_globalObject.setOnSelectedDelegate(function(){
 	"use strict";
-	var obj 	= 	g_globalObject.getSelectedDay();
-	var fecha	=	("0" + obj.day).slice (-2) + "-" + ("0" + obj.month).slice (-2) + "-" + obj.year;			
+	var obj 	= g_globalObject.getSelectedDay();
+	console.log(obj);
+	var fecha 	= ("0" + obj.day).slice (-2) + "-" + ("0" + obj.month).slice (-2) + "-" + obj.year;	
+	
 	document.getElementById("f_fecha").value	= 	fecha;
-	var url 	= 	window.location.origin+'/pedidos/proveedores/fechaspago/index.php?fecha=' + fecha;
+	var url 	= window.location.origin+'/pedidos/proveedores/fechaspago/index.php?fecha=' + fecha;
 	document.location.href=url;			
+});
+
+$("#btnExporHistorial").click(function () {
+	"use strict";
+	var fechaDesde = $('#fechaDesde').val();
+	var fechaHasta = $('#fechaHasta').val();
+	
+	$('#box_confirmacion').css({'display':'none'});								
+	$('#box_error').css({'display':'none'});	
+	if(fechaDesde === '' || fechaHasta === ''){
+		$('#box_error').css({'display':'block'});
+		$("#msg_error").html('Indique las fechas de descarga.');
+	} else {		
+		if( (new Date(fechaDesde).getTime() > new Date(fechaHasta).getTime())){
+			$('#box_error').css({'display':'block'});
+			$("#msg_error").html('La fecha "Desde" debe ser menor a la fecha "Hasta"');
+		} else {			
+			var url = "logica/exportar.historial.php?desde="+fechaDesde+"&hasta="+fechaHasta;
+    		$("body").append("<iframe src='" + url + "' style='display: none;' ></iframe>");
+			$('#box_confirmacion').css({'display':'block'});
+			$("#msg_confirmacion").html('Archivo exportado correctamente.');
+		}	
+	}
 });

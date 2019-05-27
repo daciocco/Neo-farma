@@ -12,6 +12,7 @@ $(document).ready(function() {
 		var empselect	=	$('select[name="empselect"]').val();
 		var labselect	=	$('select[name="labselect"]').val();
 		var tiposelect	=	$('select[name="tiposelect"]').val();
+		var listaPrecio	= 	$('select[name="listaPrecio"]').val();
 		
 		var nombre		= 	$('input[name="nombre"]:text').val();
 		var condpago	= 	$('input[name="condpago"]:text').val();
@@ -19,7 +20,7 @@ $(document).ready(function() {
 		var cantMinima	= 	$('input[name="cantMinima"]:text').val();
 		var minReferencias	=	$('input[name="minReferencias"]:text').val();
 		var fechaInicio	= 	$('input[name="fechaInicio"]:text').val();
-		var fechaFin	= 	$('input[name="fechaFin"]:text').val();
+		var fechaFin	= 	$('input[name="fechaFin"]:text').val();		
 		
 		var observacion	= 	$('textarea[name="observacion"]').val();
 		
@@ -36,7 +37,8 @@ $(document).ready(function() {
 		var condpreciodigit	= []; //= new Array();
 		var condcantmin		= []; //= new Array();
 		var condoferta		= []; //= new Array();
-		
+		var condofertacheck	= []; //= new Array();
+				
 		$('input[name="cuentaid[]"]:text').each(function() 	{		
 			cuentaid =  (cuentaid) ? cuentaid+","+$(this).val() : $(this).val();
 		});
@@ -48,7 +50,10 @@ $(document).ready(function() {
 		$('input[name="condprecioart[]"]:text').each(function(i) 	{ condprecioart[i] 	=  $(this).val();});
 		$('input[name="condpreciodigit[]"]:text').each(function(i)	{ condpreciodigit[i]=  $(this).val();});
 		$('input[name="condcantmin[]"]:text').each(function(i) 		{ condcantmin[i] 	=  $(this).val();});
-		$('select[name="condoferta[]"]').each(function(i) 			{ condoferta[i] 	=  $(this).val();});
+		$('select[name="condoferta[]"]').each(function(i) 			{ condoferta[i] 	=  $(this).val();});		
+		$('input[name="condofertacheck[]"]').each(function(i) 		{ 
+			condofertacheck[i] 	=  ($(this).is(':checked')) ? '1' : '0';
+		});
 		
 		var condcant 	= '';
 		var condbonif1	= '';
@@ -58,8 +63,7 @@ $(document).ready(function() {
 				
 		//al recorrer el foreach de artículos, cargo sus bonificaciones?
 		$('input[name="condidart[]"]:text').each(function(i) {
-			condidart[i] =  $(this).val();
-			
+			condidart[i] =  $(this).val();			
 			$('input[name="condcant'+condidart[i]+'[]"]:text').each(function(j) {
 				condcant	=	(j === 0) ? condcant+$(this).val() : condcant+"-"+$(this).val();
 			});
@@ -74,8 +78,7 @@ $(document).ready(function() {
 			});
 			$('input[name="conddesc2'+condidart[i]+'[]"]:text').each(function(j) { 
 				conddesc2	=	(j === 0) ? conddesc2+$(this).val() : conddesc2+"-"+$(this).val();
-			});
-			
+			});			
 			condcant 	= condcant + '|';
 			condbonif1	= condbonif1 + '|';	
 			condbonif2 	= condbonif2 + '|';
@@ -90,41 +93,43 @@ $(document).ready(function() {
 				type: 'POST',
 				url: '/pedidos/condicion/logica/update.condicion.php',
 				data: {	
-					condid		:	condid,
-					empselect	:	empselect,
-					labselect	:	labselect,
-					tiposelect	:	tiposelect,
-					nombre		:	nombre,
-					condpago	:	condpago,
-					minMonto	:	minMonto,
-					cantMinima	:	cantMinima,
+					condid		: condid,
+					empselect	: empselect,
+					labselect	: labselect,
+					tiposelect	: tiposelect,
+					nombre		: nombre,
+					condpago	: condpago,
+					minMonto	: minMonto,
+					cantMinima	: cantMinima,
 					minReferencias:minReferencias,
-					fechaInicio	:	fechaInicio,
-					fechaFin	:	fechaFin,
-					observacion	:	observacion,
-					habitualCant	: 	habitualCant,
-					habitualBonif1	: 	habitualBonif1,
-					habitualBonif2	: 	habitualBonif2,
-					habitualDesc1	: 	habitualDesc1,
-					habitualDesc2	: 	habitualDesc2,
-					cuentaid	:	cuentaid,
-					condpagoid	:	condpagoid,
-					condidart	:	condidart,
-					condprecioart:	condprecioart,
+					fechaInicio	: fechaInicio,
+					fechaFin	: fechaFin,
+					observacion	: observacion,
+					habitualCant	: habitualCant,
+					habitualBonif1	: habitualBonif1,
+					habitualBonif2	: habitualBonif2,
+					habitualDesc1	: habitualDesc1,
+					habitualDesc2	: habitualDesc2,
+					cuentaid	: cuentaid,
+					listaPrecio : listaPrecio,
+					condpagoid	: condpagoid,
+					condidart	: condidart,
+					condprecioart: condprecioart,
 					condpreciodigit:condpreciodigit,
-					condcantmin	:	condcantmin,
-					condoferta	:	condoferta,
-					condcant	:	condcant,
-					condbonif1	:	condbonif1,
-					condbonif2	:	condbonif2,
-					conddesc1	:	conddesc1,
-					conddesc2	:	conddesc2
+					condcantmin	: condcantmin,
+					condoferta	: condoferta,
+					condofertacheck : condofertacheck,
+					condcant	: condcant,
+					condbonif1	: condbonif1,
+					condbonif2	: condbonif2,
+					conddesc1	: conddesc1,
+					conddesc2	: conddesc2
 				},
 				beforeSend	: function () {
 					$('#box_confirmacion').css({'display':'none'});
 					$('#box_error').css({'display':'none'});
 					$('#box_cargando').css({'display':'block'});
-					$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+					$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 					$("#btsend").hide(100);
 				},
 				success: function(result) {
@@ -166,7 +171,7 @@ $(document).ready(function() {
 //------------------------------//
 // Crea Nuevo div de artículo	//
 var nextcondicion = 0;
-function dac_cargarArticuloCondicion(id, idart, nombre, precioLista, cantmin, precioDrog, oam, medicinal, iva, empresa, ganancia){
+function dac_cargarArticuloCondicion(id, idart, nombre, precioLista, cantmin, precioDrog, oam, medicinal, iva, empresa, ganancia, oferta){
 	"use strict";
 	nextcondicion++;			
 	//-----------------------
@@ -185,27 +190,45 @@ function dac_cargarArticuloCondicion(id, idart, nombre, precioLista, cantmin, pr
 	}			
 	pvp = pvp.toFixed(3);	
 	//----------------------			
-	var campo =		'<div id="rutcondicion'+nextcondicion+'">';	
-		campo += 	'<input id="condidart'+nextcondicion+'" name="condidart[]" type="text" value="'+idart+'" hidden="hidden"/>';
-		campo += 	'<div class="bloque_10"><br><input type="button" value="-" onClick="dac_deleteArticuloCondicion('+nextcondicion+')" class="btmenos" style="background-color:#C22632;"></div>';
-		campo += 	'<div class="bloque_6"><br>&nbsp;<strong>'+idart+ ' | </strong>'+nombre+'</div>';
-		campo += 	'<div class="bloque_8"><label>PSL</label><input id="condprecioart'+nextcondicion+'" name="condprecioart[]" type="text" value="'+precioLista+'" maxlength="8" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);"/></div>';
-		campo += 	'<div class="bloque_8"><label>PVP</label><input type="text" value="$ '+pvp+'" readonly style="border:none;"/></div>';
-		campo += 	'<div class="bloque_8"><label>Digitado</label><input id="condpreciodigit'+nextcondicion+'" name="condpreciodigit[]" type="text" value="'+precioDrog+'" maxlength="8" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);"/></div>';
-		campo += 	'<div class="bloque_9"><label>CantMin</label><input type="text" id="condcantmin'+nextcondicion+'" name="condcantmin[]" value="'+cantmin+'" maxlength="2" align="center"/></div>';
-		campo += 	'<div class="bloque_8"><label>OAM</label>';
-			campo += 	'<select id="condoferta" name="condoferta[]">';
-			campo += 	'	<option value=""></option>';
-			campo += 	'	<option value="alta" '; if(oam === "alta"){ campo += 'selected';} campo += '>Alta</option>';
-			campo += 	'	<option value="modificado" '; if(oam === "modificado"){ campo += 'selected';} campo += '>Modifica</option>';
-			campo += 	'	<option value="oferta" '; if(oam === "oferta"){ campo += 'selected';} campo += '>Oferta</option>';
-			campo += 	'	<option value="altaoff" '; if(oam === "altaoff"){ campo += 'selected';} campo += '>AltaOff</option>';
-			campo += 	'	<option value="modifoff" '; if(oam === "modifoff"){ campo += 'selected';} campo += '>ModifOff</option>';
-			campo += 	'</select>';
-		campo += 	'</div><div class="bloque_10" style="float:right;"><br><input id="btmas" type="button" value="+" onClick="dac_addBonificacion('+nextcondicion+', '+id+', '+idart+', 0, 0, 0, 0, 0, 0)" style="background-color:#3dc349;"></div><hr>';
-		campo += 	'<div id="bonificacionArticulo'+nextcondicion+'"></div>';
-		campo += 	'<hr style="border-bottom: 1px solid #117db6;"></div>';
-	campo += 	'</div>';	
+	var campo =	'<div id="rutcondicion'+nextcondicion+'">';	
+	
+	
+		campo += '<div class="bloque_1 background-art">';
+	
+		campo += '<input id="condidart'+nextcondicion+'" name="condidart[]" type="text" value="'+idart+'" hidden="hidden"/>';
+		campo += '<div class="bloque_10"><br><input type="button" value="-" onClick="dac_deleteArticuloCondicion('+nextcondicion+')" class="btmenos red"></div>';
+		campo += '<div class="bloque_7"><br>&nbsp;<strong>'+idart+ ' | </strong>'+nombre+'</div>';
+		campo += '<div class="bloque_8"><label>PSL</label><input id="condprecioart'+nextcondicion+'" name="condprecioart[]" type="text" value="'+precioLista+'" maxlength="8" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);"/></div>';
+		campo += '<div class="bloque_8"><label>PVP</label><input type="text" value="$ '+pvp+'" readonly/></div>';
+		campo += '<div class="bloque_8"><label>Digitado</label><input id="condpreciodigit'+nextcondicion+'" name="condpreciodigit[]" type="text" value="'+precioDrog+'" maxlength="8" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);"/></div>';
+		campo += '<div class="bloque_9"><label>CantMin</label><input type="text" id="condcantmin'+nextcondicion+'" name="condcantmin[]" value="'+cantmin+'" maxlength="2" align="center"/></div>';		
+		campo += '<div class="bloque_8"><label>AM</label>';
+			campo += '<select id="condoferta" name="condoferta[]">';
+			campo += '	<option value=""></option>';
+			campo += '	<option value="alta" '; if(oam === "alta"){ campo += 'selected';} campo += '>Alta</option>';
+			campo += '	<option value="modificado" '; if(oam === "modificado"){ campo += 'selected';} campo += '>Modifica</option>';
+			campo += '	<option value="oferta" disabled '; if(oam === "oferta"){ campo += 'selected';} campo += '>Oferta</option>';
+			campo += '	<option value="altaoff" disabled '; if(oam === "altaoff"){ campo += 'selected';} campo += '>AltaOff</option>';
+			campo += '	<option value="modifoff" disabled '; if(oam === "modifoff"){ campo += 'selected';} campo += '>ModifOff</option>';
+			campo += '</select>';
+		campo += '</div>';
+		
+		var checked = '';
+		if(oferta === '1'){ checked = 'checked';}
+	
+		campo += '<div class="bloque_9" align="center"><label>Oferta</label><br><input type="checkbox" id="condofertacheck'+nextcondicion+'" name="condofertacheck[]" value="'+oferta+'" '+checked+'/></div>';
+		
+		campo += '<div class="bloque_10"><br><input id="btmas" type="button" value="+" onClick="dac_addBonificacion('+nextcondicion+', '+id+', '+idart+', 0, 0, 0, 0, 0, 0)" style="background-color:#3dc349;"></div><hr>';
+	
+	
+		campo += '</div>';
+	
+	
+		campo += '<div id="bonificacionArticulo'+nextcondicion+'"></div>';
+		campo += '<hr class="hr-line"></div>';
+	
+	
+	campo += '</div>';
 	
 	$("#detalle_articulo").append(campo);
 }		
@@ -227,14 +250,13 @@ function dac_addBonificacion(nextcondicion, id, idart, cant, b1, b2, d1, d2, idb
 	d1 = (d1===0) ? d1 = '' : d1;
 	d2 = (d2===0) ? d2 = '' : d2;
 
-	nextbonificacion++;			
-	var campo =		'<div id="rutbonificacion'+nextbonificacion+'" class="bloque_5" style="background-image: linear-gradient(to bottom, transparent 98%, grey);">';
-		campo += 	'<div class="bloque_8"><label>Cant.</label><input type="text" name="condcant'+idart+'[]" size="2" value="'+cant+'" maxlength="2"/></div>';		
-		campo += 	'<div class="bloque_8"><label>Bonif 1</label><input type="text" name="condbonif1'+idart+'[]" size="2" value="'+b1+'" maxlength="2"/></div>';
-		//campo += 	'<div class="bloque_10"><br><label>X</label></div>';	
+	nextbonificacion++;		
+	var campo =		'<div id="rutbonificacion'+nextbonificacion+'" class="bloque_5">';
+		campo += 	'<div class="bloque_8 background-bonif"><label>Cant.</label><input type="text" name="condcant'+idart+'[]" size="2" value="'+cant+'" maxlength="2"/></div>';		
+		campo += 	'<div class="bloque_8"><label>Bonif 1</label><input type="text" name="condbonif1'+idart+'[]" size="2" value="'+b1+'" maxlength="2"/></div>';	
 		campo += 	'<div class="bloque_8"><label>Bonif 2</label><input type="text" name="condbonif2'+idart+'[]" size="2" value="'+b2+'" maxlength="2"/></div>';
-		campo += 	'<div class="bloque_8"><label>Dto1</label> <input type="text" name="conddesc1'+idart+'[]" value="'+d1+'" maxlength="5" size="2" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" style="text-align:center;"/></div>';
-		campo += 	'<div class="bloque_8"><label>Dto2</label><input type="text" name="conddesc2'+idart+'[]" value="'+d2+'" maxlength="5" size="2" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" style="text-align:right;"/></div>';
+		campo += 	'<div class="bloque_8"><label>Dto1</label> <input type="text" name="conddesc1'+idart+'[]" value="'+d1+'" maxlength="5" size="2" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);"/></div>';
+		campo += 	'<div class="bloque_8"><label>Dto2</label><input type="text" name="conddesc2'+idart+'[]" value="'+d2+'" maxlength="5" size="2" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onKeyUp="javascript:ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);"/></div>';
 		campo += 	'<div class="bloque_9"><br><input type="button" value=" - " onClick="dac_deleteBonificacion('+nextbonificacion+')" style="background-color:#117db6;"></div>';
 	campo += 	'<hr></div>';
 
@@ -250,7 +272,7 @@ function dac_deleteBonificacion(nextbonificacion){ //elimina
 /**********************/
 /* OnChangeLaboratorio*/ 
 /**********************/
-function dac_changeEmpresa(emp, lab) {
+/*function dac_changeEmpresa(emp, lab) {
 	"use strict";
 	dac_changeLaboratorio(emp, lab);	
 	$.ajax({
@@ -262,7 +284,7 @@ function dac_changeEmpresa(emp, lab) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (result) {
 						$('#box_cargando').css({'display':'none'});
@@ -279,7 +301,7 @@ function dac_changeEmpresa(emp, lab) {
 			$("#msg_error").html("Error al consultar los registros.");	
 		},							
 	});
-}		
+}	*/	
 
 function dac_changeLaboratorio(emp, lab) {
 	"use strict";
@@ -294,7 +316,7 @@ function dac_changeLaboratorio(emp, lab) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (result) {
 			$('#box_cargando').css({'display':'none'});

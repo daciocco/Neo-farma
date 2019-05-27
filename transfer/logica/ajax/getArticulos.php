@@ -1,7 +1,7 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 }
 
 //*************************************************
@@ -11,13 +11,13 @@ $condicion		= 	(isset($_POST['condicion']))	? $_POST['condicion']	:	NULL;
 //*************************************************
 
 if (empty($laboratorio)) {
-	echo '<table border="0" width="100%"><tr><td align="center">Error al seleccionar el laboratorio</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">Error al seleccionar el laboratorio</td></tr></table>'; exit;
 }
 
 if(!$condicion){
 	$articulos	= DataManager::getArticulos(0, 0, FALSE, 1, $laboratorio, $empresa);		
 	if (count($articulos)) {
-		echo '<table border="0" id="tblTablaArt" width="100%" align="center">';
+		echo '<table id="tblTablaArt" align="center">';
 		echo '<thead><tr align="left"><th>Id</th><th>Nombre</th><th>Precio</th></tr></thead>';
 		echo '<tbody>';
 		foreach ($articulos as $k => $art) {																			
@@ -29,12 +29,12 @@ if(!$condicion){
 							
 			((($k % 2) == 0)? $clase="par" : $clase="impar");
 			
-			echo "<tr class=".$clase."  onclick=\"javascript:dac_CargarArticulo('$idArt', '$ean', '$nombre', '$precio')\"><td>".$idArt."</td><td>".$nombre."</td><td>".$precio."</td></tr>";		
+			echo "<tr class=".$clase." onclick=\"javascript:dac_CargarArticulo('$idArt', '$ean', '$nombre', '$precio')\"><td>".$idArt."</td><td>".$nombre."</td><td>".$precio."</td></tr>";		
 		}
 		echo '</tbody></table>';
 		exit;
 	} else { 
-		echo '<table border="0" width="100%"><tr><td align="center">No hay registros activos.</td></tr></table>'; exit;
+		echo '<table><tr><td align="center">No hay registros activos.</td></tr></table>'; exit;
 	} 
 }
 

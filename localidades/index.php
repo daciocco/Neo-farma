@@ -1,11 +1,11 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
-if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="V"  && $_SESSION["_usrrol"]!="G"){
+if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="V"  && $_SESSION["_usrrol"]!="G") {
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
  	header("Location: $_nextURL");
 	exit;
-}
-?>
+} ?>
+
 <!DOCTYPE html>
 <html lang='es'>
 <head>

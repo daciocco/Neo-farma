@@ -15,20 +15,20 @@ if(empty($_REQUEST['fecha_liquidacion'])){
 
 if($_drogid){
 	$_importarXLS	=	sprintf( "<img id=\"importar\" src=\"/pedidos/images/icons/icono-importxls.png\" border=\"0\" align=\"absmiddle\"  title=\"Importar Liquidacion\" style=\"float:right;\" onclick=\"javascript:dac_sendForm(fm_liquidacion_edit, '/pedidos/transfer/gestion/liquidaciondrog/logica/importar_liquidacion.php')\">");	
-	$_exportarXLS	= sprintf( "<a href=\"logica/exportar.liquidacion.php?mes=%d&anio=%d&drogid=%d&backURL=%s\" title=\"Exportar Liquidacion\">%s</a>", $_mes, $_anio, $_drogid, $_SERVER['PHP_SELF'], "<img src=\"/pedidos/images/icons/export_excel.png\" border=\"0\" align=\"absmiddle\"/>");	
+	$_exportarXLS	= sprintf( "<a href=\"logica/exportar.liquidacion.php?mes=%d&anio=%d&drogid=%d&backURL=%s\" title=\"Exportar Liquidacion\">%s</a>", $_mes, $_anio, $_drogid, $_SERVER['PHP_SELF'], "<img class=\"icon-xls-export\"/>");	
 	$_emitirNC	=	sprintf( "<img id=\"emitirnc\" src=\"/pedidos/images/icons/icono-emitirnc.png\" border=\"0\" align=\"absmiddle\"  title=\"Emitir NC\" onclick=\"javascript:dac_sendForm(fm_liquidacion_edit, '/pedidos/transfer/gestion/liquidaciondrog/logica/update.liquidacion.php')\">");	
 } ?>
 
-<form id="fm_liquidacion_edit" class="fm_edit2" method="POST">
+<form id="fm_liquidacion_edit" method="POST">
 	<div class="bloque_3">     
         <fieldset id='box_error' class="msg_error">          
-            <div id="msg_error" align="center"></div>
+            <div id="msg_error"></div>
         </fieldset>                                                                         
-        <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                        	
-            <div id="msg_cargando" align="center"></div>      
+        <fieldset id='box_cargando' class="msg_informacion">                        	
+            <div id="msg_cargando"></div>      
         </fieldset> 
         <fieldset id='box_confirmacion' class="msg_confirmacion">
-            <div id="msg_confirmacion" align="center"></div>      
+            <div id="msg_confirmacion"></div>      
         </fieldset>
     </div> 
     
@@ -63,13 +63,13 @@ if($_drogid){
         <div class="bloque_1"> </div>
         <div class="bloque_3">  
         	<?php echo $_importarXLS; ?>          	
-        	<div id="inputfile" class="inputfile"> <input type="file" name="file" id="file"> </div> 
+        	<input type="file" name="file" id="file">
         </div>
         <div class="bloque_3"> 
         	<?php echo $_emitirNC; ?><?php echo $_exportarXLS; ?> 
         </div>
         
-        <table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" width="100%" border="0">
             <thead>                                                  
                 <tr height="60px;">
                     <th align="center">Transfer</th>

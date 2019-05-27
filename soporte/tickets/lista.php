@@ -5,27 +5,23 @@ $_total 	= count(DataManager::getTicket(0, 0, NULL, $_SESSION["_usrid"]));
 $_LPP		= ($_total < $_LPP) ? $_total : $_LPP;
 $_paginas 	= (empty($_total)) ? 1 : ceil($_total/$_LPP);
 $_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-$_GOFirst	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, 1,			$_imgFirst);
-$_GOPrev	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag-1,	$_imgPrev);
-$_GONext	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag+1,	$_imgNext);
-$_GOLast	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_paginas,	$_imgLast);
+$_GOFirst	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag=%d\"></a>", $backURL, 1);
+$_GOPrev	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag=%d\"></a>", $backURL, $_pag-1);
+$_GONext	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag=%d\"></a>", $backURL, $_pag+1);
+$_GOLast	= sprintf("<a class=\"icon-go-last\" href=\"%s?pag=%d\"></a>", $backURL, $_paginas);
 ?>
 <div class="box_down">
     <div class="barra">
-    	<div class="buscadorizq">
+    	<div class="bloque_5">
             <h1>Mis Consultas</h1>
         </div>
-        <div class="buscadorder">
+        <div class="bloque_5">
             <a href="nuevo/"><input type="button" value="NUEVA CONSULTA"/></a> 
         </div> 
         <hr>     
     </div> <!-- Fin barra -->
     
-	<table id="tblSoporte" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0"> <?php
+	<table id="tblSoporte"> <?php
 		$ticket	= DataManager::getTicket($_pag, $_LPP, NULL, $_SESSION["_usrid"]);
 		$_max	= count($ticket);
 		for( $k=0; $k < $_LPP; $k++ ) {

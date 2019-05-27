@@ -43,7 +43,7 @@ header("content-disposition: attachment;filename=LiquidacionPendExce-".date('d-m
 	<?php
 	$droguerias	= DataManager::getDrogueria();						
 	if (count($droguerias)) { ?>
-    	<table border="0" cellpadding="0" cellspacing="0">
+    	<table border="0">
         	<thead> 
 				<tr>
                     <th scope="col" align="left" colspan="3">Exportado: <?php echo date("d-m-Y"); ?></th>	

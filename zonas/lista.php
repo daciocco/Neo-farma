@@ -1,13 +1,13 @@
 <div class="box_body">  
 	<div class="bloque_1"> 
 		<fieldset id='box_error' class="msg_error">          
-			<div id="msg_error" align="center"></div>
+			<div id="msg_error"></div>
 		</fieldset>   
-		<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                        	
-			<div id="msg_cargando" align="center"></div>      
+		<fieldset id='box_cargando' class="msg_informacion">                        	
+			<div id="msg_cargando"></div>      
 		</fieldset> 
 		<fieldset id='box_confirmacion' class="msg_confirmacion">
-			<div id="msg_confirmacion" align="center"></div>      
+			<div id="msg_confirmacion"></div>      
 		</fieldset> 
 		<div id="mapa" style="height: 600px;"></div> 
 	</div>
@@ -44,8 +44,18 @@
 			<br>    
 			<input id="filterMap" type="button" value="Filtrar">
 		</div>
+		
+		<div class="bloque_1"></div>
+		
+		<div class="bloque_1"> 						
+			<input  type="checkbox" name="geoloc" title="Esta opcion puede tener una alta demora de carga" >	
+			<label title="Esta opcion puede tener una alta demora de carga">Incluir Cuentas Sin Geolocalizar</label>
+		</div>
+		
+		<div class="bloque_1"></div>
+		
 		<div class="bloque_1">
-			<label>Zonas</label>	
+			<label><strong>Zonas</strong></label>	
 			<div class="desplegable"> <?php
 				$zonas	= DataManager::getZonas( 0, 0, 1);		
 				for( $k = 0; $k <  count($zonas); $k++ ) {
@@ -59,48 +69,51 @@
 				} ?>
 			</div>
 		</div>
+		
+		<div class="bloque_1"></div>
+		
 		<div class="bloque_1"> 	
-			<label>Tipos de Cuentas</label>
+			<label><strong>Tipos de Cuentas</strong></label>	
 			<div class="desplegable">
-				<img src="/pedidos/images/icons/marcadorGreen.png" height="20px;" >
+				<img class="icon-marker-green">
 				<input type="checkbox" name="tipo" value="C">
 				Cliente					
 				<br>
-				<img src="/pedidos/images/icons/marcadorGreen.png" height="20px;" >
+				<!--img class="icon-marker-green">
 				<input type="checkbox" name="tipo" value="CT">
 				Cliente Telefonico
-				<br>
-				<img src="/pedidos/images/icons/marcadorYellow.png"  height="20px;">
+				<br-->
+				<img class="icon-marker-yellow">
 				<input type="checkbox" name="tipo" value="T">
 				Transfer
 				<br>
-				<img src="/pedidos/images/icons/marcadorYellow.png"  height="20px;">
+				<img class="icon-marker-orange">
 				<input type="checkbox" name="tipo" value="TT">
 				Transfer Telefonico
 				<br>
-				<img src="/pedidos/images/icons/marcadorRed.png"  height="20px;">
+				<img class="icon-marker-red">
 				<input type="checkbox" name="tipo" value="PS">
 				Prospecto
 				<br>
-				<img src="/pedidos/images/icons/marcador.png"  height="20px;">
+				<img class="icon-marker">
 				Seleccionados 
 				<br>
-				<img src="/pedidos/images/icons/marcadorGreenHover.png"  height="20px;">
+				<img class="icon-marker-dark-green">
 				Cliente	Inactivo
 				<br>
-				<img src="/pedidos/images/icons/marcadorGY.png" height="20px;">
+				<img class="icon-marker-green-yellow">
 				Cliente Inactivo con Transfer Activo
 				<br>
-				<img src="/pedidos/images/icons/marcadorYellowHover.png"  height="20px;">
+				<img class="icon-marker-orange-hover">
 				Transfer Inactivo
+				<br>
 			</div>
 		</div>
-		<div class="bloque_5"> 						
-			<input  type="checkbox" name="geoloc" title="Esta opcion puede tener una alta demora de carga" style="float: left;">	
-			<label title="Esta opcion puede tener una alta demora de carga">Incluir sin <br> geolocalizar</label>				
-		</div>
-		<div class="bloque_5"> 
-			<label>Estado</label>
+		
+		<div class="bloque_1"></div>
+		
+		<div class="bloque_1"> 
+			<label><strong>Estado</strong></label>
 			<div class="desplegable">
 				<input type="radio" name="activas" value="2" checked>
 				<label>Todas</label>
@@ -115,10 +128,10 @@
 	</fieldset>
 
 	<div class="barra">
-		<div class="buscadorizq">
+		<div class="bloque_5">
 			<h1>Cuentas</h1>                	
 		</div>
-		<div class="buscadorder">
+		<div class="bloque_5">
 			<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
 			<input id="txtBuscarEn" type="text" value="tblTablaCta" hidden/>
 		</div> 

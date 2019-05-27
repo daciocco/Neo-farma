@@ -36,12 +36,8 @@
 	}
 	$_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=\"Enviar\"/>");
 	$_action = sprintf("logica/update.accion.php?uid=%d&backURL=", $_acid, $backURL);
- }
+ }?>
  
- $_Navegacion 		= array();
- $_Navegacion[] 	= sprintf("<a href=\"%s\" title=\"lista de acciones\">%s</a>", "/pedidos/acciones/", "<img src=\"../images/icons/icono-lista.png\" border=\"0\" align=\"absmiddle\" />");
- $_Navegacion[] 	= ($_acid) ? "Editar acci&oacute;n" : "Nuevo acci&oacute;n";
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -62,29 +58,30 @@
         
              
     <main class="cuerpo">  
-		<div class="box_body"> 				
-			<form name="fm_accion_edit" class="fm_edit2" method="post" action="<?php echo $_action;?>">
+		<div class="box_body">
+			<?php
+			if ($_sms) { ?>
+				<div class="bloque_1" align="center">
+					<fieldset id='box_error' class="msg_error" style="display: block">          
+						<div id="msg_error"><?php echo $_info;?></div>
+					</fieldset>
+				</div> <?php
+			} ?>
+				 	
+			<form method="post" action="<?php echo $_action;?>">
 				<fieldset>
 					<legend>Acci&oacute;n</legend>  
-					<div class="bloque_3"> 
-						<label> <?php
-							if ($_sms) {
-								echo sprintf("<p style=\"background-color:#fcf5f4;color:#ba140c;border:2px solid #ba140c;font-weight:bold;padding:4px;\">%s</p>", $_info);
-							}
-						?></label>
+					<div class="bloque_5">
+						<label for="acnombre">Nombre Acci&oacute;n</label>
+						<input name="acnombre" id="acnombre" type="text" maxlength="50" value="<?php echo @$_acnombre;?>"/>
 					</div>                       
-
-					<div class="bloque_1">
-						<label for="acnombre">Nombre Acci&oacute;n*</label>
-						<input name="acnombre" id="acnombre" type="text" size="20" maxlength="50" value="<?php echo @$_acnombre;?>"/>
-					</div>                       
-					<div class="bloque_2">   
-						<label for="acsigla">Sigla *</label>
-						<input name="acsigla" id="acsigla" type="text" size="10" maxlength="20" value="<?php echo @$_acsigla;?>"/>
-					</div>                       
+					<div class="bloque_7">   
+						<label for="acsigla">Sigla</label>
+						<input name="acsigla" id="acsigla" type="text" maxlength="20" value="<?php echo @$_acsigla;?>"/>
+					</div>                   
 					<input type="hidden" name="acid" value="<?php echo @$_acid;?>" />
-					<div class="bloque_2">   
-						<label for="_accion">&nbsp;</label>
+					<div class="bloque_7">
+						<br>
 						<?php echo $_button; ?>
 					</div>
 				</fieldset>		
@@ -94,8 +91,6 @@
     
     <footer class="pie">
         <?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/footer.inc.php"); ?>
-    </footer> <!-- fin pie -->
-	
-	
+    </footer> <!-- fin pie -->	
 </body>
 </html>

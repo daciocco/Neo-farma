@@ -1,6 +1,5 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.ToolBar.php");
 
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
@@ -20,13 +19,13 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol
     </header><!-- cabecera -->	
        
     <nav class="menuprincipal"> <?php 
-        $_section 	= "condiciones_pago";
-        $_subsection 	= "lista_condiciones";
+        $_section 	= "condiciones";
+        $_subsection= "condiciones_pago";
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->	
         
     <main class="cuerpo">	
-            <?php include "lista.php"; ?> 
+    	<?php include "lista.php"; ?> 
     </main> <!-- fin cuerpo -->
     
     <footer class="pie">

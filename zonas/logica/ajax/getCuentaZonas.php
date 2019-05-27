@@ -33,8 +33,9 @@ if (count($cuentas)) {
 			$longitud	= $cuenta['ctalongitud'];			
 			$id			= $cuenta['ctaid'];
 			$nombre		= $cuenta['ctanombre'];
-			$cuentaId	= $cuenta['ctaidcuenta'];	
+			$cuentaId	= $cuenta['ctaidcuenta'];
 			$activa		= $cuenta['ctaactiva'];
+			$estado		= ($activa) ? 'Activa' : 'Inactiva' ;
 			
 			$provincia	= DataManager::getProvincia('provnombre', $cuenta['ctaidprov']);
 			$localidad	= DataManager::getLocalidad('locnombre', $cuenta['ctaidloc']);
@@ -59,7 +60,7 @@ if (count($cuentas)) {
 						if($indice){
 							//inactiva Con pedido transfer		
 							$image = 'marcadorGY.png';
-							$color = "white"; //oscuro							
+							$color = "#fcfcfc"; //oscuro							
 						} else {
 							//inactiva
 							$image = 'marcadorGreenHover.png';
@@ -68,7 +69,6 @@ if (count($cuentas)) {
 					}	
 					break;
 				case 'T':
-				case 'TT':
 					if($activa){
 						$image = 'marcadorYellow.png';
 						$color = "#d69a2c"; //amarillo
@@ -77,13 +77,22 @@ if (count($cuentas)) {
 						$color = "#855f1b"; //oscuro
 					}
 					break;
+				case 'TT':
+					if($activa){
+						$image = 'marcadorOrange.png';
+						$color = "#efbe9a"; //orange
+					} else {
+						$image = 'marcadorOrangeHover.png';
+						$color = "#E49044"; //dark orange
+					}
+					break;
 				case 'PS':
 					$image = 'marcadorRed.png';
-					$color = "#FC3A52"; //rojo
+					$color = "#ba140c"; //rojo
 					break;
 				default:
 					$image = 'marcador.png';
-					$color = 'white';
+					$color = '#fcfcfc';
 					break;
 			}
 			
@@ -95,7 +104,7 @@ if (count($cuentas)) {
 					$longitud 	= $latLog[1];
 					
 					$datos[] = array(
-						"datos"		=> "<strong>Cuenta: </strong>".$cuentaId."</br><strong>Nombre: </strong>".$nombre."</br><strong>Provincia: </strong>".$provincia."</br><strong>Localidad: </strong>".$localidad."</br><strong>Direccion: </strong>".$direccion,
+						"datos"		=> "<strong>Cuenta: </strong>".$cuentaId."<strong> Tipo: ".$tipo."</strong></br><strong> Estado: </strong>".$estado."</br><strong>Nombre: </strong>".$nombre."</br><strong>Provincia: </strong>".$provincia."</br><strong>Localidad: </strong>".$localidad."</br><strong>Direccion: </strong>".$direccion,
 						"latitud"	=> $latitud,
 						"longitud" 	=> $longitud,
 						"cuenta" 	=> $nombre,
@@ -108,7 +117,7 @@ if (count($cuentas)) {
 				}
 			} else {
 				$datos[] = array(
-					"datos"		=> "<strong>Cuenta: </strong>".$cuentaId."</br><strong>Nombre: </strong>".$nombre."</br><strong>Provincia: </strong>".$provincia."</br><strong>Localidad: </strong>".$localidad."</br><strong>Direccion: </strong>".$direccion,
+					"datos"		=> "<strong>Cuenta: </strong>".$cuentaId."<strong> Tipo: ".$tipo."</strong></br><strong> Estado: </strong>".$estado."</br><strong>Nombre: </strong>".$nombre."</br><strong>Provincia: </strong>".$provincia."</br><strong>Localidad: </strong>".$localidad."</br><strong>Direccion: </strong>".$direccion,
 					"latitud"	=> $latitud,
 					"longitud" 	=> $longitud,
 					"cuenta" 	=> $nombre,

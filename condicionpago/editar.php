@@ -95,28 +95,27 @@ if ($_condid) {
 
 	<main class="cuerpo">
 		<div class="box_body">
-			<form id="fmCondicionDePago" name="fmCondicionDePago" class="fm_edit2" method="post" action="<?php echo $_action;?>">
+			<div class="bloque_1">
+				<fieldset id='box_error' class="msg_error">          
+					<div id="msg_error"></div>
+				</fieldset>                                                                         
+				<fieldset id='box_cargando' class="msg_informacion">    
+					<div id="msg_cargando"></div>      
+				</fieldset>
+				<fieldset id='box_confirmacion' class="msg_confirmacion">
+					<div id="msg_confirmacion"></div>      
+				</fieldset>
+			</div>
+			
+			<form id="fmCondicionDePago" name="fmCondicionDePago" method="post" action="<?php echo $_action;?>">
 				<fieldset>
-					<input type="hidden" name="condid" value="<?php echo @$_condid;?>"/> 
-					
-					<legend>Condici&oacute;n</legend>   
-					<div class="bloque_3" align="center">
-						<fieldset id='box_error' class="msg_error">          
-							<div id="msg_error" align="center"></div>
-						</fieldset>                                                                         
-						<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">    
-							<div id="msg_cargando" align="center"></div>      
-						</fieldset>
-						<fieldset id='box_confirmacion' class="msg_confirmacion">
-							<div id="msg_confirmacion" align="center"></div>      
-						</fieldset>
-					</div>
-				   
-					<div class="bloque_4"> 
+					<input type="hidden" name="condid" value="<?php echo @$_condid;?>"> 
+					<legend>Condici&oacute;n</legend>
+					<div class="bloque_8"> 
 						<label for="condcodigo">C&oacute;digo</label>
-						<input name="condcodigo" type="text" value="<?php echo @$_condcodigo;?>" readonly/>
+						<input name="condcodigo" type="text" value="<?php echo @$_condcodigo;?>" readonly>
 					</div> 
-					<div class="bloque_1">
+					<div class="bloque_4">
 						<label for="condtipo">Condici&oacute;n</label>
 						<?php
 						$condicionesTipo	= DataManager::getCondicionesDePagoTipo(); 
@@ -133,12 +132,12 @@ if ($_condid) {
 						<?php } ?>
 					</div>
 					
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condcuotas">Cuotas</label>
-						<input name="condcuotas" type="text" maxlength="2" value="<?php echo @$_condcuotas;?>"/>
+						<input name="condcuotas" type="text" maxlength="2" value="<?php echo @$_condcuotas;?>">
 					</div>
 					
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="conddecrece">Decrece</label>
 						<select name="conddecrece">
 							<option id="0" value="N" selected>N</option> <?php
@@ -149,7 +148,7 @@ if ($_condid) {
 					
 				  	<hr>
 					
-					<div class="bloque_2"> 
+					<div class="bloque_6"> 
 						<label for="condtipo1">Condici&oacute;n</label>
 						<?php
 						if (count($condicionesTipo)) { ?>
@@ -165,16 +164,16 @@ if ($_condid) {
 						<?php } ?>
 					</div>         
 					 
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="conddias1">D&iacute;as</label>
 						<?php $readOnly = (!empty($_condfechadec)) ? 'readonly="readonly"' : ''; ?>
 						<input name="conddias1" type="text" maxlength="3" value="<?php echo @$_conddias;?>" <?php echo $readOnly;?>>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condporcentaje1">%</label>
 						<input name="condporcentaje1" type="text" maxlength="1" value="<?php echo @$_condporcentaje;?>" />
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condsigno1">Signo</label>
 						<select name="condsigno1">
 							<option value="" selected></option> <?php
@@ -182,13 +181,13 @@ if ($_condid) {
 							?> <option value="%" <?php echo $selected;?>>%</option> 
 						</select>						
 					</div> 
-					<div class="bloque_2"> 
+					<div class="bloque_7"> 
 						<label for="condfechadec1">Hasta el d&iacute;a</label>
 						<input name="condfechadec1" id="condfechadec1" type="text" value="<?php echo @$_condfechadec;?>" readonly/>
 					</div>
 					
 					<hr>
-					<div class="bloque_2"> 
+					<div class="bloque_6"> 
 						<label for="condtipo2">Condici&oacute;n</label>
 						<?php
 						if (count($condicionesTipo)) { ?>
@@ -203,16 +202,16 @@ if ($_condid) {
                         	</select>
 						<?php } ?>
 					</div>          
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="conddias2">D&iacute;as</label>
 						<?php $readOnly = (!empty($_condfechadec2)) ? 'readonly="readonly"' : ''; ?>
 						<input name="conddias2" type="text" maxlength="3" value="<?php echo @$_conddias2;?>" <?php echo $readOnly;?>>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condporcentaje2">%</label>
 						<input name="condporcentaje2" type="text" maxlength="1" value="<?php echo @$_condporcentaje2;?>"/>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condsigno2">Signo</label>
 						<select name="condsigno2">
 							<option value="" selected></option> <?php
@@ -220,13 +219,13 @@ if ($_condid) {
 							?> <option value="%" <?php echo $selected;?>>%</option> 
 						</select>						
 					</div>
-					<div class="bloque_2"> 
+					<div class="bloque_7"> 
 						<label for="condfechadec2">Hasta el d&iacute;a</label>
 						<input name="condfechadec2" id="condfechadec2" type="text" value="<?php echo @$_condfechadec2;?>" readonly/>
 					</div> 					
 					<hr>
 					
-					<div class="bloque_2"> 
+					<div class="bloque_6"> 
 						<label for="condtipo3">Condici&oacute;n</label>
 						<?php
 						if (count($condicionesTipo)) { ?>
@@ -241,16 +240,16 @@ if ($_condid) {
                         	</select>
 						<?php } ?>
 					</div>          
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="conddias3">D&iacute;as</label>
 						<?php $readOnly = (!empty($_condfechadec3)) ? 'readonly="readonly"' : ''; ?>
 						<input name="conddias3" type="text" maxlength="3" value="<?php echo @$_conddias3;?>" <?php echo $readOnly;?>>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condporcentaje3">%</label>
 						<input name="condporcentaje3" type="text" maxlength="1" value="<?php echo @$_condporcentaje3;?>"/>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condsigno3">Signo</label>
 						<select name="condsigno3">
 							<option value="" selected></option> <?php
@@ -258,13 +257,13 @@ if ($_condid) {
 							?> <option value="%" <?php echo $selected;?>>%</option> 
 						</select>						
 					</div> 
-					<div class="bloque_2"> 
+					<div class="bloque_7"> 
 						<label for="condfechadec3">Hasta el d&iacute;a</label>
 						<input name="condfechadec3" id="condfechadec3" type="text" value="<?php echo @$_condfechadec3;?>" readonly/>
 					</div>
 					<hr>
 					
-					<div class="bloque_2"> 
+					<div class="bloque_6"> 
 						<label for="condtipo4">Condici&oacute;n</label>
 						<?php
 						if (count($condicionesTipo)) { ?>
@@ -279,16 +278,16 @@ if ($_condid) {
                         	</select>
 						<?php } ?>
 					</div>          
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="conddias4">D&iacute;as</label>
 						<?php $readOnly = (!empty($_condfechadec4)) ? 'readonly="readonly"' : ''; ?>
 						<input name="conddias4" type="text" maxlength="3" value="<?php echo @$_conddias4;?>" <?php echo $readOnly;?>>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condporcentaje4">%</label>
 						<input name="condporcentaje4" type="text" maxlength="1" value="<?php echo @$_condporcentaje4;?>"/>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condsigno4">Signo</label>
 						<select name="condsigno4">
 							<option value="" selected></option> <?php
@@ -296,13 +295,13 @@ if ($_condid) {
 							?> <option value="%" <?php echo $selected;?>>%</option> 
 						</select>						
 					</div> 
-					<div class="bloque_2"> 
+					<div class="bloque_7"> 
 						<label for="condfechadec4">Hasta el d&iacute;a</label>
 						<input name="condfechadec4" id="condfechadec4" type="text" value="<?php echo @$_condfechadec4;?>" readonly/>
 					</div>
 					<hr>	
 									
-					<div class="bloque_2"> 
+					<div class="bloque_6"> 
 						<label for="condtipo5">Condici&oacute;n</label>
 						<?php
 						if (count($condicionesTipo)) { ?>
@@ -317,16 +316,16 @@ if ($_condid) {
                         	</select>
 						<?php } ?>
 					</div>          
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="conddias5">D&iacute;as</label>
 						<?php $readOnly = (!empty($_condfechadec5)) ? 'readonly="readonly"' : ''; ?>
 						<input name="conddias5" type="text" maxlength="3" value="<?php echo @$_conddias5;?>" <?php echo $readOnly;?>>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condporcentaje5">%</label>
 						<input name="condporcentaje5" type="text" maxlength="1" value="<?php echo @$_condporcentaje5;?>"/>
 					</div>
-					<div class="bloque_4"> 
+					<div class="bloque_8"> 
 						<label for="condsigno5">Signo</label>
 						<select name="condsigno5">
 							<option value="" selected></option> <?php
@@ -334,15 +333,15 @@ if ($_condid) {
 							?> <option value="%" <?php echo $selected;?>>%</option> 
 						</select>						
 					</div> 	
-					<div class="bloque_2"> 
+					<div class="bloque_7"> 
 						<label for="condfechadec5">Hasta el d&iacute;a</label>
 						<input name="condfechadec5" id="condfechadec5" type="text" value="<?php echo @$_condfechadec5;?>" readonly/>
 					</div>
 					<hr>
 												
 					<?php $urlSend	=	'/pedidos/condicionpago/logica/update.condicion.php';?>
-					<a id="btnSend" title="Enviar" style="cursor:pointer;"> 
-						<img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(fmCondicionDePago, '<?php echo $urlSend;?>');"/>
+					<a id="btnSend" title="Enviar"> 
+						<img class="icon-send" onclick="javascript:dac_sendForm(fmCondicionDePago, '<?php echo $urlSend;?>');"/>
 					</a>	
 					
 					

@@ -9,7 +9,7 @@ function dac_getCadenas(empresa) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});
@@ -42,7 +42,7 @@ function dac_getCuentas(idEmpresa) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},		
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});		
@@ -63,10 +63,7 @@ function dac_getCuentas(idEmpresa) {
 	});
 }
 
-
-/********************************/
 /*	Cuando cambia de Empresa	*/
-/********************************/
 function dac_changeEmpresa(idEmpresa) {
 	"use strict";
 	dac_getCadenas(idEmpresa);
@@ -97,11 +94,9 @@ function dac_cuentaRelacionada(id, idCuenta, nombre, tipocad){
 	nextCadena++;
 	var campo;
 	campo =	'<div id="rutcuenta'+nextCadena+'">';
-		//campo +='<input id="ctaId'+nextCadena+'" name="ctaId[]" type="text" value='+id+' hidden>';
-		campo += '<div class="bloque_1">'+nombre+'</div>';
-		campo +='<input id="cuentaId'+nextCadena+'" name="cuentaId[]" type="text" value='+idCuenta+' hidden><div class="bloque_4">'+idCuenta+'</div>';
-		
-		campo += '<div class="bloque_4"><select id="tipoCadena" name="tipoCadena[]">';
+		campo +='<input id="cuentaId'+nextCadena+'" name="cuentaId[]" type="text" value='+idCuenta+' hidden><div class="bloque_8">'+idCuenta+'</div>';	
+		campo += '<div class="bloque_4">'+nombre+'</div>';		
+		campo += '<div class="bloque_8"><select id="tipoCadena" name="tipoCadena[]">';
 			if(tipocad === '1'){
 				campo += '<option  id="0" value="0" ></option>';
 				campo += '<option  id="1" value="1"  selected >Sucursal</option>'; 
@@ -111,9 +106,8 @@ function dac_cuentaRelacionada(id, idCuenta, nombre, tipocad){
 			}
 				
 		campo += '</select></div>';
-	
-		campo +='<div class="bloque_4"><input id="btmenos" class="btmenos" type="button" value=" - " onClick="dac_deleteCuentaRelacionada('+id+', '+nextCadena+')"></div>';
-	campo +='</div>';
+		campo +='<div class="bloque_9"><input id="btmenos" class="btmenos" type="button" value=" - " onClick="dac_deleteCuentaRelacionada('+id+', '+nextCadena+')"></div>';
+	campo +='<hr class="hr-line"></div>';
 	$("#cuenta_relacionada").append(campo);		
 }	
 
@@ -137,7 +131,7 @@ function dac_getCuentasCadena(empresa, idCadena){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});	

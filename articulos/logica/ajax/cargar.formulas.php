@@ -1,7 +1,7 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 }
 
 $artId			= (isset($_POST['artId']))			?	$_POST['artId'] 	: 	NULL;

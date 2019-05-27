@@ -1,19 +1,25 @@
-<?php $backURL	= empty($_REQUEST['backURL']) ? '/pedidos/usuarios/': $_REQUEST['backURL']; ?>
+<?php 
+$backURL	= empty($_REQUEST['backURL']) ? '/pedidos/usuarios/': $_REQUEST['backURL']; 
+$btnNuevo	= sprintf( "<a href=\"editar.php\" title=\"Nuevo\"><img class=\"icon-new\"/></a>");
+?>
 
 <div class="box_body">
 	<div class="barra">
-       	<div class="buscadorizq">
+       	<div class="bloque_5">
 			<h1>Vendedores</h1>                	
         </div>
-        <div class="buscadorder">
+        <div class="bloque_7">
           	<input id="txtBuscar" type="search" autofocus placeholder="Buscar"/>
             <input id="txtBuscarEn" type="text" value="tblUsuarios" hidden/>
-        </div>   
+        </div> 
+        <div class="bloque_7">
+			<?php echo $btnNuevo; ?>                	
+        </div>  
         <hr>   
 	</div> <!-- Fin barra -->
 
 	<div class="lista_super">     
-		<table id="tblUsuarios" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+		<table id="tblUsuarios">
 			<thead>
 				<tr>
 					<th scope="col" width="20%" height="18">Usuario</th>
@@ -27,14 +33,10 @@
 			$_total 	= count(DataManager::getUsuarios( 0, 0, NULL, NULL, '"V"'));
 			$_paginas 	= ceil($_total/$_LPP);
 			$_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-			$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-			$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-			$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-			$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-			$_GOFirst	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, 1,			$_imgFirst);
-			$_GOPrev	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag-1,	$_imgPrev);
-			$_GONext	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag+1,	$_imgNext);
-			$_GOLast	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_paginas,	$_imgLast);
+			$_GOFirst	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag=%d\"></a>", $backURL, 1);
+			$_GOPrev	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag=%d\"></a>", $backURL, $_pag-1);
+			$_GONext	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag=%d\"></a>", $backURL, $_pag+1);
+			$_GOLast	= sprintf("<a class=\"icon-go-last\" href=\"%s?pag=%d\"></a>", $backURL, $_paginas);
 			
 			$usuarios	= DataManager::getUsuarios( $_pag, $_LPP, NULL, NULL, '"V"');
 			$_max	 	= count($usuarios);
@@ -46,15 +48,15 @@
 					$usr		= $usuario['ulogin'];
 					$dni		= $usuario['udni'];
 
-					$_status	= ($usuario['uactivo']) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"activar\"/>";
+					$_status	= ($usuario['uactivo']) ? "<img class=\"icon-status-active\"/>" : "<img class=\"icon-status-inactive\"/>";
 
-					$_editar	= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
+					$_editar	= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit\"/>");
 					
-					$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono_zona.png\" border=\"0\" align=\"absmiddle\" />");	
+					$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit-zone\"/>");	
 
-					$_borrar	= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"borrar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
+					$_borrar	= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"Cambiar Estado\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
 					
-					$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
+					$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img class=\"icon-delete\" /> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
 				} else {
 					$nombre	= "&nbsp;";
 					$usr		= "&nbsp;";
@@ -82,16 +84,14 @@
 		echo("</tr></table>"); 
 	}
 	?>
-
-	<div class="toolbar"><?php $bar->show(); ?></div>
 </div> <!-- Fin datos -->
 
 <div class="box_seccion">
 	<div class="barra">
-       	<div class="buscadorizq">
+       	<div class="bloque_5">
 			<h1>Administrador Web</h1>                	
         </div>
-        <div class="buscadorder">
+        <div class="bloque_5">
           	<input id="txtBuscar2" type="search" autofocus placeholder="Buscar"/>
             <input id="txtBuscarEn2" type="text" value="tblAdmWeb" hidden/>
         </div>   
@@ -99,7 +99,7 @@
 	</div> <!-- Fin barra -->
 
 	<div class="lista">     
-		<table id="tblAdmWeb" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+		<table id="tblAdmWeb">
 			<thead>
 				<tr>
 					<th scope="col" width="20%" height="18">Usuario</th>
@@ -113,15 +113,15 @@
 				$nombre	= $usuario['unombre'];
 				$usr	= $usuario['ulogin'];
 
-				$_status= ($usuario['uactivo']) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"activar\"/>";
+				$_status= ($usuario['uactivo']) ? "<img class=\"icon-status-active\"/>" : "<img class=\"icon-status-inactive\"/>";
 
-				$_editar= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
+				$_editar= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit\" />");
 
-				$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono_zona.png\" border=\"0\" align=\"absmiddle\" />");	
+				$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit-zone\" />");	
 				
-				$_borrar= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"borrar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
+				$_borrar= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"Cambiar Estado\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
 
-				$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
+				$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img class=\"icon-delete\" /> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
 				
 				
 				echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
@@ -132,10 +132,10 @@
 	</div> <!-- Fin listar -->	
 	
 	<div class="barra">
-       	<div class="buscadorizq">
+       	<div class="bloque_5">
 			<h1>Gerencias</h1>                	
         </div>
-        <div class="buscadorder">
+        <div class="bloque_5">
           	<input id="txtBuscar3" type="search" autofocus placeholder="Buscar"/>
             <input id="txtBuscarEn3" type="text" value="tblGerencias" hidden/>
         </div>   
@@ -143,7 +143,7 @@
 	</div> <!-- Fin barra -->
 
 	<div class="lista">     
-		<table id="tblGerencias" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+		<table id="tblGerencias">
 			<thead>
 				<tr>
 					<th scope="col" width="20%" height="18">Usuario</th>
@@ -157,15 +157,12 @@
 				$nombre	= $usuario['unombre'];
 				$usr	= $usuario['ulogin'];
 
-				$_status= ($usuario['uactivo']) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"activar\"/>";
+				$_status= ($usuario['uactivo']) ? "<img class=\"icon-status-active\"/>" : "<img class=\"icon-status-inactive\"/>";
+				$_editar= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit\"/>");
+				$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit-zone\" />");	
+				$_borrar= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"Cambiar Estado\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
 
-				$_editar= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
-
-				$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono_zona.png\" border=\"0\" align=\"absmiddle\" />");	
-				
-				$_borrar= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"borrar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
-
-				$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
+				$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img class=\"icon-delete\"/> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
 				
 				echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
 				echo sprintf("<td height=\"15\">%s</td><td>%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td>", $usr, $nombre, $_editar, $_zona, $_borrar, $_eliminar);
@@ -175,10 +172,10 @@
 	</div> <!-- Fin listar -->	
 	
 	<div class="barra">
-       	<div class="buscadorizq">
+       	<div class="bloque_5">
 			<h1>Administracion</h1>                	
         </div>
-        <div class="buscadorder">
+        <div class="bloque_5">
           	<input id="txtBuscar4" type="search" autofocus placeholder="Buscar"/>
             <input id="txtBuscarEn4" type="text" value="tblAdministracion" hidden/>
         </div>   
@@ -186,7 +183,7 @@
 	</div> <!-- Fin barra -->
 
 	<div class="lista">     
-		<table id="tblAdministracion" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+		<table id="tblAdministracion">
 			<thead>
 				<tr>
 					<th scope="col" width="20%" height="18">Usuario</th>
@@ -200,15 +197,11 @@
 				$nombre	= $usuario['unombre'];
 				$usr	= $usuario['ulogin'];
 
-				$_status= ($usuario['uactivo']) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"activar\"/>";
-
-				$_editar= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
-
-				$_borrar= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"borrar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);
-				
-				$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono_zona.png\" border=\"0\" align=\"absmiddle\" />");	
-
-				$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
+				$_status= ($usuario['uactivo']) ? "<img class=\"icon-status-active\"/>" : "<img class=\"icon-status-inactive\"/>";
+				$_editar= sprintf( "<a href=\"editar.php?uid=%d&backURL=%s\" title=\"editar usuario\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit\"/>");
+				$_borrar= sprintf( "<a href=\"logica/changestatus.php?uid=%d&backURL=%s&pag=%s\" title=\"Cambiar estado\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], $_pag, $_status);				
+				$_zona	= sprintf( "<a href=\"editar.zona.php?uid=%d&backURL=%s\" title=\"Editar Zona\">%s</a>", $usuario['uid'], $_SERVER['PHP_SELF'], "<img class=\"icon-edit-zone\" />");
+				$_eliminar 	= sprintf ("<a href=\"logica/eliminar.usuario.php?uid=%d&backURL=%s\" title=\"eliminar cliente\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL USUARIO?')\"> <img class=\"icon-delete\"/> </a>", $usuario['uid'], $_SERVER['PHP_SELF'], "eliminar");
 				
 				echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
 				echo sprintf("<td height=\"15\">%s</td><td>%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td>", $usr, $nombre, $_editar, $_zona, $_borrar, $_eliminar);

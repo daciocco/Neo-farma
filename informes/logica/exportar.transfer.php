@@ -30,7 +30,7 @@ header("content-disposition: attachment;filename=PedidosTransfers-".date('d-m-y'
 <TITLE>::. Exportacion de Datos (Pedidos Transfers) .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0">
+	<table border="0">
 	<thead>
 		<tr>
        		<td scope="col" >Empresa</td>

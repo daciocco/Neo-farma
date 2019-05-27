@@ -6,13 +6,11 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" &&  $_SESSION["_usrro
 	exit;
 }
 
-$_ptnropedido	= empty($_REQUEST['idpedido']) 	? 0 : $_REQUEST['idpedido'];
+$_ptnropedido 	= empty($_REQUEST['idpedido']) 	? 0 : $_REQUEST['idpedido'];
 $backURL		= empty($_REQUEST['backURL']) 	? '/pedidos/mispedidos/': $_REQUEST['backURL'];
 
 //header And footer
-include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php");
-?>
-
+include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"); ?>
 
 <!DOCTYPE html>
 <html>
@@ -31,8 +29,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 		include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
 	</nav>
         
-    <main class="cuerpo">	
-		
+    <main class="cuerpo">
 		<div class="cbte">
 			<div class="cbte_header">
 				<div class="cbte_boxheader"> 
@@ -47,7 +44,6 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 			</div>  <!-- boxtitulo -->
 
 			<?php
-			$_button_conciliar_liq = '';
 			if ($_ptnropedido) {
 				//EL DETALLE DE PEDIDO NO ESTÁ CONTEMPLANDO LA POSIBILIDAD de que haya dos clientes con el mismo id pero de distinta empresa y/o nombre	 
 				$_detalles	= DataManager::getTransfersPedido(NULL, NULL, NULL, NULL, NULL, NULL, $_ptnropedido);
@@ -57,24 +53,32 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 					for( $k=0; $k < count($_detalles); $k++ ){		
 						$_detalle 	= 	$_detalles[$k];	
 						if ($k==0){
-							$_fecha_pedido		=	$_detalle['ptfechapedido'];	
-							$_idvendedor		=	$_detalle['ptidvendedor'];	
-							$_nombreven			= 	DataManager::getUsuario('unombre', $_idvendedor);
-							$paraIdUsr			=	$_detalle['ptparaidusr'];
-							$paraIdUsrNombre	=	DataManager::getUsuario('unombre', $paraIdUsr);			
-							$_iddrogueria		=	$_detalle['ptiddrogueria'];
+							$_fecha_pedido	= $_detalle['ptfechapedido'];	
+							$_idvendedor	= $_detalle['ptidvendedor'];	
+							$_nombreven		= DataManager::getUsuario('unombre', $_idvendedor);
+							$paraIdUsr		= $_detalle['ptparaidusr'];
+							$paraIdUsrNombre= DataManager::getUsuario('unombre', $paraIdUsr);			
+							$_iddrogueria	= $_detalle['ptiddrogueria'];
+							$ptIdCta		= $_detalle['ptidclineo'];
 							
-							$_nombredrog		= DataManager::getCuenta('ctanombre', 'ctaidcuenta', $_iddrogueria, 1);
-							
-							$_idcliente_drog	=	$_detalle['ptnroclidrog'];
-							if ($_detalle['ptidclineo'] != 0){
-								$_idcliente_neo	= 	DataManager::getCuenta('ctaidcuenta', 'ctaid', $_detalle['ptidclineo'], 1);
+							$droguerias		= DataManager::getDrogueria(NULL, NULL, NULL, NULL, $_iddrogueria);
+							if($droguerias){
+								foreach ($droguerias as $j => $drog) {
+									$empresaDrog= $drog['drogtidemp'];									
+									$nombreDrog	= DataManager::getCuenta('ctanombre', 'ctaidcuenta', $_iddrogueria, $empresaDrog);
+								}
+							} else {
+								$nombreDrog	= '';
+							}
+								
+							$_idcliente_drog= $_detalle['ptnroclidrog'];
+							if ($ptIdCta != 0){
+								$_idcliente_neo	= DataManager::getCuenta('ctaidcuenta', 'ctaid', $ptIdCta, 1);
 							}							
-							$_razonsocial		=	$_detalle['ptclirs'];
-							$_cuit				=	$_detalle['ptclicuit'];
-							$_domicilio			=	$_detalle['ptdomicilio'];
-							$_contacto			=	$_detalle['ptcontacto']; 
-							 ?>
+							$_razonsocial	= $_detalle['ptclirs'];
+							$_cuit			= $_detalle['ptclicuit'];
+							$_domicilio		= $_detalle['ptdomicilio'];
+							$_contacto		= $_detalle['ptcontacto']; ?>
 							
 							<div class="cbte_boxcontent"> 
 								<div class="cbte_box"><?php echo $_fecha_pedido;?></div>
@@ -88,10 +92,9 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 								</div>  <!-- cbte_box_nro -->
 							<?php } ?>
 
-
 							<div class="cbte_boxcontent">							
 								<div class="cbte_box"> 
-									<?php if ($_detalle['ptidclineo'] != 0) { echo "Nro Cuenta:</br>"; }?>
+									<?php if ($ptIdCta != 0) { echo "Nro Cuenta:</br>"; }?>
 									Raz&oacute;n Social: </br>
 									Droguer&iacute;a: </br>
 									Nro Cliente Droguer&iacute;a: </br>
@@ -101,9 +104,9 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 								</div>  <!-- cbte_box -->
 
 								<div class="cbte_box2">  
-									<?php if ($_detalle['ptidclineo'] != 0) { echo $_idcliente_neo."</br>";}?>
+									<?php if ($ptIdCta != 0) { echo $_idcliente_neo."</br>";}?>
 									<?php echo $_razonsocial; ?></br>
-									<?php echo $_iddrogueria." - ".substr($_nombredrog,0,35);?></br>
+									<?php echo $_iddrogueria." - ".substr($nombreDrog,0,35);?></br>
 									<?php echo $_idcliente_drog;?></br>
 									<?php echo $_cuit; ?></br>
 									<?php if ($_domicilio != "") { echo $_domicilio."</br>"; }?>
@@ -112,7 +115,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 							</div>  <!-- cbte_boxcontent -->
 
 							<div class="cbte_boxcontent2">
-								<table class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+								<table>
 									<thead>
 										<tr align="left">
 											<th scope="col" width="15%" height="18">C&oacute;digo</th>
@@ -123,8 +126,8 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 										</tr>
 									</thead>
 									<?php
-						}			
-
+						}
+						
 									$_ptidart		=	$_detalle['ptidart'];
 									$_unidades		=	$_detalle['ptunidades'];
 									$condPagoId		=	$_detalle['ptcondpago'];
@@ -134,31 +137,35 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 									$_descripcion	=	DataManager::getArticulo('artnombre', $_ptidart, 1, 1);
 
 									echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
-									echo sprintf("<td height=\"15\">%s</td><td>%s</td><td>%s</td><td>%s</td><td align=\"center\">%s</td>", $_ptidart, $_unidades, $_descripcion, $condPagoDias, $_descuento);
+									echo sprintf("<td height=\"15\">%s</td><td>%s</td><td>%s</td><td>%s</td><td align=\"center\">%s</td>", $_ptidart, number_format($_unidades,0), $_descripcion, $condPagoDias, number_format(round($_descuento,2),2));
 									echo sprintf("</tr>");  
 					} ?>												
 								</table>
 							</div>  <!-- cbte_boxcontent2 -->
-					
 					<?php
-					$_button_conciliar_liq	=	sprintf( "<a id=\"conciliar\" href=\"/pedidos/transfer/gestion/liquidacion/detalle_liq.php?idpedido=%s\" target=\"_blank\" title=\"Conciliar Liquidaci&oacute;n\" >%s</a>", $_ptnropedido, "<img src=\"/pedidos/images/icons/icono-conciliar.png\" border=\"0\" />");
 				}
 			} ?>
 			
 			<div class="cbte_boxcontent2" align="center"> 
 				<?php echo $piePedido; ?> 
-
 				<?php 
 				if ($_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="M"){ 
-					
-					echo $_button_conciliar_liq;
-	
-					if ($_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="M"){
 					//Reasigna el usuarioAsignado de la venta ?>
-					<form id="frmReasignar" name="frmReasignar" class="fm_edit2" method="post">
+					<form id="frmReasignar" name="frmReasignar" method="post">
 						<input id="nroPedido" name="nroPedido" value="<?php echo $_ptnropedido; ?>" hidden="hidden"/>
+						<div class="bloque_1">     
+							<fieldset id='box_error' class="msg_error">          
+								<div id="msg_error"></div>
+							</fieldset>                                                                         
+							<fieldset id='box_cargando' class="msg_informacion">                        	
+								<div id="msg_cargando"></div>      
+							</fieldset> 
+							<fieldset id='box_confirmacion' class="msg_confirmacion">
+								<div id="msg_confirmacion"></div>      
+							</fieldset>
+						</div>
 												
-						<div class="bloque_1">
+						<div class="bloque_6">
 							<label for="ptAsignar">Reasignar a</label>
 							<select id="ptAsignar" name="ptAsignar" >  
 								<option id="0" value="0" selected></option> <?php
@@ -177,26 +184,14 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 							</select> 
                         </div>
                         
-                        <div class="bloque_1">
+                        <div class="bloque_8">
+                        	<br>
 							<a id="btnReasignar" title="Reasignar" style="cursor:pointer;"> 
-								<img src="/pedidos/images/icons/icono-usr-asign.png" onmouseover="this.src='/pedidos/images/icons/icono-usr-asign-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-usr-asign.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(frmReasignar, '/pedidos/transfer/logica/reasignar.pedido.php', '/pedidos/transfer/' );"/>
+								<img class="icon-user-assigned" onclick="javascript:dac_sendForm(frmReasignar, '/pedidos/transfer/logica/reasignar.pedido.php', '/pedidos/transfer/' );"/>
 							</a>
-						</div>
-						
-						<div class="bloque_3">     
-							<fieldset id='box_error' class="msg_error">          
-								<div id="msg_error" align="center"></div>
-							</fieldset>                                                                         
-							<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                        	
-								<div id="msg_cargando" align="center"></div>      
-							</fieldset> 
-							<fieldset id='box_confirmacion' class="msg_confirmacion">
-								<div id="msg_confirmacion" align="center"></div>      
-							</fieldset>
 						</div>
 					</form>
 					<?php
-					}
 				} ?>
 			</div>  <!-- cbte_boxcontent2 --> 
 		</div>  <!-- boxcenter -->  

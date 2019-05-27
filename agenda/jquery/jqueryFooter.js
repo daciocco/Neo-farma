@@ -93,7 +93,7 @@ $(document).ready(function() {
 								$('#box_confirmacion').css({'display':'none'});
 								$('#box_error').css({'display':'none'});
 								$('#box_cargando').css({'display':'block'});
-								$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+								$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 							},
 							success: function(result){	
 								if(result){
@@ -136,26 +136,27 @@ $(document).ready(function() {
 			$("#dialogo").dialog( "option", "title", "Evento");				
 
 			var contenido	= 
-				'<form class="fm_edit_iframe">'+
+				'<form>'+
+					'<div class="bloque_1">'+
+						'<fieldset id="box_error" class="msg_error">'+          
+							'<div id="msg_error"></div>'+
+						'</fieldset>'+									 
+						'<fieldset id="box_cargando" class="msg_informacion">'+
+							'<div id="msg_cargando"></div>'+      
+						'</fieldset>'+ 
+					'</div>'+
+				
 					'<input type="text" id="id" value="0" style="display:none">'+
 					'<input type="text" id="restringido" value="" style="display:none">'+
 
-					'<div class="bloque_2"><input type="text" id="title" name="title" placeholder="Evento"></div><div class="bloque_4"><input type="color" id="colorpicker" value="#3A87AD"></div>'+
+					'<div class="bloque_2"><input type="text" id="title" name="title" placeholder="Evento"></div>'+
+					'<div class="bloque_8"><input type="color" id="colorpicker" value="#3A87AD"></div>'+
+					'<div class="bloque_5"><label>Fecha Inicio</label><input id="fechaInicio" type="text" name="fechaInicio" placeholder="Fecha Inicio"></div><div class="bloque_7"><label>Hora</label><input id="horaInicio" type="text" class="time" maxlength="5"/></div>'+
 
-					'<div class="bloque_3"><label>Fecha Inicio</label><input id="fechaInicio" type="text" name="fechaInicio" placeholder="Fecha Inicio"></div><div class="bloque_4"><label>Hora</label><input id="horaInicio" type="text" class="time" maxlength="5"/></div>'+
-
-					'<div class="bloque_3"><label>Fecha Fin</label><input id="fechaFin" type="text" name="fechaFin" placeholder="Fecha Fin"></div><div class="bloque_4"><label>Hora</label><input id="horaFin" type="text" class="time" maxlength="5"/></div>'+
+					'<div class="bloque_5"><label>Fecha Fin</label><input id="fechaFin" type="text" name="fechaFin" placeholder="Fecha Fin"></div><div class="bloque_7"><label>Hora</label><input id="horaFin" type="text" class="time" maxlength="5"/></div>'+
 
 					'<div class="bloque_1"><label>Comentario</label><textarea id="texto" maxlength="250"></textarea></div>'	+
-
-					'<div class="bloque_1" align="center">'+
-						'<fieldset id="box_error" class="msg_error">'+          
-							'<div id="msg_error" align="center"></div>'+
-						'</fieldset>'+									 
-						'<fieldset id="box_cargando" class="msg_informacion">'+
-							'<div id="msg_cargando" align="center"></div>'+      
-						'</fieldset>'+ 
-					'</div>'+
+					
 				'</form>'
 			;
 
@@ -218,7 +219,7 @@ $(document).ready(function() {
 								$('#box_confirmacion').css({'display':'none'});
 								$('#box_error').css({'display':'none'});
 								$('#box_cargando').css({'display':'block'});
-								$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+								$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 							},
 							success: function(result){	
 								if(result){
@@ -280,28 +281,27 @@ $(document).ready(function() {
 			$("#dialogo").dialog( "option", "title", "Evento");			
 
 			var contenido	= 
-				'<form class="fm_edit_iframe">'+
+				'<form>'+
 					'<input type="text" id="id" value="'+event.id+'" style="display:none">'+
 					'<input type="text" id="restringido" value="'+event.constraint+'" style="display:none">'+
-
-					'<div class="bloque_2"><input type="text" id="title" name="title" placeholder="Evento" value="'+event.title+'"></div><div class="bloque_4"><input type="color" id="colorpicker" value="#'+event.color+'"></div>'+
-
-					'<div class="bloque_3"><label>Fecha Inicio</label><input id="fechaInicio" type="text" name="fechaInicio" placeholder="Fecha Inicio" value="'+event.start.format("MM/DD/YYYY")+'"></div><div class="bloque_4"><label>Hora</label><input id="horaInicio" type="text" class="time" maxlength="5" value="'+event.start.format("HH:mm")+'"/></div>'+	
-
-					'<div class="bloque_3"><label>Fecha Fin</label><input id="fechaFin" type="text" name="fechaFin" placeholder="Fecha Fin" value="'+event.end.format("MM/DD/YYYY")+'"></div><div class="bloque_4"><label>Hora</label><input id="horaFin" type="text" class="time" maxlength="5" value="'+event.end.format("HH:mm")+'"/></div>'+
-
-					'<div class="bloque_1"><label>Comentario</label><textarea id="texto" maxlength="250">'+event.texto+'</textarea></div>' +
-
-					'<div class="bloque_1" align="center">'+
+				
+					'<div class="bloque_1">'+
 						'<fieldset id="box_error" class="msg_error">'+          
-							'<div id="msg_error" align="center"></div>'+
+							'<div id="msg_error"></div>'+
 						'</fieldset>'+
-
 						'<fieldset id="box_cargando" class="msg_informacion">'+
-							'<div id="msg_cargando" align="center"></div>'+      
+							'<div id="msg_cargando"></div>'+      
 						'</fieldset>'+ 
 					'</div>'+
 
+					'<div class="bloque_2"><input type="text" id="title" name="title" placeholder="Evento" value="'+event.title+'"></div>'+
+					'<div class="bloque_8"><input type="color" id="colorpicker" value="#'+event.color+'"></div>'+
+
+					'<div class="bloque_5"><label>Fecha Inicio</label><input id="fechaInicio" type="text" name="fechaInicio" placeholder="Fecha Inicio" value="'+event.start.format("MM/DD/YYYY")+'"></div><div class="bloque_7"><label>Hora</label><input id="horaInicio" type="text" class="time" maxlength="5" value="'+event.start.format("HH:mm")+'"/></div>'+	
+
+					'<div class="bloque_5"><label>Fecha Fin</label><input id="fechaFin" type="text" name="fechaFin" placeholder="Fecha Fin" value="'+event.end.format("MM/DD/YYYY")+'"></div><div class="bloque_7"><label>Hora</label><input id="horaFin" type="text" class="time" maxlength="5" value="'+event.end.format("HH:mm")+'"/></div>'+
+				
+					'<div class="bloque_1"><label>Comentario</label><textarea id="texto" maxlength="250">'+event.texto+'</textarea></div>' +
 				'</form>'
 			;
 
@@ -311,7 +311,7 @@ $(document).ready(function() {
 			$( "#fechaInicio" ).datepicker( "option", "dateFormat", "dd/mm/yy" );		
 			$( '#horaInicio').timepicker({  'timeFormat'	: 'H:i', });
 			$( "#fechaFin" ).datepicker({ inline: true });	
-			$( "#fechaFin" ).datepicker( "option", "dateFormat", "dd/mm/yy" );				
+			$( "#fechaFin" ).datepicker( "option", "dateFormat", "dd/mm/yy" );
 			$( '#horaFin').timepicker({ 'timeFormat'	: 'H:i', });					
 
 		}	

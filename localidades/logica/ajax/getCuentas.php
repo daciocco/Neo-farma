@@ -1,7 +1,7 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 }
 
 $idLoc	=	(isset($_POST['idLoc']))	?	$_POST['idLoc']		:	NULL;
@@ -16,7 +16,7 @@ if (count($cuentas)) {
 	}	
 	$stringZonas = implode(",", $arrayZonas);	
 	
-	echo '<table id="tblTablaCta" border="0" width="100%" align="center" style="table-layout:fixed;">';
+	echo '<table id="tblTablaCta" style="table-layout:fixed;">';
 	echo '<thead><tr align="left"><th>Emp</th><th>Id</th><th>Nombre</th><th>Localidad</th></tr></thead>';
 	echo '<tbody>';
 
@@ -39,7 +39,7 @@ if (count($cuentas)) {
 
 	echo '</tbody></table>';
 } else { 
-	echo '<table border="0" width="100%"><tr><td align="center">No hay registros activos.</td></tr></table>';
+	echo '<table><tr><td align="center">No hay registros activos.</td></tr></table>';
 }
   
 ?>

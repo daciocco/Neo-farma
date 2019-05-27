@@ -7,13 +7,12 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M"){
 	exit;
 }
 
-$_fecha		=	empty($_REQUEST['fecha']) 	? 0 : $_REQUEST['fecha'];
-$backURL	= 	empty($_REQUEST['backURL'])	? '/pedidos/transfer/gestion/liquidacion/': $_REQUEST['backURL'];
+$fecha		=	empty($_REQUEST['fecha']) 	? 0 : $_REQUEST['fecha'];
 
 header("Content-Type: application/vnd.ms-excel");
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header("content-disposition: attachment; filename=FechaSemanalPagos-".$_fecha.".xls");	
+header("content-disposition: attachment; filename=FechaSemanalPagos-".$fecha.".xls");	
 ?>
 
 <HTML LANG="es">
@@ -23,10 +22,10 @@ header("content-disposition: attachment; filename=FechaSemanalPagos-".$_fecha.".
 
 <div id="cuadro-fechaspago">
 	<div id="muestra_fechaspago">    
-   	<table id="tabla_fechaspago" name="tabla_fechaspago" class="tabla_fechaspago" cellpadding="0" cellspacing="0" border="0">
+   	<table id="tabla_fechaspago" name="tabla_fechaspago" border="0">
        	<thead>
         	<tr>
-               	<th colspan="10" align="left">  Fecha de Pago: <?php echo $_fecha;?></th>
+               	<th colspan="10" align="left">  Fecha de Pago: <?php echo $fecha;?></th>
             </tr>
             
             <tr><th colspan="10" align="left"></th> </tr>
@@ -47,40 +46,40 @@ header("content-disposition: attachment; filename=FechaSemanalPagos-".$_fecha.".
                  
         <tbody id="lista_fechaspago"> <?php 
 			//hago consulta de fechas de pago en la fecha actual ordenada por proveedor			
-			$_saldo_total	=	0;
-			$_facturas_pago	=	DataManager::getFacturasProveedor(NULL, 1, dac_invertirFecha($_fecha));
-			if($_facturas_pago) {				
-				foreach ($_facturas_pago as $k => $_fact_pago) {
-					$_idfact		= 	$_fact_pago['factid'];
-					$_idempresa		= 	$_fact_pago['factidemp'];
-					$_idprov		= 	$_fact_pago['factidprov'];
+			$saldoTotal	=	0;
+			$facturasPago	=	DataManager::getFacturasProveedor(NULL, 1, dac_invertirFecha($fecha));
+			if($facturasPago) {				
+				foreach ($facturasPago as $k => $fact) {
+					$idFact		= $fact['factid'];
+					$idEmpresa	= $fact['factidemp'];
+					$idProv		= $fact['factidprov'];
 					//Saco el nombre del proveedor
-					$_proveedor	 	= 	DataManager::getProveedor('providprov', $_idprov, $_idempresa);
-					$_nombre		= 	$_proveedor['0']['provnombre'];
-					$_plazo			= 	$_fact_pago['factplazo'];
-					$_tipo			= 	$_fact_pago['facttipo'];
-					$_factnro		= 	$_fact_pago['factnumero'];
-					$_fechacbte		= 	dac_invertirFecha($_fact_pago['factfechacbte']);
-					$_fechavto		= 	dac_invertirFecha($_fact_pago['factfechavto']);
-					$_saldo			= 	$_fact_pago['factsaldo'];
-					$_observacion	= 	$_fact_pago['factobservacion'];
-					$_activa		= 	$_fact_pago['factactiva'];
+					$proveedor	= DataManager::getProveedor('providprov', $idProv, $idEmpresa);
+					$nombre		= $proveedor['0']['provnombre'];
+					$plazo		= $fact['factplazo'];
+					$tipo		= $fact['facttipo'];
+					$factNro	= $fact['factnumero'];
+					$fechacbte	= dac_invertirFecha($fact['factfechacbte']);
+					$fechavto	= dac_invertirFecha($fact['factfechavto']);
+					$saldo		= $fact['factsaldo'];
+					$observacion= $fact['factobservacion'];
+					$activa		= $fact['factactiva'];
 					
 					((($k % 2) != 0)? $clase="background-color:#CCC; color:#000; font-weight:bold;" : $clase="");
 					
-					$_saldo_total	+=	$_saldo; ?>
+					$saldoTotal	+=	$saldo; ?>
                     
 					<tr id="rutfact<?php echo $k;?>">
-                    	<td style=" <?php echo $clase; ?> " align="center"><?php echo $_idempresa;?></td>
-                        <td style=" <?php echo $clase; ?> " align="left"><?php echo $_idprov;?></td>
-                        <td style=" <?php echo $clase; ?> "><?php echo $_nombre;?></td>
-                        <td style=" <?php echo $clase; ?> " align="center"><?php echo $_plazo;?></td>
-                        <td style=" <?php echo $clase; ?> "><?php echo $_fechavto;?></td>
-                        <td style=" <?php echo $clase; ?> "><?php echo $_tipo;?></td>
-                        <td style=" <?php echo $clase; ?> " align="left"><?php echo $_factnro;?></td>
-                        <td style=" <?php echo $clase; ?> "><?php echo $_fechacbte;?></td>
-                        <td style=" <?php echo $clase; ?> " align="right"><?php echo $_saldo;?></td>
-                        <td style=" <?php echo $clase; ?> " align="left"><?php echo $_observacion;?></td>
+                    	<td style=" <?php echo $clase; ?> " align="center"><?php echo $idEmpresa;?></td>
+                        <td style=" <?php echo $clase; ?> " align="left"><?php echo $idProv;?></td>
+                        <td style=" <?php echo $clase; ?> "><?php echo $nombre;?></td>
+                        <td style=" <?php echo $clase; ?> " align="center"><?php echo $plazo;?></td>
+                        <td style=" <?php echo $clase; ?> "><?php echo $fechavto;?></td>
+                        <td style=" <?php echo $clase; ?> "><?php echo $tipo;?></td>
+                        <td style=" <?php echo $clase; ?> " align="left"><?php echo $factNro;?></td>
+                        <td style=" <?php echo $clase; ?> "><?php echo $fechacbte;?></td>
+                        <td style=" <?php echo $clase; ?> " align="right"><?php echo $saldo;?></td>
+                        <td style=" <?php echo $clase; ?> " align="left"><?php echo $observacion;?></td>
                     </tr> <?php
 				}				
 			} else { ?>
@@ -92,7 +91,7 @@ header("content-disposition: attachment; filename=FechaSemanalPagos-".$_fecha.".
         	<tr>
             	<th colspan="7" height="30px" style="border:none; font-weight:bold;"></th>
                 <th colspan="1" height="30px" style="border:none; font-weight:bold;">Total</th>
-                <th colspan="1" height="30px" style="border:none; font-weight:bold;" align="right"><?php echo $_saldo_total; ?></th>
+                <th colspan="1" height="30px" style="border:none; font-weight:bold;" align="right"><?php echo $saldoTotal; ?></th>
                 <th colspan="1" height="30px" style="border:none; font-weight:bold;"></th>
             </tr>
         </tfoot>

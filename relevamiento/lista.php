@@ -1,30 +1,29 @@
-
 <div class="box_body"> <!-- datos --> 
 	<?php
 	$backURL	= empty($_REQUEST['backURL']) 	? '/pedidos/relevamiento/': $_REQUEST['backURL'];
 	$_LPP		= 1000;
-	$_total 	= DataManager::getNumeroFilasTotales('TRelevamiento', 0); 
-	//count(DataManager::getRelevamientos($_pag, $_LPP, NULL)); //
+	$_total 	= DataManager::getNumeroFilasTotales('TRelevamiento', 0);
 	$_paginas 	= ceil($_total/$_LPP);
 	$_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-	$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-	$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-	$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-	$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-	$_GOFirst	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, 1,			$_imgFirst);
-	$_GOPrev	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag-1,	$_imgPrev);
-	$_GONext	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag+1,	$_imgNext);
-	$_GOLast	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_paginas,	$_imgLast);
+	$_GOFirst	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag=%d\"></a>", $backURL, 1);
+	$_GOPrev	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag=%d\"></a>", $backURL, $_pag-1);
+	$_GONext	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag=%d\"></a>", $backURL, $_pag+1);
+	$_GOLast	= sprintf("<a class=\"icon-go-last\" href=\"%s?pag=%d\"></a>", $backURL, $_paginas);
+	
+	$btnNuevo	= sprintf( "<a href=\"editar.php\" title=\"Nuevo\"><img class=\"icon-new\"/></a>");
 	?>
 	<div class="barra">
-       	<div class="buscadorizq">
+       	<div class="bloque_5">
 			<h1>Relevamiento</h1>                	
+        </div>
+        <div class="bloque_5">
+        	<?php  echo $btnNuevo; ?>
         </div>
         <hr>
 	</div> <!-- Fin barra -->
     
     <div class="lista_super">
-        <table id="tblRelevamientos" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <table id="tblRelevamientos">
             <thead>
             <tr>
                 <th scope="col" align="left" height="18">Relev</th>
@@ -47,14 +46,11 @@
                 $_direccion = $_rel['relpregunta'];
                 $_etiporesp	= $_rel['reltiporesp'];		
                 
-				$_status	= ($_rel['relactivo']) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activar\"/>";							
+				$_status	= ($_rel['relactivo']) ? "<img class=\"icon-status-active\"/>" : "<img class=\"icon-status-inactive\"/>";
+				$_borrar	= sprintf( "<a href=\"logica/changestatus.php?relid=%d&backURL=%s&pag=%s\" title=\"Cambiar Estado\">%s</a>", $_relid, $_SERVER['PHP_SELF'], $_pag, $_status);				
+				$_editar	= sprintf( "<a href=\"editar.php?relid=%d&backURL=%s&pag=%s\" title=\"Editar Relevamiento\" target=\"_blank\">%s</a>", $_relid, $_SERVER['PHP_SELF'], $_pag, "<img class=\"icon-edit\"/>");
                 
-				$_borrar	= sprintf( "<a href=\"logica/changestatus.php?relid=%d&backURL=%s&pag=%s\" title=\"Borrar Relevamiento\">%s</a>", $_relid, $_SERVER['PHP_SELF'], $_pag, $_status);
-				
-				
-				$_editar	= sprintf( "<a href=\"editar.php?relid=%d&backURL=%s&pag=%s\" title=\"Editar Relevamiento\" target=\"_blank\">%s</a>", $_relid, $_SERVER['PHP_SELF'], $_pag, "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
-                
-				$_eliminar	= sprintf ("<a href=\"logica/eliminar.relevamiento.php?relid=%d&backURL=%s&pag=%s\" title=\"Eliminar Relevamiento\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL RELEVAMIENTO?')\"> <img src=\"../images/icons/icono-eliminar.png\" border=\"0\" align=\"absmiddle\" /></a>", $_rel['relid'], $_SERVER['PHP_SELF'], $_pag, "Eliminar");
+				$_eliminar	= sprintf ("<a href=\"logica/eliminar.relevamiento.php?relid=%d&backURL=%s&pag=%s\" title=\"Eliminar Relevamiento\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR EL RELEVAMIENTO?')\"> <img class=\"icon-delete\" /></a>", $_rel['relid'], $_SERVER['PHP_SELF'], $_pag, "Eliminar");
                 echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
                 echo sprintf("<td height=\"15\">%s</td><td>%s</td><td>%s</td><td>%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td>", $_nrorel, $_orden, $_direccion, $_etiporesp, $_editar, $_borrar, $_eliminar);
                 echo sprintf("</tr>");					
@@ -81,10 +77,7 @@
 		echo("<table class=\"paginador\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
 		echo sprintf("<td height=\"16\">Mostrando p&aacute;gina %d de %d</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td>", $_pag, $_paginas, $_First, $_Prev, $_Next, $_Last); 
 		echo("</tr></table>"); 
-	} ?>
-	
-	<div class="toolbar" style="margin:10px 0;padding-left:5px;"><?php $bar->show(); ?></div>
-	
+	} ?>	
 </div> <!-- Fin datos -->
 
 

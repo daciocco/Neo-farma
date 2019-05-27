@@ -601,7 +601,6 @@ bsaaaaaaaceeeeiiiidnoooooouuuyybyRr';
 
 //-------------------------------------------------
 // Registra movimientos realizados por un usuario
-//-------------------------------------------------
 function dac_registrarMovimiento($movimiento, $movTipo, $movTabla, $movId=0) {
 	$fieldID=	'movoperacion, movtransaccion, movorigen, movorigenid, movfecha, movusrid';
 	$values	=	'"'.$movimiento.'", "'.$movTipo.'", "'.$movTabla.'", "'.$movId.'", "'.date("Y-m-d h:i:s").'", '.$_SESSION["_usrid"];

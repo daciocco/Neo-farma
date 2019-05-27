@@ -1,27 +1,10 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.ToolBar.php");
 if ($_SESSION["_usrrol"]!="A"){
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	header("Location: $_nextURL");
  	exit;
-}
-
-//BARRA DE HERRAMIENTAS (ACCIONES)
-$_links 		= array();
-$_links[1][]	= array('url'=>'editar.php', 'texto'=>'<img src=../images/icons/icono-nuevo50.png border=0 align=absmiddle title=nuevo_accion />', 'class'=>'newitem');
-
-$_params 		= array(
-	'modo'		=> 1,
-	'separador' => '',
-	'estilo'	=> 'toolbar',
-	'aspecto'	=> 'links',
-	'links'		=> $_links[1]);
-$bar = ToolBar::factory($_params);
-
-$_Navegacion 	= array();
-$_Navegacion[] 	= 'Acciones';
-?>
+} ?>
 <!DOCTYPE html>
 <html lang='es'>
 <head>
@@ -33,13 +16,11 @@ $_Navegacion[] 	= 'Acciones';
 <body>
 	<header class="cabecera">
         <?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/header.inc.php"); ?>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-		<script src="https://code.highcharts.com/modules/exporting.js"></script>
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php
-        $_section 	= 'acciones';
-        $_subsection	= 'lista_acciones';
+        $_section 	= 'planificar';
+        $_subsection= 'lista_acciones';
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
         

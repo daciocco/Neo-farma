@@ -1,0 +1,521 @@
+// Scss Document 
+@charset "ISO-8859-1"
+*
+	margin:	0
+	padding: 0
+	color: $black
+
+html
+	margin: 0
+	padding: 0
+	height: 100%
+
+body
+	width: 100%
+	height: 100%
+	background: $lightGray url(/pedidos/images/fondos/backgroundExtranet.jpg) top center no-repeat
+	background-size: cover
+
+// IMAGEN DE CARGA WEB
+#imgBloqueo
+	position: absolute
+	z-index: 100
+	width: 100%
+	height: 100%
+
+#bloqueoContenido
+	content: url(/pedidos/images/gif/loadingPage.gif)
+
+.parpadeo
+	+animation-name(parpadeo)
+	+animation-duration(6s)
+	+animation-timing-function(linear)
+	+animation-iteration-count(infinite)
+	background-color: $white
+
+@keyframes parpadeo
+	0%
+		opacity: 0.3
+	25%
+		opacity: 1
+	50%
+		opacity: 0.3
+	75%
+		opacity: 1
+	100%
+		opacity: 0.3
+//----------------------
+
+.cuerpo
+	font-family: $font-family
+	color: $gray2
+	font-size: 12px	
+	width: 960px
+	margin: auto
+	height: auto
+	padding: 5px 0 
+	min-height: calc(100% - 35px - 85px - 60px - 30px) //Alto de la web - alto pie - alto cabecera - alto menu
+	
+.menu2
+	min-height: 320px
+
+hr
+	clear: both
+	border: none
+
+.hr-line
+	border-bottom: 1px solid $blue
+
+%box-shared //.box_body, .box_seccion, .box_down, .box_body2 	
+	margin: 5px
+	float: left
+
+.box_body 
+	@extend %box-shared
+	width: 580px
+	.box_mini2
+		width: 46%
+
+.box_body2
+	@extend %box-shared
+	width: 465px	
+
+.box_seccion 
+	@extend %box-shared
+	width: 360px
+	.box_mini2
+		width: 46%
+
+.box_down 
+	@extend %box-shared
+	width: 950px
+
+.barra
+	padding: 10px
+	background-color: $gray
+	+border-radius(5px)
+	height: auto
+	font-size: 14px // eliminar ésta opción cuando reemplace los labels por h1 de las barras
+	margin-top: 5px
+
+.bg-orange
+	background-color: $orange
+
+.bg-lightOrange
+	background-color: $lightOrange
+
+.bg-lightYellow
+	background-color: $lightYellow
+
+//h1, h2 
+%h-shared 
+	display: inline
+
+h1 
+	@extend %h-shared
+	font-size: 14px
+h2 
+	@extend %h-shared
+	font-size: 12px
+
+.text-left
+	text-align: left
+
+.text-right
+	text-align: right
+
+.text-center
+	text-align: center
+
+.section-title
+	.center 
+		padding: 0 0 50px 0
+	h2 
+		margin-bottom: 30px
+		line-height: 20px
+		font-size: 28px
+		font-weight: 700
+		color: $gray2
+
+%lista-shared
+	overflow-x: hidden
+	overflow-y: auto
+	border: solid 1px $gray
+	margin: 0px 5px 5px 5px
+
+.lista
+	@extend %lista-shared
+	max-height: 200px
+
+.lista_super
+	@extend %lista-shared
+	max-height: 400px
+
+%titulo-shared
+	font-family: $font-family3
+	font-weight: bold
+	color: $blue2
+
+tit_1 
+	@extend %titulo-shared
+	font-size: 22px
+
+tit_3 
+	@extend %titulo-shared
+	font-size: 18px
+
+#img_cabecera
+	visibility: visible
+
+#top 
+	font-family: $font-family
+	font-size: 12px
+	color: $red
+	height: 28px
+	background-color: transparent
+	
+#top2 
+	font-family: $font-family
+	font-size: 12px
+	color: $red
+	height: 60px
+	background-color: transparent
+
+/*	VER NOTICIA	*/
+.boxbody_noti
+	float: left
+	width: 300px
+	height: auto
+	margin: 10px
+
+.boxbody_noti_select 
+	min-width: 320px
+	max-width: 620px
+	height: auto
+	margin: 10px
+
+article
+	line-height: 20px
+	padding: 5px
+	border-bottom: 3px solid $blue2
+	header
+		border-top: 1px solid $black
+		border-bottom: 1px solid $black
+		font-size: 16px	
+		font-weight: bold
+
+section
+	margin-top: 10px
+	titulo
+		font-size: 20px
+		color: $blue2
+		font-weight: bold
+	subtitulo
+		font-size: 12px
+		color: #333
+
+/*	BANNER OFERTAS	*/
+.ofertas 
+	background-color: transparent
+	position: relative 
+	overflow: hidden				
+	height: 100px
+	width: 950px 
+	margin: 5px 
+	float: left
+	.producto 
+		height: 100px 
+		float: left 
+		position: absolute
+		width: 460px
+		left: 950px
+
+/*	BOTÓN ADJUNTAR	*/
+.spanfile
+	font-family: $font-family3
+	font-weight: bolder
+	
+.file
+	position: relative
+	font-weight: normal
+	min-height: 40px
+	margin: 0 2%
+	width: 96%
+	+border-radius(8px)
+	-webkit-box-sizing: border-box
+	box-sizing: border-box
+	cursor: pointer
+	background-color: transparent
+	font-size: 12px	
+	font-family: $font-family
+	color: $gray
+	text-align: left
+	line-height: 20px
+	border: 1px solid $gray
+	height: auto
+	a
+		width: 20%
+		float: right
+		display: block
+	span
+		display: block
+		float: left
+		width: 80%
+	input[type=file]
+		position: absolute
+		z-index: 100
+		top: 0px
+		left: 0px
+		font-size: 18px
+
+/*	Ofertas	*/
+offers 
+	display: block
+	font-family: $font-family
+	background-color: $white
+	font-size: 12px	
+	width: 100%
+	height: auto
+	padding: 40px 0
+
+.offers 
+	height: auto
+	width: 960px
+	margin: auto
+
+small 
+	font-size: 80%
+	color: aliceblue
+
+.col-sm-6
+	width: 22.5%
+	display: inline-block
+	position: relative
+	padding: 0 1%
+	margin-top: 5%
+
+.portfolio-item
+	.hover-bg
+		overflow: hidden
+		position: relative
+		cursor: default
+		.img-responsive
+			display: block
+			max-width: 100%
+			max-height: 100%
+		.hover-text
+			position: absolute
+			text-align: center
+			margin: auto
+			color: $white
+			font-size: 16px
+			background: rgba(0, 0, 0, 0.66)
+			height: 100%
+			width: 100%
+			opacity: 0
+			padding-top: 15%
+			+transition(all, .5s, ease, 0s)
+			h4
+				+transformTranslateY(100%)
+				+transition(all, 0.3s, ease, 0.05s)
+			i
+				font-size: 24px
+				+transformTranslateY(0)
+				+transition(all, 0.3s, ease, 0.1s)
+		&:hover
+			.hover-text 
+				opacity: 1
+				h4
+					color: $white
+					-webkit-backface-visibility: hidden
+					+transformTranslateY(0)
+				i
+					color: $white
+					-webkit-backface-visibility: hidden
+					+transformTranslateY(100%)
+
+/*	PIE DE PÁGINA	*/
+.pie 
+	background-color: $darkGray 
+	height: auto
+
+#pie_contenido
+	height: 35px
+	width: 960px
+	margin: auto
+
+.copyright 
+	font-family: $font-family2
+	color: $gray2
+	font-style: italic
+	font-size: 10px
+	float: right
+	margin: 10px 10px 0px 0px
+
+/* ALERTAS -NOTIFICACIONES - MENSAJES */
+/* 		MENSAJE INFORMACION		*/
+%mensaje-shared
+	display: none
+	width: 96%
+	text-align: center
+	legend
+		text-align: center
+	div
+		width: auto
+		height: auto
+		font-weight: bold
+
+.msg_informacion 
+	@extend %mensaje-shared
+	border-color: $blue
+	background-color: $lightBlue2
+	legend 
+		color: $blue
+	div 
+		color: $blue
+
+.msg_error 
+	@extend %mensaje-shared
+	border-color: $red
+	background-color: $lightRed
+	legend 
+		color: $red
+	div 
+		color: $red
+
+.msg_alerta 
+	@extend %mensaje-shared
+	border-color: $gold
+	background-color: $lightYellow 
+	legend 
+		color: $gold
+	div 
+		color: $gold
+
+.msg_confirmacion 
+	@extend %mensaje-shared
+	border-color: $green
+	background-color: $lightGreen
+	legend 
+		color: $green
+	div 
+		color: $green
+
+// 	DETALLE COMPROBANTES	
+.cbte 
+	align-content: center
+	overflow: auto
+	background-color: $white
+	width: 800px
+	box-shadow: 2px 2px 15px $gray
+	margin: 10px auto 10px auto
+
+.cbte_header
+	border-bottom: solid 1px $gray
+	color: $darkGray
+	padding: 15px
+	height: 70px
+
+.cbte_boxheader 
+	text-align: left
+	float: left
+	max-width: 400px
+	min-width: 300px
+
+.cbte_boxheader_der 
+	float: left
+	width: 360px
+	border-left: 1px solid $gray
+	padding-left: 30px
+	font-family: $font-family
+	font-weight: bold
+	font-size: 11px
+
+.cbte_boxcontent 
+	text-align: left
+	font-size: 14px
+	background-color: $lightBlue
+	padding: 5px
+	padding-left: 15px
+	padding-right: 15px
+	margin: 15px
+	min-height: 20px
+	overflow: hidden
+
+.cbte_boxcontent2 
+	padding: 15px
+
+.cbte_box
+	height: auto
+	line-height: 20px
+	font-weight: bold
+	float: left
+	min-width: 245px
+	max-width: 530px
+	color: $blue2
+
+.cbte_box2
+	height: auto
+	line-height: 20px
+	min-width: 245px
+	max-width: 530px
+	float: left
+
+//	CSS gráfico 
+#container
+	min-width: 310px
+	height: 200px 
+	max-width: 600px 
+	margin: 0 auto
+
+//	PANTALLA CHICA: 				
+@media screen and (max-width:768px)
+	%width-shared
+		width: 98%
+
+	#top 
+		height: 60px
+	
+	#top2 
+		display: none
+	
+	.offers
+		@extend %width-shared
+	
+	#pie_contenido 
+		@extend %width-shared
+	
+	.cuerpo 
+		min-height: calc(100% - 35px - 90px) //Alto de la web - alto pie - alto menu
+		@extend %width-shared
+	
+	.box_body
+		@extend %width-shared
+
+	.box_seccion
+		@extend %width-shared
+
+	.box_down
+		@extend %width-shared
+
+	.box_body2 
+		@extend %width-shared
+	
+	#img_cabecera
+		visibility: hidden	
+
+	tit_1 
+		font-size: 18px
+
+	.col-sm-6
+		width: 47%
+
+@media screen and (max-width: 360px) 	
+	.lista
+		overflow: scroll
+
+	.lista_super
+		overflow: scroll
+
+	.col-sm-6
+		width: 98%

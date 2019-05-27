@@ -14,9 +14,11 @@ class TListas extends PropertyObject {
 			$arData = DataManager::loadFromDatabase($this, $_id);		
 	   		parent::__construct($arData);
 		}
-		$this->propertyTable['ID'] 					= 'IdLista';
-		$this->propertyTable['Nombre']				= 'NombreLT';
-    }
+		$this->propertyTable['ID'] 		= 'IdLista';
+		$this->propertyTable['Nombre']	= 'NombreLT';
+		$this->propertyTable['CategoriaComercial']	= 'CategoriaComercial';
+    	$this->propertyTable['Activa']	= 'Activa';
+	}
     
 	function __toString() {
 		$_classname = get_class($this);
@@ -32,15 +34,12 @@ class TListas extends PropertyObject {
 	public function __getTableName()  {
 		return $this->_tablename;
 	}
-	
 	public function __getFieldID()  {
 		return $this->_fieldid;
 	}
-	
 	public function __newID()  {
 		return ('#'.$this->_fieldid);
 	}
-
 	public function __validate()  {
 		return true;
 	}

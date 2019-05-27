@@ -1,13 +1,11 @@
 <?php
-session_start();
 //Matar sesión para probar como hacer que se cierre bien!!!
-require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 }
 
 $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
-//*************************************************
 $field		= 	(isset($_POST['tipo']))		?	$_POST['tipo']	:	NULL;
 $filtro		= 	(isset($_POST['filtro']))	?	$_POST['filtro']  :	'';
 
@@ -16,11 +14,14 @@ if(empty($filtro)){
 } else {
 	$filtro	= '%'.$filtro.'%';
 }
-//*************************************************
-$cuentas	= DataManager::getCuentaAll('*', $field, $filtro, NULL, $usrZonas);
 
-echo	"<table id=\"tblFiltroCuentas\" class=\"datatab\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"table-layout:fixed;\">";
+if(empty($usrZonas)){
+	echo "No dispone de zonas asignadas para consultar cuentas"; exit;
+}
+//------------------------------
 
+$cuentas = DataManager::getCuentaAll('*', $field, $filtro, NULL, $usrZonas);
+echo	"<table id=\"tblFiltroCuentas\"  style=\"table-layout:fixed;\">";
 if (count($cuentas)) {	
 	echo	"<thead><tr align=\"left\"><th>Emp</th><th>Tipo</th><th>Cuenta</th><th>Nombre</th><th>Cuit</th></tr></thead>";
 	echo	"<tbody>";
@@ -38,7 +39,7 @@ if (count($cuentas)) {
 
 				$_editar	= sprintf( "onclick=\"window.open('editar.php?ctaid=%d')\" style=\"cursor:pointer;\"",$id);
 
-				$_status	= ($cuenta['ctaactiva']) ? "<img src=\"/pedidos/images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activa\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id)\"/>" : "<img src=\"/pedidos/images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Inactiva\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id)\"/>";
+				$_status	= ($cuenta['ctaactiva']) ? "<img class=\"icon-status-active\" title=\"Activa\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id)\"/>" : "<img class=\"icon-status-inactive\" title=\"Inactiva\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id)\"/>";
 				((($k % 2) == 0)? $clase="par" : $clase="impar");
 
 				echo "<tr class=".$clase.">";

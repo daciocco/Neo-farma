@@ -10,7 +10,7 @@ function dac_BuscarRecibo(rec, tal){
 			$('#box_confirmacion2').css({'display':'none'});
 			$('#box_error2').css({'display':'none'});
 			$('#box_cargando2').css({'display':'block'});					
-			$("#msg_cargando2").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando2").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) {
 			$('#box_cargando2').css({'display':'none'});
@@ -48,7 +48,7 @@ function dac_NuevoTalonario(tal){
 			$('#box_confirmacion2').css({'display':'none'});
 			$('#box_error2').css({'display':'none'});
 			$('#box_cargando2').css({'display':'block'});					
-			$("#msg_cargando2").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando2").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) {
 			if (result) {
@@ -81,7 +81,7 @@ function dac_AnularRecibo(rendid, nro_rend, nro_tal, nro_rec){
 			$('#box_confirmacion2').css({'display':'none'});
 			$('#box_error2').css({'display':'none'});
 			$('#box_cargando2').css({'display':'block'});					
-			$("#msg_cargando2").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando2").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) { 
 					if (result){
@@ -283,7 +283,7 @@ function dac_EnviarRecibo(){
 			$('#box_confirmacion2').css({'display':'none'});
 			$('#box_error2').css({'display':'none'});
 			$('#box_cargando2').css({'display':'block'});					
-			$("#msg_cargando2").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando2").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) { 								
 					if (result){
@@ -342,7 +342,7 @@ function dac_deleteRecibo(){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});					
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) {
 			if (result){
@@ -390,7 +390,7 @@ function dac_Anular_Rendicion(){
 				$('#box_confirmacion').css({'display':'none'});
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});					
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},
 			success : function (result) {
 				if (result){ 

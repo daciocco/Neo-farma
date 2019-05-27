@@ -1,5 +1,6 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.hiper.php");
 if ($_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M"){
  	echo 'SU SESION HA EXPIRADO.'; exit;
 }
@@ -31,6 +32,7 @@ if(count($arrayIdCond)){
 					if($artPrecio){
 						$condArtObject	= DataManager::newObjectOfClass('TCondicionComercialArt', $condArtId);
 						$condArtObject->__set('Precio'	, $artPrecio);	
+						DataManagerHiper::updateSimpleObject($condArtObject, $condArtId);
 						DataManager::updateSimpleObject($condArtObject);
 						
 					} else {
@@ -38,10 +40,9 @@ if(count($arrayIdCond)){
 					}
 				}
 			}
-			//**********************//	
-			//* Registro MOVIMIENTO *//
-			//**********************//
-			$movimiento	=	'CONDICION_COMERCIAL_ACTUALIZA_PRECIOS';
+			
+			// Registro MOVIMIENTO
+			$movimiento	=	'ACTUALIZA_PRECIOS';
 			dac_registrarMovimiento($movimiento, "UPDATE", 'TCondicionComercial', $condId);
 			
 		} else {

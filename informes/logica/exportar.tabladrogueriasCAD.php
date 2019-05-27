@@ -17,7 +17,7 @@ header("content-disposition: attachment;filename=TablaDrogueriasCAD-".date('d-m-
 <TITLE>::. Exportacion de Datos .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0"> <?php
+	<table border="0"> <?php
 		$registros	= DataManager::getDrogueriaCAD(); 
 		if (count($registros)) {
 			

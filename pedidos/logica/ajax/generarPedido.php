@@ -13,7 +13,7 @@ $categoria = DataManager::getCuenta('ctacategoriacomercial', 'ctaidcuenta', $idC
 //$idCondComercial <> de ListaEspecial DR AHORRO, FARMACITY, FARMACITY 2
 // originalmente $idCondComercial != 1764  && $idCondComercial != 1765 && $idCondComercial != 1761
 $condBonificar	= 0;
-$condiciones = DataManager::getCondiciones(0, 0, 1, $empresa, $laboratorio, NULL, NULL, NULL, NULL, $idCondComercial);
+$condiciones 	= DataManager::getCondiciones(0, 0, 1, $empresa, $laboratorio, NULL, NULL, NULL, NULL, $idCondComercial);
 if (count($condiciones) > 0) {
 	foreach ($condiciones as $i => $cond) {
 		$condTipo 	= $cond['condtipo'];
@@ -22,9 +22,9 @@ if (count($condiciones) > 0) {
 			$condBonificar = 1;
 		}
 	}
-} 
+}
 if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0){
-	array_unshift ( $articulosIdArt	, 369 );
+	array_unshift ( $articulosIdArt	, 3801 );
 	array_unshift ( $articulosCant 	, 1 );
 	array_unshift ( $articulosPrecio, 0 );
 	array_unshift ( $articulosB1 	, 0 );
@@ -122,7 +122,7 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 	do {			
 		$nombreArt	=	DataManager::getArticulo('artnombre', $idArt, $empresa, $laboratorio);
 		if (empty($nombreArt)){
-			echo	"Error con el artículo $idArt. P&oacute;ngase en contacto con el administrador de la web"; exit;
+			echo "Error con el artículo $idArt. P&oacute;ngase en contacto con el administrador de la web"; exit;
 		}
 		
 		$nroOrden = (empty($nroOrden)) ? 0 : $nroOrden;
@@ -160,8 +160,7 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 		$observacion	=	substr($observacion, 0, 250);
 		$pedidoObject->__set('Observacion'		, $observacion);
 		$pedidoObject->__set('FechaPedido'		, $fechaPedido);
-		$pedidoObject->__set('Activo'			, 1); //Queda activo porque aún no está exportado
-		
+		$pedidoObject->__set('Activo'			, 1); //Queda activo porque aún no está exportado		
 		$pedidoObject->__set('Tipo'				, $tipoPedido);
 		$pedidoObject->__set('Nombre'			, $nombre);
 		$pedidoObject->__set('Provincia'		, $provincia);
@@ -169,7 +168,7 @@ for($i = 0; $i < count($articulosIdArt); $i++){
 		$pedidoObject->__set('Direccion'		, $direccion);
 		$pedidoObject->__set('CP'				, $cp);
 		$pedidoObject->__set('Telefono'			, $telefono);		
-		
+				
 		$pedidoObject->__set('ID'				, $pedidoObject->__newID());
 		if ($cant != 0){
 			$ID	= DataManager::insertSimpleObject($pedidoObject);

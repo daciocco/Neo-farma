@@ -2,7 +2,7 @@
 session_start();
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 	exit;
 }
 
@@ -12,7 +12,7 @@ $empresa	= 	(isset($_POST['empresa']))	? 	$_POST['empresa']	:	NULL;
 
 $cuentas	= DataManager::getCuentas(0, 0, $empresa, NULL, "'C', 'CT', 'T', 'TT'", $_SESSION["_usrzonas"]);
 if (count($cuentas)) {	
-	echo '<table id="tblCuentas" class="datatab" width="100%" border="0" align="center" style="table-layout:fixed;">';
+	echo '<table id="tblCuentas" style="table-layout:fixed;">';
 	echo '<thead><tr align="left"><th>Id</th><th>Nombre</th><th>Localidad</th></tr></thead>';
 	echo '<tbody>';
 	foreach ($cuentas as $k => $cta) {	
@@ -33,7 +33,7 @@ if (count($cuentas)) {
 	}
 	echo "</tbody></table>";
 } else { 
-	echo 	'<table border="0" width="100%"><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
+	echo 	'<table><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
 }
 	
 ?>

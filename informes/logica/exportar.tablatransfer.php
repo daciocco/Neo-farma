@@ -30,7 +30,7 @@ header("content-disposition: attachment;filename=TablaTransfers-".date('d-m-y').
 <TITLE>::. Exportacion de Datos (Tabla Transfers) .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0">
+	<table border="0">
 	<thead>
 		<tr>
         	<td scope="col" >ptid</td>

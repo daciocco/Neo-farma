@@ -6,7 +6,7 @@ $_action 	= sprintf("logica/update.registrarme.php");
 
 $_sms = (empty($_GET['sms'])) ? 0 : $_GET['sms'];
 if ($_sms) {
-	$_razonsocial		=	isset($_SESSION['razonsocial']) ? $_SESSION['razonsocial'] : '';	
+	$_razonsocial		= 	isset($_SESSION['razonsocial']) ? $_SESSION['razonsocial'] : '';	
 	$_usuario			=	isset($_SESSION['usuario']) ? $_SESSION['usuario'] : '';	
 	$_telefono			=	isset($_SESSION['telefono']) ? $_SESSION['telefono'] : '';	
 	$_provincia			=	isset($_SESSION['provincia']) ? $_SESSION['provincia'] : '';	
@@ -73,13 +73,13 @@ if ($_sms) {
 		
 	} // mensaje de error	
 } else {
-	$_razonsocial		=	$_usuario			=	$_telefono			=
-	$_provincia			=	$_localidad			=	$_direccion			=	
-	$_codpostal			=	$_email				=	$_emailconfirm		=	
-	$_clave				=	$_web				=	$_cuit				=	
-	$_nroIBB			=	$_comentario		=	"";
+	$_razonsocial	= $_usuario		= $_telefono	 =
+	$_localidad		= $_direccion	=	
+	$_codpostal		= $_email		= $_emailconfirm =	
+	$_clave			= $_web			= $_cuit		 =	
+	$_nroIBB		= $_comentario	= "";
+	$_provincia		= 0;
 } // $_sms > 0 ==> ERROR DETECTADO EN EL SCRIPT DE PROCESO DEL FORMULARIO (NO JAVASCRIPT)
-/**************************/
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -120,17 +120,16 @@ if ($_sms) {
 			<hr>
 		</div>     
 		<form method="post" enctype="multipart/form-data" action="<?php echo $_action; ?>">
-			<input type="hidden" name="sms" id="sms" value="<?php echo $_sms;?>"/>
-			
+			<input type="hidden" name="sms" id="sms" value="<?php echo $_sms;?>"/>			
 			<div class="bloque_1"> 
-				<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                  
-					<div id="msg_cargando" align="center"></div>      
+				<fieldset id='box_cargando' class="msg_informacion">                 
+					<div id="msg_cargando"></div>      
 				</fieldset>   
 				<fieldset id='box_error' class="msg_error"> 	
-					<div id="msg_error" align="center"> <?php  echo $_info; ?> </div>
+					<div id="msg_error"> <?php  echo $_info; ?> </div>
 				</fieldset>
 				<fieldset id='box_confirmacion' class="msg_confirmacion">
-					<div id="msg_confirmacion" align="center"><?php echo $_info;?></div> 
+					<div id="msg_confirmacion"><?php echo $_info;?></div> 
 				</fieldset>
 				<?php
 					echo "<script>";
@@ -140,7 +139,7 @@ if ($_sms) {
 			</div>       
 
 			<div class="bloque_1">
-				<select id="empselect" name="empselect"  style="color:#5c788e;"><?php
+				<select id="empselect" name="empselect" ><?php
 					$_empresas	= DataManager::getEmpresas(1); 
 					if (count($_empresas)) {	
 						foreach ($_empresas as $k => $_emp) {
@@ -156,18 +155,31 @@ if ($_sms) {
 				</select>
 			</div>
 
-			<div class="bloque_1">
-				<input id="razonsocial" name="razonsocial" type="text" placeholder="Raz&oacute;n Social *" value="<?php echo @$_razonsocial;?>" maxlength="50"/>
+			<div class="bloque_3">
+				<input id="razonsocial" name="razonsocial" type="text" placeholder="Raz&oacute;n Social" value="<?php echo @$_razonsocial;?>" maxlength="50"/>
+			</div>
+			
+			<div class="bloque_7">
+				<input id="cuit" name="cuit" type="text" placeholder="Cuit" value="<?php echo @$_cuit;?>" maxlength="13"  /> 
+			</div>
+			<hr>
+			<div class="bloque_7">
+				<input id="usuario" name="usuario" type="text" placeholder="Usuario" value="<?php echo @$_usuario;?>" maxlength="15"/>
 			</div>
 
-			<div class="bloque_5">
-				<input id="cuit" name="cuit" type="text" placeholder="Cuit *" value="<?php echo @$_cuit;?>" maxlength="13"  /> 
+			<div class="bloque_7">
+				<input id="clave" name="clave" type="password" placeholder="Clave" value="<?php echo $_clave;?>" maxlength="15" /> 
+			</div>
+			
+			
+			<div class="bloque_7">
+				<input id="nroIBB" name="nroIBB" type="text" placeholder="Ingresos Brutos" value="<?php echo @$_nroIBB;?>" maxlength="15"  /> 
 			</div>
 
-			<div class="bloque_5">
-				<input id="nroIBB" name="nroIBB" type="text" placeholder="Nro. Ingresos Brutos *" value="<?php echo @$_nroIBB;?>" maxlength="15"  /> 
+			<div class="bloque_7">
+				<input id="telefono" name="telefono" type="text" placeholder="Tel&eacute;fono" value="<?php echo @$_telefono;?>"  maxlength="15"/>
 			</div>
-
+			<hr>
 			<div class="bloque_5">
 				<!--El id lo usaremos para seleccionar este elemento con el jQuery-->
 				<select id="provincia" name="provincia" /> 
@@ -193,59 +205,47 @@ if ($_sms) {
 				</select>
 			</div>
 
-			<div class="bloque_1">
-				<input id="direccion" name="direccion" type="text" placeholder="Direcci&oacute;n *" value="<?php echo $_direccion;?>" maxlength="50"/>
+			<div class="bloque_3">
+				<input id="direccion" name="direccion" type="text" placeholder="Direcci&oacute;n" value="<?php echo $_direccion;?>" maxlength="50"/>
 			</div>
 
 			<div class="bloque_7"> 
-				<input id="codpostal" name="codpostal" type="text" placeholder="C&oacute;digo Postal" value="<?php echo $_codpostal;?>" maxlength="6"  /> 
+				<input id="codpostal" name="codpostal" type="text" placeholder="Cod Postal" value="<?php echo $_codpostal;?>" maxlength="6"  /> 
 			</div>
 
-
-			<div class="bloque_7">
-				<input id="telefono" name="telefono" type="text" placeholder="Tel&eacute;fono *" value="<?php echo @$_telefono;?>"  maxlength="15"/>
+			<div class="bloque_5">
+				<input id="email" name="email" type="text" placeholder="Correo electr&oacute;nico" value="<?php echo @$_email;?>" maxlength="50"/>
 			</div>
 
-			<div class="bloque_7">
-				<input id="usuario" name="usuario" type="text" placeholder="Usuario *" value="<?php echo @$_usuario;?>" maxlength="15"/>
-			</div>
-
-			<div class="bloque_7">
-				<input id="clave" name="clave" type="password" placeholder="Contrase&ntilde;a *" value="<?php echo $_clave;?>" maxlength="15" /> 
-			</div>
-
-			<div class="bloque_1">
-				<input id="email" name="email" type="text" placeholder="Correo electr&oacute;nico *" value="<?php echo @$_email;?>" maxlength="50"/>
-			</div>
-
-			<div class="bloque_1">
-				<input id="emailconfirm" name="emailconfirm" type="text" placeholder="Confirmar correo electr&oacute;nico *" value="<?php echo $_emailconfirm;?>" maxlength="50" />
+			<div class="bloque_5">
+				<input id="emailconfirm" name="emailconfirm" type="text" placeholder="Confirmar correo electr&oacute;nico" value="<?php echo $_emailconfirm;?>" maxlength="50" />
 			</div>
 
 			<div class="bloque_1">
 				<input id="web" name="web" type="text" placeholder="P&aacute;gina web" value="<?php echo @$_web;?>" maxlength="50" />
 			</div>
 			
+			<hr>
+			
 			<div class="bloque_1">
 				<label><strong>Documentaci&oacute;n (m&aacute;ximo por archivo de 4 MB, pdf o jpg) </strong></label>
 			</div>                                                                                                     
 			<div class="bloque_5" > 
-				<label style="color:#666;"> Constancia de Inscripci&oacute;n *</label>     </br>                           	
-				<div class="inputfile"><input type="file" name="archivo1"/></div>
+				<label style="color:#666;">Constancia de Inscripci&oacute;n</label>     </br>                       <input type="file" name="archivo1"/>
 			</div>                
 			<div class="bloque_5" >  
-				<label style="color:#666;"> Formulario CM01</label> </br>
-				<div class="inputfile"><input type="file" name="archivo2" /></div>  
+				<label style="color:#666;">Formulario CM01</label> </br>
+				<input type="file" name="archivo2" />  
 			</div>    
 
 			<div class="bloque_5">
-				<label style="color:#666;"> Formulario CM05 </label></br>
-				<div class="inputfile"><input type="file" name="archivo3" /></div>  
+				<label style="color:#666;">Formulario CM05</label></br>
+				<input type="file" name="archivo3" />  
 			</div>                                    
 
 			<div class="bloque_5"> 
-				<label style="color:#666;"> Excenci&oacute;n de ganancias </label> </br> 
-				<div class="inputfile"><input type="file" name="archivo4" /></div>     
+				<label style="color:#666;">Excenci&oacute;n de ganancias</label> </br> 
+				<input type="file" name="archivo4" />    
 			</div>  
 
 			<div class="bloque_1">
@@ -255,16 +255,16 @@ if ($_sms) {
 				</fieldset>
 			</div>
 
-			<div class="bloque_1" style="color:#666;">
+			<div class="bloque_7" style="color:#666;">
 				Al hacer clic en "Enviar" aceptas los <a href="/pedidos/legal/terminos/" target="_blank">T&eacute;rminos y Condiciones</a>, confirmando as&iacute; fueron le&iacute;das.
 			</div>
 
-			<div class="bloque_1" align="center">
+			<div class="bloque_3" align="center">
 				<div class="g-recaptcha" data-theme="dark light" data-size="compact normal" data-sitekey="6LfNHR0TAAAAACIVpgrpukULyFpP3IPnZSSaAJ-g"></div>
 			</div>
 
 			<div class="bloque_7" style="float: right;"> <?php echo $btAccion;?> </div>
-
+			<hr>
 		</form>
 	</div> <!-- fin registro -->  
 </div> <!-- fin cuerpo -->  

@@ -19,7 +19,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M"  && $_SESSION["_usrro
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php
-        $_section 		= 'cadenas';
+        $_section 		= 'cuentas';
         $_subsection	= 'listar_cadenas';
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->

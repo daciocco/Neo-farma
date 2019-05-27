@@ -33,7 +33,9 @@ class TUsuario extends PropertyObject {
 		$this->propertyTable['Activo'] 		= 'uactivo';
 		
 		
-		$this->propertyTable['Area'] 		= 'Area';
+		$this->propertyTable['idArea'] 		= 'uidarea';
+		
+		
 		$this->propertyTable['Roles']		= 'IdRoles';
 		$this->propertyTable['Iniciales']	= 'Iniciales';
 		

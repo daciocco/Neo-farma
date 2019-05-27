@@ -14,56 +14,45 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	<script language="JavaScript" type="text/javascript">
 		//**********************//
 		//	Nuevo div Artículo	//
-		//**********************//
 		var nextinput = 0;
 		function dac_CargarArticulo(idart, ean, nombre, precio){
 			document.getElementById("field_listart").style.display	=	'block';
-			nextinput++;		
+			nextinput++;	
 
 			var campo	= 	'<div id="rut'+nextinput+'">';
-
 				campo += 	'<input id="ptidart'+nextinput+'" name="ptidart[]" type="text" value="'+idart+'" hidden/>';
 				campo += 	'<input id="ptnombreart'+nextinput+'" name="ptnombreart[]" type="text" value="'+nombre+'" hidden/>';
 				campo += 	'<input id="ptean'+nextinput+'" name="ptean[]" type="text" value="'+ean+'" hidden/>';
 				campo += 	'<input id="ptprecioart'+nextinput+'" name="ptprecioart[]" type="text" value="'+precio+'" hidden/>';				
-				campo	+= '<div class="bloque_1"><strong> Art&iacute;culo '+idart+'</strong></br>'+nombre+'</div>';
-
-				campo += 	'<div class="bloque_4"><strong> Cantidad </strong><input id="ptcant'+nextinput+'" name="ptcant[]" onblur="javascript:dac_CalcularSubtotalTransfer();" maxlength="5"/></div>';
-
-				campo += 	'<div class="bloque_4"><strong>% Desc </strong> <input id="ptdesc'+nextinput+'" name="ptdesc[]" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotalTransfer();" maxlength="5"/></div>';
+				campo	+= '<div class="bloque_6"><strong> Art&iacute;culo '+idart+'</strong></br>'+nombre+'</div>';
+				campo += 	'<div class="bloque_8"><strong> Cantidad </strong><input id="ptcant'+nextinput+'" name="ptcant[]" onblur="javascript:dac_CalcularSubtotalTransfer();" maxlength="5"/></div>';
+				campo += 	'<div class="bloque_8"><strong>% Desc </strong> <input id="ptdesc'+nextinput+'" name="ptdesc[]" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotalTransfer();" maxlength="5"/></div>';
 
 				var plazos = '';
 				<?php
 				$plazos	= DataManager::getCondicionesDePagoTransfer(0, 0, 1);
-				if (count($plazos)) { 
-
+				if (count($plazos)) {
 					foreach ($plazos as $j => $plazo) {
 						$plazo			=	$plazos[$j];
 						$plazoId		=	$plazo["condid"];
 						$plazoNombre	= 	$plazo["condnombre"];
-
-						//if ($plazoId != 3) {
-							if ($plazoId == 1) { ?>	
-								plazos += '<option value="<?php echo $plazoId; ?>" selected><?php echo $plazoNombre; ?></option>';
+						
+						if ($plazoId == 1) { ?>	
+							plazos += '<option value="<?php echo $plazoId; ?>" selected><?php echo $plazoNombre; ?></option>';
+							<?php
+						} else { ?>
+							plazos += '<option value="<?php echo $plazoId; ?>"><?php echo $plazoNombre; ?></option>';
 								<?php
-							} else { ?>
-								plazos += '<option value="<?php echo $plazoId; ?>"><?php echo $plazoNombre; ?></option>';
-									<?php	
-							}
-						//}                                        
+						}                         
 					} 
 				} ?>
-
-				campo += 	'<div class="bloque_4"><strong>Condici&oacute;n</strong><select id="ptcondpago" name="ptcondpago[]">'+plazos+'</select></div>';	
-
-				campo += 	'<div class="bloque_4"></br><input id="btmenos" type="button" value="-" onClick="EliminarArt('+nextinput+')"  style="width:25px; background-color:#C22632;"></div>';
-
+				campo += 	'<div class="bloque_7"><strong>Condici&oacute;n</strong><select id="ptcondpago" name="ptcondpago[]">'+plazos+'</select></div>';	
+				campo += 	'<div class="bloque_9"></br><input id="btmenos" class="btmenos" type="button" value="-" onClick="EliminarArt('+nextinput+')"></div>';
 				campo += 	'<hr>'
 			campo	+= '</div>';
 
 			$("#lista_articulos2").append(campo);		
-			dac_CargarDescAbm(nextinput);		
-
+			dac_CargarDescAbm(nextinput);	
 		}		
 
 		// Quitar div de artículo
@@ -72,8 +61,6 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 			elemento.parentNode.removeChild(elemento);
 			dac_CalcularSubtotalTransfer();
 		}
-
-		
     </script>
 	
     <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -92,23 +79,22 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
     
     <main class="cuerpo">
     	<div class="box_body">
-        	<form id="fmPedidoTransfer" name="fmPedidoTransfer" class="fm_edit2" method="post">
-            	<input id="tblTransfer" name="tblTransfer" type="text" value="0" hidden/>
+       		<div class="bloque_1">     
+				<fieldset id='box_error' class="msg_error">          
+					<div id="msg_error"></div>
+				</fieldset>                                                                         
+				<fieldset id='box_cargando' class="msg_informacion">
+					<div id="msg_cargando"></div>      
+				</fieldset> 
+				<fieldset id='box_confirmacion' class="msg_confirmacion">
+					<div id="msg_confirmacion"></div>      
+				</fieldset>
+			</div>
+        	<form id="fmPedidoTransfer" name="fmPedidoTransfer" method="post">
+           		<input id="tblTransfer" name="tblTransfer" type="text" value="0" hidden/>
             	<fieldset>
                     <legend>Pedido Transfer</legend>
-                    <div class="bloque_3">     
-                        <fieldset id='box_error' class="msg_error">          
-                            <div id="msg_error" align="center"></div>
-                        </fieldset>                                                                         
-                        <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">
-                            <div id="msg_cargando" align="center"></div>      
-                        </fieldset> 
-                        <fieldset id='box_confirmacion' class="msg_confirmacion">
-                            <div id="msg_confirmacion" align="center"></div>      
-                        </fieldset>
-                    </div>
-                    
-                    <div class="bloque_1">
+                    <div class="bloque_5">
                     	<label for="ptParaIdUsr">Asignado a</label>
                         <select id="ptParaIdUsr" name="ptParaIdUsr" >  
                         	<option id="0" value="0" selected></option> <?php
@@ -127,16 +113,17 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
                         </select>	
                     </div>
                     
-                    <div class="bloque_2">
+                    <div class="bloque_7">
                     	<label for="contacto">Contacto</label>
                     	<input name="contacto" type="text" maxlength="50"/>		
                     </div> 
                     
-                    <div class="bloque_2">
+                    <div class="bloque_7" align="right">
                         <?php $urlSend	=	'/pedidos/transfer/logica/update.pedido.php';?>
                         <?php $urlBack	=	'/pedidos/transfer/';?>                        
-                        <a id="btnSend" title="Enviar Pedido" style="float:right;"> 
-                            <img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(fmPedidoTransfer, '<?php echo $urlSend;?>', '<?php echo $urlBack;?>');"/>
+                        <a id="btnSend" title="Enviar"> 
+                           	<br>
+                            <img class="icon-send" onclick="javascript:dac_sendForm(fmPedidoTransfer, '<?php echo $urlSend;?>', '<?php echo $urlBack;?>');"/>
                         </a>                        
                     </div>       
                 </fieldset>
@@ -149,8 +136,8 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
                 <fieldset id="field_listart" style="display:none;">
                     <legend>Art&iacute;culos</legend> 
                     <div id="lista_articulos2"></div>
-                    <div class="bloque_3">
-                    	<div id="ptsubtotal" class="articulos" style="display:none;"></div>
+                    <div class="bloque_1">
+                    	<div id="ptsubtotal" style="display:none;"></div>
                     </div>
                 </fieldset>
             </form>	
@@ -158,17 +145,17 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
                                                                 
 		<div class="box_seccion">
         	<div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_5">
                     <h1>Cuentas</h1>                	
                 </div>
-                <div class="buscadorder">
+                <div class="bloque_5">
                 	<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
                     <input id="txtBuscarEn" type="text" value="tblCuentasTransfer" hidden/>
                 </div>  
                 <hr>    
             </div> <!-- Fin barra -->            
             <div class="lista">
-                <table border="0" id="tblCuentasTransfer" width="100%" align="center">
+                <table id="tblCuentasTransfer">
                     <thead>
                         <tr align="left">
                             <th>Emp</th>
@@ -204,14 +191,14 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 
 												<tr>
 													<td colspan="3">
-														<table id="<?php echo $ctaId;?>" style="display:none; border:2px solid #117db6;  border-collapse: collapse; border-radius:5px;" border="0" width="90%" align="center">
+														<table id="<?php echo $ctaId;?>" class="table-transfer">
 															<tbody>
 																<tr align="center">
 																	<th hidden="hidden">ID</th>
 																	<th hidden="hidden">Nombre</th>
-																	<th style="border:2px solid #117db6;">Cliente</th>
-																	<th style="border:2px solid #117db6;">Droguer&iacute;a</th>
-																	<th style="border:2px solid #117db6;">Nombre</th>
+																	<th width="30%">Cliente</th>
+																	<th width="30%">Droguer&iacute;a</th>
+																	<th width="40%">Nombre</th>
 																</tr> <?php 
 
 																foreach ($cuentasRelacionadas as $j => $ctaRel) { 
@@ -256,10 +243,10 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
             </div> <!-- Fin listar -->
             
             <div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_5">
                     <h1>Art&iacute;culo</h1>                	
                 </div>
-                <div class="buscadorder">
+                <div class="bloque_5">
                 	<input id="txtBuscar2" type="search" autofocus placeholder="Buscar..."/>
                     <input id="txtBuscarEn2" type="text" value="tblTablaArt" hidden/>
                 </div>

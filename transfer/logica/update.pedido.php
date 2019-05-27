@@ -27,9 +27,9 @@ $idArt	= 	(isset($_POST['ptidart']))	? $_POST['ptidart'] : NULL;
 $precio	= 	(isset($_POST['ptprecioart']))	? $_POST['ptprecioart'] : NULL;
 $cant	= 	(isset($_POST['ptcant']))	? $_POST['ptcant'] : NULL;
 $desc	= 	(isset($_POST['ptdesc']))	? $_POST['ptdesc'] : NULL;
-//**********************//
+
+//----------------------//
 //	Controlo campos		//
-//**********************// 
 if(empty($usrAsignado)){
 	echo "Debe indicar usuario asignado.";  exit;
 }
@@ -37,7 +37,6 @@ if(empty($usrAsignado)){
 if(count($idDrogueria) != 1){
 	echo "El pedido debe tener una cuenta transfer."; exit;
 } else {
-	//$idDrogueria 	= $idDrogueria[0];
 	$idDrogueria 	= DataManager::getCuenta('ctaidcuenta', 'ctaid', $idDrogueria[0]);
 	$nroClienteDrog = $nroClienteDrog[0];
 }
@@ -114,7 +113,6 @@ if (($idDrogueria != 220061 && $idDrogueria != 220181) && !is_numeric($nroClient
 
 //******************************//
 //	UPDATE DEL PEDIDO TRANSFER	//
-//******************************//
 //Consulta Nro Pedido para Crear el nuevo.
 $nroPedido	= DataManager::dacLastId('pedidos_transfer', 'ptidpedido');
 for($i = 0; $i < count($idArt); $i++){

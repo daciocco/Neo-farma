@@ -6,8 +6,8 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol
 	exit;
 }
 
-$idLoc		= empty($_REQUEST['idLoc']) 	? 0						:	$_REQUEST['idLoc'];
-$backURL	= empty($_REQUEST['backURL']) 	? '/pedidos/localidades/'	:	$_REQUEST['backURL'];
+$idLoc		= empty($_REQUEST['idLoc']) 	? 0							: $_REQUEST['idLoc'];
+$backURL	= empty($_REQUEST['backURL']) 	? '/pedidos/localidades/'	: $_REQUEST['backURL'];
 
 if ($idLoc) {
 	$localObject	= DataManager::newObjectOfClass('TLocalidad', $idLoc);
@@ -45,29 +45,27 @@ if ($idLoc) {
     
     <main class="cuerpo">    
     	<div class="box_body">  
-        	<form name="fmLocalidadesEdit" class="fm_edit2" method="post" enctype="multipart/form-data">
+        	<form name="fmLocalidadesEdit" method="post" enctype="multipart/form-data">
                 <input type="text" id="idLoc" name="idLoc" value="<?php echo $idLoc;?>" hidden="hidden">
                 <fieldset>
-                    <legend>Localidad</legend>   
-                    <div class="bloque_3">  
-                    	<fieldset id='box_observacion' class="msg_alerta" style="display: block">
-                    		<div id="msg_atencion" align="center"> IMPORTANTE. Si agrega una nueva localidad asegúrese de que la misma no exista con el mismo nombre o uno similar. Evite generar duplicados.</div>
-                    	</fieldset>  
-                    </div>
-					
-                    <div class="bloque_3">     
+                    <legend>Localidad</legend>
+                    <div class="bloque_1">     
                         <fieldset id='box_error' class="msg_error">          
-                            <div id="msg_error" align="center"></div>
+                            <div id="msg_error"></div>
                         </fieldset>                                                                         
-                        <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;"> 
-                            <div id="msg_cargando" align="center"></div>      
+                        <fieldset id='box_cargando' class="msg_informacion"> 
+                            <div id="msg_cargando"></div>      
                         </fieldset> 
                         <fieldset id='box_confirmacion' class="msg_confirmacion">
-                            <div id="msg_confirmacion" align="center"></div>      
+                            <div id="msg_confirmacion"></div>      
                         </fieldset>
+                        
+                        <fieldset id='box_observacion' class="msg_alerta" style="display: block">
+                    		<div id="msg_atencion"> IMPORTANTE. Si agrega una nueva localidad asegúrese de que la misma no exista con el mismo nombre o uno similar. Evite generar duplicados.</div>
+                    	</fieldset>
                     </div>
                     					
-                    <div class="bloque_1">
+                    <div class="bloque_6">
                         <label for="provincia">Provincia</label>
                         <select id="provincia" name="provincia" <?php echo $disabled; ?> > 
                             <option value="0" selected> Provincia... </option> <?php
@@ -88,17 +86,17 @@ if ($idLoc) {
                         </select>
                     </div>
                     
-                    <div class="bloque_1">	
+                    <div class="bloque_6">	
                         <label for="localidad">Localidad</label>
                         <input id="localidad" name="localidad" value="<?php echo $localidad;?>">
                     </div>                                      
                                         
-                    <div class="bloque_2">
+                    <div class="bloque_7">
                         <label for="codigopostal">C&oacute;digo Postal</label>
                         <input type="text" name="codigopostal" maxlength="10" value="<?php echo $cp;?>">
                     </div>
                     
-                    <div class="bloque_2">
+                    <div class="bloque_6">
                         <label for="zonaVSelect" >Zona Vendedor</label>
                         <select name="zonaVSelect">
                             <option value="" selected></option> <?php
@@ -120,7 +118,7 @@ if ($idLoc) {
                         </select>
                     </div>
                     
-                    <div class="bloque_2">
+                    <div class="bloque_6">
                         <label for="zonaDSelect">Zona Distribución</label>
                         <select name="zonaDSelect">
                             <option value="" selected></option> <?php
@@ -137,11 +135,12 @@ if ($idLoc) {
                         </select>
                     </div>
                     
-                    <div class="bloque_2">
-                        <?php $urlSend	=	'/pedidos/localidades/logica/update.localidad.php';?>
-                        <?php $urlBack	=	'/pedidos/localidades/';?>
-                        <a id="btnSend" title="Enviar" style="cursor:pointer;"> 
-                            <img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(fmLocalidadesEdit, '<?php echo $urlSend;?>', '<?php echo $urlBack;?>');"/>
+                    <div class="bloque_8">
+                        <?php $urlSend	= '/pedidos/localidades/logica/update.localidad.php';?>
+                        <?php $urlBack	= '/pedidos/localidades/';?>
+                        <a id="btnSend" title="Enviar"> 
+                        	<br>
+                            <img class="icon-send" onclick="javascript:dac_sendForm(fmLocalidadesEdit, '<?php echo $urlSend;?>', '<?php echo $urlBack;?>');"/>
                         </a>
                     </div>
                 </fieldset>
@@ -156,10 +155,10 @@ if ($idLoc) {
       	                            
         <div class="box_seccion">            
             <div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_5">
                     <h1>Cuentas</h1>                	
                 </div>
-                <div class="buscadorder">
+                <div class="bloque_5">
                 	<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
                     <input id="txtBuscarEn" type="text" value="tblTablaCta" hidden/>
                 </div> 

@@ -8,7 +8,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 }
 
 $_sms 		= empty($_GET['sms']) ? 0 : $_GET['sms'];
-$_uid		= $_SESSION["_usrid"]; //empty($_REQUEST['uid']) ? 0 : $_REQUEST['uid'];
+$_uid		= $_SESSION["_usrid"];
 $backURL	= empty($_REQUEST['backURL']) ? '/pedidos/logout.php': $_REQUEST['backURL'];
 
 if ($_sms) {
@@ -56,20 +56,17 @@ $_action = "/pedidos/usuarios/password/logica/update.password.php?backURL=".$bac
 	}
 </script>
 
-
 <div class="box_body">							
-	<form id="fm_cambiar_clave" name="fm_cambiar_clave" method="post" class="fm_edit2" action="<?php echo $_action;?>">
+	<form id="fm_cambiar_clave" name="fm_cambiar_clave" method="post" action="<?php echo $_action;?>">
 		<fieldset>
 			<legend>&nbsp;Introduzca la nueva clave</legend> 
-			<div class="bloque_3" align="center"> 
+			<div class="bloque_1" align="center"> 
 				<fieldset id='box_error' class="msg_error"> 	
-					<div id="msg_error" align="center"> <?php  echo $_info; ?> </div>
+					<div id="msg_error"> <?php  echo $_info; ?> </div>
 				</fieldset>
-
 				<fieldset id='box_confirmacion' class="msg_confirmacion">
-					<div id="msg_confirmacion" align="center"><?php echo $_info;?></div>      
+					<div id="msg_confirmacion"><?php echo $_info;?></div>      
 				</fieldset>   
-
 				<?php
 					echo "<script>";
 					echo "javascript:dac_MostrarSms(".$_sms.")";
@@ -77,24 +74,24 @@ $_action = "/pedidos/usuarios/password/logica/update.password.php?backURL=".$bac
 				?>       
 			</div> 
 
-			<div class="bloque_2"> 
-				<label for="uusuario">Usuario *</label>
+			<div class="bloque_7"> 
+				<label for="uusuario">Usuario</label>
 				<input name="uusuario"  id="uusuario" type="text" maxlength="10" value="<?php echo @$_uusuario;?>"/>
 			</div>
-			<div class="bloque_2"> 	
-				<label for="upassword">Clave actual *</label>
+			<div class="bloque_7"> 	
+				<label for="upassword">Clave actual</label>
 				<input name="upassword"  id="upassword" type="password" maxlength="10" value="<?php echo @$_upassword;?>"/>
 			</div>
-			<div class="bloque_2"> 
-				<label for="unewpassword">Nueva Clave *</label>
+			<div class="bloque_7"> 
+				<label for="unewpassword">Nueva Clave</label>
 				<input name="unewpassword"  id="unewpassword" type="password" maxlength="10" value="<?php echo @$_unewpassword;?>"/>
 			</div>
-			<div class="bloque_2"> 
-				<label for="unewpasswordbis">Repita Nueva Clave *</label>
+			<div class="bloque_7"> 
+				<label for="unewpasswordbis">Repita Nueva Clave</label>
 				<input name="unewpasswordbis"  id="unewpasswordbis" type="password" maxlength="10" value="<?php echo @$_unewpasswordbis;?>"/>
 			</div>                     
 
-			<div class="bloque_2"> <?php echo $_button;?></div>
+			<div class="bloque_7"> <?php echo $_button;?></div>
 		</fieldset>	
 	</form>	
 </div> <!-- boxbody -->

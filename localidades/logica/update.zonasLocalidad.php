@@ -5,7 +5,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol
 	echo "LA SESION HA CADUCADO."; exit;
 }
 
-$zonasVProhibidas 	= [95, 99, 100, 199, 995];
+$zonasVProhibidas 	= [95, 99, 100, 199];
 $radioZonas			= (isset($_POST['radioZonas']))	?	$_POST['radioZonas']	:	NULL;
 switch($radioZonas){
 	case 'localidad':
@@ -56,8 +56,7 @@ switch($radioZonas){
 					//	MOVIMIENTO	//	
 					$movTipo	= 'UPDATE';	
 					dac_registrarMovimiento($movimiento, $movTipo, "TLocalidad", $localidades[$k]);
-				}
-				
+				}				
 				
 				//BUSCAR EXCEPCIONES
 				$zeCtaIdDDBB= [];
@@ -108,8 +107,7 @@ switch($radioZonas){
 			}
 		} else {
 			echo "Error al seleccionar localidad para momdificar."; exit;
-		}
-		
+		}		
 		break;
 	case 'provincia':
 		$zonaVDestino	=	(isset($_POST['zonaVSelect']))	?	$_POST['zonaVSelect']	:	NULL;
@@ -117,7 +115,7 @@ switch($radioZonas){
 		if(empty($zonaVDestino) && empty($zonaDDestino)) {
 			echo "Seleccione una Zona de Venta o Distribución para actualizar las localidades seleccionadas."; exit;
 		}
-		//----------------
+		
 		$provincia		=	(isset($_POST['provincia']))	?	$_POST['provincia']		:	NULL;
 		if(empty($provincia)){
 			echo "Indique una provincia."; exit;
@@ -136,8 +134,8 @@ switch($radioZonas){
 					}
 				}				
 			}
-		}			
-		
+		}
+				
 		$ctaZonasProhibidas	= implode(",", $zonasVProhibidas);
 		$condicionExcepcion = "ctazona NOT IN (".$ctaZonasProhibidas.")";		
 		$condicionExcepcionHiper = "IdVendedor NOT IN (".$ctaZonasProhibidas.")";		
@@ -147,12 +145,12 @@ switch($radioZonas){
 			$condicionExcepcionHiper .= " AND ctaid NOT IN (".$ctaIdExcepciones.")";
 		}		
 		
-		
 		//Realizo update en PROVINCIA Y en CUENTAS
 		if($zonaVDestino){	
 			//update de zona venta de las localidades de la provincia
 			$fieldSet = "loczonavendedor=$zonaVDestino";
-			$condition=	"locidprov=$provincia";			
+			$condition=	"locidprov=$provincia";		
+			
 			DataManagerHiper::updateToTable('localidad', $fieldSet, $condition);
 			DataManager::updateToTable('localidad', $fieldSet, $condition);
 			
@@ -160,8 +158,7 @@ switch($radioZonas){
 			$movimiento = 'CAMBIOLocalidadesDeProvId_'.$provincia.'_a_zonaVendedor_'.$zonaVDestino;	
 			$movTipo	= 'UPDATE';
 			dac_registrarMovimiento($movimiento, $movTipo, "TLocalidad", 0);			
-			
-			
+						
 			//consultar usuario asignado para cuentas
 			$usrAssigned = 0;
 			$zonas	= DataManager::getZonas();
@@ -170,7 +167,7 @@ switch($radioZonas){
 				if($zZona == $zonaVDestino){
 					$usrAssigned = $zona['zusrassigned'];
 				}
-			}			
+			}
 			
 			//update de zona venta de las cuentas de la provincia
 			$fieldSet = "IdVendedor=$zonaVDestino, ctausrassigned=$usrAssigned";			
@@ -184,8 +181,7 @@ switch($radioZonas){
 			$movimiento = 'CAMBIOLocalidadesDeProvId_'.$provincia.'_a_zonaVendedor_'.$zonaVDestino;
 			$movTipo	= 'UPDATE';
 			dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", 0);			
-		}
-		
+		}		
 		if($zonaDDestino){			
 			//update de zona entrega de las localidades de la provincia			
 			$fieldSet = "loczonaentrega=$zonaDDestino";
@@ -211,7 +207,6 @@ switch($radioZonas){
 			$movTipo	= 'UPDATE';
 			dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", 0);
 		}
-		
 		break;
 	case 'vendedor':
 		$zonaVOrigen	=	(isset($_POST['zonaVOrigen']))	?	$_POST['zonaVOrigen']	:	NULL;
@@ -236,7 +231,7 @@ switch($radioZonas){
 		DataManager::updateToTable('localidad', $fieldSet, $condition);
 		
 		//	MOVIMIENTO	//
-		$movimiento = 'CAMBIOLocalidadesDeProvId_'.$provincia.'_de_zonaVendedor_'.$zonaVOrigen.'_a_'.$zonaVDestino;	
+		$movimiento = 'CAMBIO_ZonaVendedor_'.$zonaVOrigen.'_a_'.$zonaVDestino;	
 		$movTipo	= 'UPDATE';
 		dac_registrarMovimiento($movimiento, $movTipo, "TLocalidad", 0);
 		
@@ -261,10 +256,10 @@ switch($radioZonas){
 				$zeCtaIdDDBB= $ze['zeCtaId'];				
 				
 				//Redefinir ZONA en excepcion
-				$fieldSet = "IdVendedor=$zonaVDestino";			
+				$fieldSet = "zeZona=$zonaVDestino";			
 				$condition=	"zeCtaId=$zeCtaIdDDBB";
-				DataManager::updateToTable('zona_excepcion', $fieldSet, $condition);			
-				
+				DataManager::updateToTable('zona_excepcion', $fieldSet, $condition);		
+								
 				//	MOVIMIENTO	//
 				$movimiento = 'CAMBIO_zonaV_'.$zonaVOrigen.'a'.$zonaVDestino.'_Cuenta_'.$zeCtaIdDDBB;
 				$movTipo	= 'UPDATE';
@@ -281,8 +276,7 @@ switch($radioZonas){
 				//	MOVIMIENTO	//
 				dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", $zeCtaIdDDBB);
 			}
-		}
-		
+		}		
 		break;
 	case 'distribucion':
 		$zonaDOrigen	=	(isset($_POST['zonaDOrigen']))	?	$_POST['zonaDOrigen']	:	NULL;
@@ -312,8 +306,7 @@ switch($radioZonas){
 		//	MOVIMIENTO	//
 		$movimiento = 'CAMBIO_ZonaEntrega_'.$zonaDOrigen.'_a_'.$zonaDDestino;
 		$movTipo	= 'UPDATE';
-		dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", 0);		
-		
+		dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", 0);
 		break;
 	default:
 		echo "Debe seleccionar una opción para modificar las zonas"; exit;

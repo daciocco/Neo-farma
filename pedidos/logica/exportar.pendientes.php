@@ -73,8 +73,7 @@ header("content-disposition: attachment;filename=PedidosPendientes-".date('d-m-y
 						$_idart			=	$_pedido['pidart'];
 						$_nombreart		=	DataManager::getArticulo('artnombre', $_idart, $_idemp, $_idlab);
 						$_cantidad		=	$_pedido['pcantidad'];							
-						$_precio		=	str_replace('EUR','', money_format('%.3n', $_pedido['pprecio']));
-						//$_precio		=	$_pedido['pprecio'];
+						$_precio		=	round($_pedido['pprecio'], 3);
 						
 						$_b1			=	$_pedido['pbonif1'];
 						$_b2			=	$_pedido['pbonif2'];

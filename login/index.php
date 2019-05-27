@@ -120,7 +120,7 @@ if ($_sms) {
 	} // mensaje de error
  } 
  
- $_button = sprintf("<input type=\"submit\" id=\"f_enviar\" name=\"_accion\" value=\"Recuperar Clave\"/>");
+ $_button = sprintf("<input type=\"submit\" id=\"f_enviar\" name=\"_accion\" value=\"Restaurar\"/>");
  $_action = "/pedidos/usuarios/logica/recupera.usuario.php?backURL=".$backURL;
 
 ?>
@@ -159,30 +159,43 @@ if ($_sms) {
 	<head>
     	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php";	?>
 	</head>
-	<body>
-		<main class="cuerpo" align="center">		
-			<img id="imglogo" src="../images/logo/logoLogin.png" />
-			<form id="fmlogin" method="post" action="<?php sprintf("%s", $_nextURL); ?>">
+	
+	<!-- uso de particles -->
+	<body id="particles-js">
+	
+		<!--main></main-->
+		<div class="fmlogin" align="center">
+			<img id="imglogo" src="../images/logo/logoLogin.png" width="260px" />
+			<form  method="post" action="<?php sprintf("%s", $_nextURL); ?>" >
 				<fieldset>
 					<div class="bloque_3"> 
-						<input name="usrusuario" id="usrusuario" size="15" maxlength="15" type="text" placeholder="Usuario" title="Usuario" value="<?php echo @$usrusuario;?>"/>
-					</div>					
+						<input name="usrusuario" id="usrusuario" maxlength="15" type="text" placeholder="Usuario" title="Usuario" value="<?php echo @$usrusuario;?>"/>
+					</div>
 					<div class="bloque_7"> 
-						<img title="Usuario" src="/pedidos/images/icons/icono-usuario.png"/>
+						<img title="Usuario" class="icon-user"/>
 					</div>
 					
 					<div class="bloque_3">
-						<input name="usrpassword" id="usrpassword" size="15" maxlength="10" type="password" title="Clave no debe superar los 10 d&iacute;gitos" placeholder="Clave"  value="<?php echo @$usrpassword;?>"/> 
+						<input name="usrpassword" id="usrpassword" maxlength="10" type="password" title="Clave no debe superar los 10 d&iacute;gitos" placeholder="Clave"  value="<?php echo @$usrpassword;?>"/> 
 					</div>					
 					<div class="bloque_7"> 
-						<img title="Clave" src="/pedidos/images/icons/icono-login.png"/>
+						<img title="Clave" class="icon-key-loguin"/>
 					</div>
 					
-					<div class="bloque_1" align="right">
-						<input name="usrtipo" id="usrtipo" type="radio" value="P" style="float:left; margin-left: 30px;"/>
-						<label>Soy Proveedor</label>  
-						<img title="Proveedor" src="/pedidos/images/icons/icono-proveedor.png"/>
+					<hr>
+					
+					<div class="bloque_3" align="right">
+						<label>Soy Proveedor &nbsp;
+							<input name="usrtipo" id="usrtipo" type="radio" value="P">	
+						</label>
 					</div>
+					
+					<div class="bloque_7">						  
+						<img title="Proveedor" class="icon-provider"/>
+					</div>
+					
+					<div class="bloque_1" align="right">	
+					</div> 
 					
 					<div class="bloque_1" align="right">
 						<div id="recuperar-clave" class="link-loguin" align="right">&iquest;Olvid&eacute; mi clave?</div> 
@@ -191,21 +204,31 @@ if ($_sms) {
 					<div class="bloque_1" align="right">
 						<a href="registrarme/" style="text-decoration:none;"><div id="registrarme" class="link-loguin" align="right">Registrarme como Proveedor</div></a>
 					</div> 
+					
+					<div class="bloque_1" align="right">
+					</div> 
 
-					<div class="bloque_1"> <?php echo $btAccion;?> </div>
+					<div class="bloque_4"></div>
+					<div class="bloque_6"> <?php echo $btAccion;?> </div>
 				</fieldset>
 				
 				
 				<input type="hidden" name="_step" id="_step" value="<?php echo @$_step;?>"/>
-
-				<p style="color:orange;" align="center"><?php echo $_message; ?></p>
+				
+				<div class="bloque_1">
+					<?php if($_message) { ?>
+					<fieldset id='box_error' class="msg_error" style="display: block">          
+						<div id="msg_error"><?php echo $_message;?></div>
+					</fieldset>
+					<?php } ?>
+				</div>	
 			</form>
 				
 
-			<div id="popup-recupera" style="display:none;">  	
-				<form id="fm_recuperacion" method="post" action="<?php echo $_action;?>">
+			<div id="popup-recupera" style="display:none;">				
+				<form method="post" action="<?php echo $_action;?>">
 					<fieldset>
-						<legend>Recupera tu cuenta</legend>
+						<legend>Restaurar Clave</legend>
 						
 						<div class="bloque_1">
 							<a href="#" id="close-recupera" style="float:right;">
@@ -215,29 +238,50 @@ if ($_sms) {
 							<input name="rec_usuario" id="rec_usuario" maxlength="15" type="text" placeholder="Usuario" value="<?php echo @$_rec_usuario;?>" />
 						</div>	
 						<div class="bloque_7"> 
-							<img title="Usuario" src="/pedidos/images/icons/icono-usuario.png"/>
+							<img title="Usuario" class="icon-user"/>
 						</div>
 					
 						<div class="bloque_3">
 							<input name="rec_mail" id="rec_mail" maxlength="50" type="text" placeholder="Correo electr&oacute;nico" value="<?php echo @$_rec_mail;?>" /> 
 						</div>						
 						<div class="bloque_7"> 
-							<img id="img-correo" src="/pedidos/images/icons/icono-correo.png"/>
-						</div>						
-						<div class="bloque_1"><?php echo $_button; ?></div>
+							<img class="icon-mail"/>
+						</div>
+						
+						<div class="bloque_4"></div>				
+						<div class="bloque_6"><?php echo $_button; ?></div>
 					</fieldset>
 					
 					<input type="hidden" name="_sms" id="_sms" value="<?php echo @$_sms;?>" />
-					<p style="color:orange;" align="center"><?php echo $_info;?></p>
-				</form>
 					
+					<div class="bloque_1">
+                    	<?php if($_info) { ?>
+                        <fieldset id='box_error' class="msg_error" style="display: block">          
+                            <div id="msg_error"><?php echo $_info;?></div>
+                        </fieldset>
+                        <?php } ?>
+                    </div>					
+				</form>				
 			</div><!-- fin popup-recupera -->  
 
 			<?php
-				echo "<script>";
-				echo "javascript:dac_recuperar(".$_sms.")";
-				echo "</script>";
-			?>    
-		</main>
+			echo "<script>";
+			echo "javascript:dac_recuperar(".$_sms.")";
+			echo "</script>";
+			?> 			   				   				   
+		</div>
 	</body>
+	
+	<!-- uso de query particles -->
+	<script src="../js/particles/particles.js"></script>
+	<script>
+		particlesJS.load('particles-js', '../js/particles/particles.json', function(){
+		  //console.log('particles.json loaded...');
+		});
+	</script>
+  	<!---------------------------->
+  
+  
+  
+  
 </html>

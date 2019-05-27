@@ -58,7 +58,7 @@ $backURL		= 	empty($_REQUEST['backURL']) ? '/pedidos/transfer/gestion/liquidacio
 								</div>  <!-- cbte_box_nro -->
 
 							<div class="cbte_boxcontent2"> 
-								<table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" cellpadding="0" cellspacing="0" border="0">
+								<table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" border="0">
 									<thead>
 										<tr height="60px;">  <!-- Títulos de las Columnas -->
 											<th align="center">Liquidaci&oacute;n</th>

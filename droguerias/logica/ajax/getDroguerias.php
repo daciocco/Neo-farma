@@ -11,7 +11,7 @@ $empresa	= 	(isset($_POST['idEmpresa']))	? 	$_POST['idEmpresa']	:	NULL;
 
 $droguerias	= DataManager::getDrogueriaCAD(NULL, $empresa); 
 if (count($droguerias)) {
-	echo '<table id="tblDroguerias" class="datatab" width="100%" border="0">';
+	echo '<table id="tblDroguerias">';
 	echo '<thead><tr><th>Droguer&iacute;a</th><th>Nombre</th></tr></thead>';
 	echo '<tbody>';
 	
@@ -27,7 +27,7 @@ if (count($droguerias)) {
 	echo "</tbody></table>";
 	
 } else {
-	echo	'<table border="0" width="100%"><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
+	echo	'<table><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
 }
 
 ?>

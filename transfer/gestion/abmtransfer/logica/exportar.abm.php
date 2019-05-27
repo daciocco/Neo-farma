@@ -27,7 +27,7 @@ header("content-disposition: attachment;filename=".$_drogueria."-TFR-".$_mes.$_a
 <TITLE>::. Exportacion de Datos (ABM Transfer) .::</TITLE>
 <head></head>
 <body>
-	<table id="tabla_bonif" name"tabla_bonif" class="tabla_bonif" cellpadding="0" cellspacing="0" border="2">
+	<table id="tabla_bonif" name"tabla_bonif" class="tabla_bonif" border="2">
        	<thead>         
         	<?php if($_tipodrog == 'B'){
 				?>

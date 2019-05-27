@@ -2,7 +2,7 @@
 session_start();
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
 }
 
 $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
@@ -17,7 +17,7 @@ $_LPP		= 	(isset($_POST['rows']))		?	$_POST['rows']		:	NULL;
 $cuentas	= DataManager::getCuentas($pag, $_LPP, $empresa, $activos, "'".$tipo."'", $usrZonas);
 $_rows		= count($cuentas); //DataManager::getCuentas($pag, $_LPP, $empresa, $activos, $tipo, 
 
-echo	"<table id=\"tblCuentas\" class=\"datatab\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"table-layout:fixed;\">";
+echo	"<table id=\"tblCuentas\"  style=\"table-layout:fixed;\">";
 
 if (count($cuentas)) {	
 	echo	"<thead><tr align=\"left\"><th>Id</th><th>Cuenta</th><th>Nombre</th><th>Provincia</th><th>Localidad</th><th>Cuit</th><th>Modificada</th><th align=\"center\">Acciones</th></tr></thead>";
@@ -41,7 +41,7 @@ if (count($cuentas)) {
 			
 			$_editar	= sprintf( "onclick=\"window.open('editar.php?ctaid=%d')\" style=\"cursor:pointer;\"",$id);
 			
-			$_status	= ($cuenta['ctaactiva']) ? "<img src=\"/pedidos/images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activa\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>" : "<img src=\"/pedidos/images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Inactiva\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>";
+			$_status	= ($cuenta['ctaactiva']) ? "<a title=\"Activa\"><img class=\"icon-status-active\"  onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/></a>" : "<a title=\"Inactiva\" ><img class=\"icon-status-inactive\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/></a>";
 			
 			((($k % 2) == 0)? $clase="par" : $clase="impar");
 			

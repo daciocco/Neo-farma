@@ -1,117 +1,127 @@
 <?php
-$_LPP		= 10;
-$_total 	= DataManager::getNumeroFilasTotales('TLista', 0);
-$_paginas 	= ceil($_total/$_LPP);
-$_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-$_GOFirst	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, 1,			$_imgFirst);
-$_GOPrev	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag-1,	$_imgPrev);
-$_GONext	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_pag+1,	$_imgNext);
-$_GOLast	= sprintf("<a href=\"%s?pag=%d\">%s</a>", $backURL, $_paginas,	$_imgLast);
+	$btnNuevo = sprintf( "<a href=\"\" title=\"Nuevo\"><img class=\"icon-new\"/></a>");
 ?>
+
 <div class="box_body">
-	<div class="barra">
-       	<div class="buscadorizq">
-			<h1>Listas Especiales</h1>                	
-        </div>
-        <hr>
-	</div> <!-- Fin barra -->
-    
-    <div class="lista_super">
-        <table class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
-            <thead>
-                <tr>
-                    <th scope="colgroup" width="20%" height="18">Lista</th>
-                    <th scope="colgroup" width="10%">Cond. de Pago</th>
-                    <th scope="colgroup" width="10%">Fecha Inicio</th>
-                    <th scope="colgroup" width="10%">Fecha Fin</th>
-                    <th scope="colgroup" width="25%">Observación</th>
-                    <th scope="colgroup" colspan="5" align="center" width="15%">Acciones</th>
-                </tr>
-            </thead>
-            <?php 	
-            $_listas	= DataManager::getListasEspeciales($_pag, $_LPP);
-			$_max	 	= count($_listas); 	// la última página vendrá incompleta
-            for( $k=0; $k < $_LPP; $k++ ) {
-                if ($k < $_max) {			
-						$_lista 		= 	$_listas[$k];
-						$_nombre		= 	$_lista['listanombre'];
-						$_condicion		= 	$_lista['listacondpago'];
-						$_fechainicio	=	dac_invertirFecha( $_lista['listafechainicio'] );
-						$_fechafin		=	dac_invertirFecha( $_lista['listafechafin'] );
-						
-						$_observacion	= $_lista['listaobservacion'];
-						
-						//$_boton_copy	= 	sprintf( "<img src=\"/pedidos/images/icons/ico-copy.png\" border=\"0\" align=\"absmiddle\" title=\"Duplicar Lista\" onclick=\"javascript:dac_DuplicarLista(%d)\"/>", $_lista['listaid']);	
-						
-						$_status	= 	($_lista['listaactiva']) ? "<img src=\"../images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"desactivar\"/>" : "<img src=\"../images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"activar\"/>";			
-						
-						//$_editar	= 	sprintf( "<a href=\"editar.php?listaid=%d&backURL=%s\" title=\"editar lista\">%s</a>", $_lista['listaid'], $_SERVER['PHP_SELF'], "<img src=\"../images/icons/icono-editar.png\" border=\"0\" align=\"absmiddle\" />");
-						
-						$_exportar	= 	sprintf( "<a href=\"logica/exportar.lista.php?listaid=%d\" title=\"editar lista\">%s</a>", $_lista['listaid'], "<img src=\"../images/icons/export_excel.png\" border=\"0\" align=\"absmiddle\" />");
-						
-						$_borrar	= sprintf( "<a href=\"logica/changestatus.php?listaid=%d&backURL=%s\" title=\"borrar lista\">%s</a>", $_lista['listaid'], $_SERVER['PHP_SELF'], $_status);				
-						
-						//$_eliminar 	= 	sprintf ("<a href=\"logica/eliminar.lista.php?listaid=%d&backURL=%s\" title=\"eliminar lista\" onclick=\"return confirm('&iquest;Est&aacute; Seguro que desea ELIMINAR LA LISTA?')\"> <img src=\"../images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" /></a>", $_lista['listaid'], $_SERVER['PHP_SELF'], "eliminar");
-						
-						echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
-						echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td>", $_nombre, $_condicion, $_fechainicio, $_fechafin, $_observacion, $_editar, $_borrar, $_boton_copy, $_exportar, $_eliminar);
-						echo sprintf("</tr>");
-				} else {
-                    $_nombre		= "&nbsp;";
-                    $_cantidad		= "&nbsp;";
-                    $_condicion		= "&nbsp;";
-                    $_fechainicio	= "&nbsp;";
-                    $_fechafin		= "&nbsp;";
-                    $_observacion	= "&nbsp;";
-                    $_editar		= "&nbsp;";
-					$_exportar		= "&nbsp;";
-                    $_borrar		= "&nbsp;";
-                    $_eliminar		= "&nbsp;";
-					$_boton_copy	= "&nbsp;";
-                }
-				
-            } ?>
-        </table>
+	<div class="bloque_1" align="center">
+		<fieldset id='box_error' class="msg_error">          
+			<div id="msg_error"></div>
+		</fieldset>                                                                         
+		<fieldset id='box_cargando' class="msg_informacion">    
+			<div id="msg_cargando"></div>      
+		</fieldset>
+		<fieldset id='box_confirmacion' class="msg_confirmacion">
+			<div id="msg_confirmacion"></div>      
+		</fieldset>
 	</div>
-	<?php
-	if ( $_paginas > 1 ) {
-		$_First = ($_pag > 1) ? $_GOFirst : "&nbsp;";
-		$_Prev	= ($_pag > 1) ? $_GOPrev : "&nbsp;";
-		$_Last	= ($_pag < $_paginas) ? $_GOLast : "&nbsp;";
-		$_Next	= ($_pag < $_paginas) ? $_GONext : "&nbsp;";
-		echo("<table class=\"paginador\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
-		echo sprintf("<td height=\"17\">Mostrando p&aacute;gina %d de %d</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td>", $_pag, $_paginas, $_First, $_Prev, $_Next, $_Last); 
-		echo("</tr></table>"); 
-	} ?>
-	<div class="toolbar" style="margin:10px 0;padding-left:5px;"><?php //$bar->show(); ?></div>
+	
+		<form id="fmLista" method="post">
+			<input type="text" id="idLista" name="idLista" hidden="hidden">
+			<fieldset>
+				<legend>Lista de Precio</legend>		
+				<div class="bloque_8">
+					<label for="id">Lista</label>	
+					<input type="text" id="id" name="id" readonly>
+				</div>
+
+				<div class="bloque_6">
+					<label for="nombre">Nombre</label>	
+					<input type="text" id="nombre" name="nombre" maxlength="50" class="text-uppercase">	
+				</div>
+
+				<div class="bloque_9">	
+					<br>	
+					<?php $urlSend	= '/pedidos/listas/logica/update.php';?>
+					<a title="Enviar"> 
+						<img class="icon-send" onclick="javascript:dac_sendForm(fmLista, '<?php echo $urlSend;?>');"/>
+					</a>
+				</div>
+
+				<div class="bloque_1">
+					<div id="desplegable" class="desplegable"> <?php
+						$categoriasComerc = DataManager::getCategoriasComerciales(1); 
+						if (count($categoriasComerc)) {	
+							foreach ($categoriasComerc as $k => $catComerc) {
+								$catComIdcat= $catComerc["catidcat"];
+								$catNombre	= $catComerc["catnombre"]; ?>
+
+								<input id="categoriaComer<?php echo $catComIdcat; ?>" type="checkbox" name="categoriaComer[]" value="<?php echo $catComIdcat; ?>" style="float:left;"><label><?php echo $catComIdcat." - ".$catNombre; ?></label><hr>
+
+								<?php
+							}                              
+						} ?>	
+					</div>			
+
+				</div>
+			</fieldset>
+		</form>
 	
 </div>
 
-<script type="text/javascript">
-function dac_DuplicarLista(listaid){	
-	if(confirm("¿Desea duplicar la Lista?")){		
-		$.ajax({
-			type : 'POST',
-			url : 'logica/ajax/duplicar.lista.php',					
-			data:{	listaid	:	listaid, },				
-			success : function (resultado) { 								
-				if (resultado){
-					if (resultado == "1"){
-						alert("La Lista fue duplicada");
-						location.reload();
-					} else {
-						alert(resultado);
-					}						
-				}															
-			},
-			error: function () {alert("Error en el proceso de duplicado.");}								
-		});		
+<div class="box_seccion">
+	<div class="barra">
+       	<div class="bloque_5">
+			<h1>Listas de Precios</h1>                	
+        </div>
+        <div class="bloque_5" align="right">
+			<?php echo $btnNuevo ?>                	
+        </div>
+        <hr>
+	</div> <!-- Fin barra -->
+   
+    <div class="lista_super">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="colgroup" width="10%">Lista</th>
+                    <th scope="colgroup" width="60%">Descripci&oacute;n</th>
+                    <th scope="colgroup" width="10%">Categor&iacute;s</th>
+                    <th scope="colgroup" align="center" width="20%">Acciones</th>
+                </tr>
+            </thead>
+            
+            <?php 	
+            $listas	= DataManager::getListas();
+			if($listas){
+				foreach ($listas as $k => $lista) {
+					$id				= $lista['IdLista'];
+					$nombre			= $lista['NombreLT'];
+					$catComercial 	= $lista['CategoriaComercial'];					
+					$categorias		= str_replace(",", ", ", $catComercial);
+					$activa			= $lista['Activa'];
+
+					$_onClick = sprintf( "onClick='dac_newList(\"%s\", \"%s\", \"%s\")'", $id, $nombre, $catComercial);
+					$_status  = ($activa) ? "<img class=\"icon-status-active\"/>" : "<img class=\"icon-status-inactive\"/>";
+					$_borrar	= sprintf( "<a href=\"logica/changestatus.php?id=%d&backURL=%s\" title=\"Cambiar Estado\">%s</a>", $id, $_SERVER['PHP_SELF'], $_status);	
+
+					echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
+					echo sprintf("<td height=\"15\" class=\"cursor-pointer\" %s >%s</td><td class=\"cursor-pointer\" %s>%s</td><td class=\"cursor-pointer\" %s>%s</td><td>%s</td>", $_onClick, $id, $_onClick, $nombre, $_onClick, $categorias, $_borrar);
+					echo sprintf("</tr>");				
+				} 
+			}?>
+        </table>
+	</div>
+</div>
+
+<script>
+	function dac_newList(id, nombre, catComercial){
+		$('#id').val(id);
+		$('#nombre').val(nombre);
+		
+		//	CategorÃ­as		
+		if(catComercial){
+			var categorias	= catComercial.split(",");
+		}	
+		
+		//$('input:checkbox').removeAttr('checked');
+		$("input[name='categoriaComer[]']").prop('checked', false);
+		
+		for (var i=0; i<categorias.length; i++){
+			$('#categoriaComer'+categorias[i]).prop('checked', true);
+		}	
+	
+	
 	}
-}
 </script>
 
 

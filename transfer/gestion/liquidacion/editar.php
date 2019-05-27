@@ -15,12 +15,12 @@ if(empty($_REQUEST['fecha_liquidacion'])){
 
 if($_drogid){
 	$_importarXLS	=	sprintf( "<img id=\"importar\" src=\"/pedidos/images/icons/icono-importxls.png\" border=\"0\" align=\"absmiddle\"  title=\"Importar Liquidacion\"/>");	
-	$_exportarXLS	= sprintf( "<a href=\"logica/exportar.liquidacion.php?mes=%d&anio=%d&drogid=%d&backURL=%s\" title=\"Exportar Liquidacion\">%s</a>", $_mes, $_anio, $_drogid, $_SERVER['PHP_SELF'], "<img src=\"/pedidos/images/icons/export_excel.png\" border=\"0\" align=\"absmiddle\"/>");
+	$_exportarXLS	= sprintf( "<a href=\"logica/exportar.liquidacion.php?mes=%d&anio=%d&drogid=%d&backURL=%s\" title=\"Exportar Liquidacion\">%s</a>", $_mes, $_anio, $_drogid, $_SERVER['PHP_SELF'], "<img class=\"icon-xls-export\"/>");
 	$_emitirNC	=	sprintf( "<img id=\"emitirnc\" title=\"Emitir NC\" src=\"/pedidos/images/icons/icono-emitirnc.png\" border=\"0\" align=\"absmiddle\" />");	
 } ?>
 
 <div class="box_down">	
-	<table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" cellpadding="0" cellspacing="0" border="0">
+	<table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" border="0">
 		<thead>
 			<tr>
 				<th colspan="8" align="left">                 
@@ -60,9 +60,7 @@ if($_drogid){
 						<input hidden id="vermesaniodrog" name="vermesaniodrog" type="submit"/>
 				</th>
 				<th colspan="8" align="left">
-						<div id="inputfile" class="inputfile">
-							<input type="file" name="file" id="file">
-						</div>
+						<input type="file" name="file" id="file">
 						<?php echo $_importarXLS; ?><?php //echo $_guardar; ?><?php echo $_emitirNC; ?>
 						<?php //echo $_boton_print; ?><?php echo $_exportarXLS; ?>
 					</form> 
@@ -176,14 +174,14 @@ if($_drogid){
     
 <div class="box_body2"> <!-- datos --> 
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
             <h1>Tienen ARTÍCULOS PENDIENTES</h1>                	
         </div>
         <hr>
     </div> <!-- Fin barra -->
     
     <div class="lista_super">
-        <table id="tblliquidaciones" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <table id="tblliquidaciones">
             <thead>
                 <tr>
                     <td scope="col" width="20%" height="18">Fecha</td>
@@ -260,14 +258,14 @@ if($_drogid){
 	
    
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
             <h1>Tienen ARTÍCULOS NO PEDIDOS</h1>                	
         </div>
         <hr>
     </div> <!-- Fin barra -->
     
     <div class="lista_super">
-        <table id="tblliquidaciones" class="datatab" width="90%" border="0" cellpadding="0" cellspacing="0">
+        <table id="tblliquidaciones" width="90%" border="0">
             <thead>
                 <tr>
                     <td scope="col" width="20%" height="18">Fecha</td>
@@ -335,18 +333,18 @@ if($_drogid){
 
 <div class="box_body2">
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
             <h1>Tienen UNIDADES PENDIENTES</h1>                	
         </div>
-        <div class="buscadorder">
-        	<?php $exportXLSUnidsPend	= sprintf( "<a href=\"logica/exportar.unidades_pendientes.php?drogid=%d&backURL=%s\" title=\"Exportar PENDIENTES\">%s</a>", $_drogid, $_SERVER['PHP_SELF'], "<img src=\"/pedidos/images/icons/export_excel.png\" border=\"0\" align=\"absmiddle\"/>"); 
+        <div class="bloque_5">
+        	<?php $exportXLSUnidsPend	= sprintf( "<a href=\"logica/exportar.unidades_pendientes.php?drogid=%d&backURL=%s\" title=\"Exportar PENDIENTES\">%s</a>", $_drogid, $_SERVER['PHP_SELF'], "<img class=\"icon-xls-export\"/>"); 
 			echo $exportXLSUnidsPend;?>	
         </div>
         <hr>
     </div> <!-- Fin barra -->
     
     <div class="lista_super">
-        <table id="tblliquidaciones" class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <table id="tblliquidaciones">
             <thead>
                 <tr>
                     <td scope="col" width="20%" height="18">Fecha</td>
@@ -382,18 +380,18 @@ if($_drogid){
 	
    
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
             <h1>Tienen UNIDADES EXCEDENTES</h1>                	
         </div>
-        <div class="buscadorder">
-        	<?php $exportXLSUnidsExced	= sprintf( "<a href=\"logica/exportar.unidades_excedentes.php?drogid=%d&backURL=%s\" title=\"Exportar EXCEDENTES\">%s</a>", $_drogid, $_SERVER['PHP_SELF'], "<img src=\"/pedidos/images/icons/export_excel.png\" border=\"0\" align=\"absmiddle\"/>"); 
+        <div class="bloque_5">
+        	<?php $exportXLSUnidsExced	= sprintf( "<a href=\"logica/exportar.unidades_excedentes.php?drogid=%d&backURL=%s\" title=\"Exportar EXCEDENTES\">%s</a>", $_drogid, $_SERVER['PHP_SELF'], "<img class=\"icon-xls-export\"/>"); 
 			echo $exportXLSUnidsExced;?>	
         </div>
         <hr>
     </div> <!-- Fin barra -->
     
     <div class="lista_super">
-        <table id="tblliquidaciones" class="datatab" width="90%" border="0" cellpadding="0" cellspacing="0">
+        <table id="tblliquidaciones" width="90%" border="0">
             <thead>
                 <tr>
                     <td scope="col" width="20%" height="18">Fecha</td>

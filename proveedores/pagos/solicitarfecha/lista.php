@@ -44,15 +44,15 @@ $_action	=	"/pedidos/proveedores/pagos/solicitarfecha/logica/upload.php";
 </script>
 
 <div class="box_body">						
-    <form class="fm_edit2" action="<?php echo $_action;?>" method="POST" enctype="multipart/form-data">
+    <form action="<?php echo $_action;?>" method="POST" enctype="multipart/form-data">
         <fieldset>
             <legend>&nbsp;Solicita Fecha de Pago</legend> 
-            <div class="bloque_3"> 
+            <div class="bloque_1"> 
                 <fieldset id='box_error' class="msg_error"> 	
-                    <div id="msg_error" align="center"> <?php  echo $_info; ?> </div>
+                    <div id="msg_error"> <?php  echo $_info; ?> </div>
                 </fieldset>             
                 <fieldset id='box_confirmacion' class="msg_confirmacion">
-                    <div id="msg_confirmacion" align="center"><?php echo $_info;?></div>      
+                    <div id="msg_confirmacion"><?php echo $_info;?></div>      
                 </fieldset>                          
                 <?php
                     echo "<script>";
@@ -61,17 +61,16 @@ $_action	=	"/pedidos/proveedores/pagos/solicitarfecha/logica/upload.php";
                 ?>       
             </div> 
             
-            <div class="bloque_1"> 
-                <div class="mensage_img"></div>               
-                <div class="inputfile"><input name="archivo" type="file"/></div>
+            <div class="bloque_5">            
+                <input name="archivo" type="file"/>
             </div>
             
-            <div class="bloque_2"> 	
+            <div class="bloque_7"> 	
                 <label for="nrofact">Nro de Factura *</label>
                 <input name="nrofact"  id="nrofact" type="text" maxlength="10" value="<?php echo @$_nrofact;?>"/>
             </div>
             
-            <div class="bloque_2"> <?php echo $_button;?></div>
+            <div class="bloque_7"> <br><?php echo $_button;?></div>
         </fieldset>	
     </form>	
 </div>

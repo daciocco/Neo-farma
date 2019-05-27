@@ -7,7 +7,7 @@
 
 <div id="pie_contenido">
 	<?php 		
-	$_password	= sprintf( "<a id=\"btsend\" href=\"/pedidos/usuarios/password/\" title=\"Cambiar Clave\">%s</a>", "<img src=\"/pedidos/images/icons/icono-key.png\" border=\"0\" align=\"absmiddle\" style=\"width: 30px; height: 30px;\" />");    
+	$_password	= sprintf( "<a id=\"btsend\" href=\"/pedidos/usuarios/password/\" title=\"Cambiar Clave\">%s</a>", "<img class=\"icon-key\"/>");    
 
 	if ($_SESSION["_usrrol"]!= "C"){ echo $_password; }
 	?>

@@ -25,7 +25,7 @@ header("content-disposition: attachment;filename=Liquidacion-Unidades-Pendientes
 
 <div id="cuadro-liquidacion">
 	<div id="muestra_liquidacion">    
-    	<table id="tblliquidaciones" class="datatab" border="0" cellpadding="0" cellspacing="0">
+    	<table id="tblliquidaciones">
             <thead>
             	<tr>
                 	<th scope="col" colspan="3" align="center">UNIDADES PENDIENTES</th>	

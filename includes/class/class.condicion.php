@@ -33,24 +33,19 @@ class TCondicion extends PropertyObject {
 			echo $k . '=>' . $this->__get($k) . '<br>';
 		}
 	}    
-
 	public function __getTableName()  {
 		return $this->_tablename;
 	}
-	
 	public function __getFieldID()  {
 		return $this->_fieldid;
 	}
-	
 	public function __getFieldActivo()  {
 		return $this->_fieldactivo;
 	}
-	
 	public function __newID()  {
 		// Devuelve '#petid' para el alta de un nuevo registro
 		return ('#'.$this->_fieldid);
 	}
-
 	public function __validate()  {
 		return true;
 	}

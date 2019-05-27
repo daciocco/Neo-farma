@@ -18,7 +18,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php
-		$_section 	= 'zonas';
+		$_section 	= 'planificar';
         $_subsection= 'lista_zonas';
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->

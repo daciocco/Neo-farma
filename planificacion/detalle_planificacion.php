@@ -8,7 +8,7 @@
  
  $_fecha_planif	= empty($_REQUEST['fecha_planif'])	? date("d-m-Y") : $_REQUEST['fecha_planif'];
  
- $_button_print		= 	sprintf( "<a id=\"imprime\" title=\"Imprimir Planificaci&oacute;n\" onclick=\"javascript:dac_imprimirMuestra('muestra_planif')\">%s</a>", "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" align=\"absmiddle\" />");
+ $_button_print		= 	sprintf( "<a id=\"imprime\" title=\"Imprimir Planificaci&oacute;n\" onclick=\"javascript:dac_imprimirMuestra('muestra_planif')\">%s</a>", "<img class=\"icon-print\"/>");
 
 //header And footer
 include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php");
@@ -51,7 +51,7 @@ include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php"
 				$_planificacion	= DataManager::getDetallePlanificacion($_fecha_planif, $_SESSION["_usrid"]);
 				if (count($_planificacion)){ ?>                                    
 					<div class="cbte_boxcontent2">
-						<table class="datatab_detalle" width="100%" cellpadding="0" cellspacing="0" style="border:2px solid #999;">
+						<table class="datatab_detalle" width="100%" style="border:2px solid #999;">
 							<thead>
 								<tr align="left">
 									<th scope="col" width="8%" height="30" style="border-left: 1px solid #999; text-align: center;">Cliente</th>

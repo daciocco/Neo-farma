@@ -66,9 +66,6 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 								<?php echo $usrNombre;?>
 							</div>
 							</div>  <!-- cbte_boxcontent -->
-                        
-                        
-						
 						
 							<div class="cbte_boxcontent" align="left" style="font-size: 14px; background-color:#cfcfcf; padding: 5px; padding-left: 15px; padding-right: 15px; min-height: 20px; overflow: hidden;"> 
 								<div class="cbte_box" style="height: auto; line-height: 20px; float:left; width: 16%;"> 
@@ -85,6 +82,7 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 						
 						
 						<?php
+						$totalFinal	=	0;
 						$detalles	= 	DataManager::getPropuestaDetalle($idPropuesta, 1);
 						if ($detalles) { 	
 							foreach ($detalles as $j => $det) {	
@@ -96,13 +94,14 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 										foreach ($condicionesDePago as $k => $condPago) {
 											$condPagoCodigo	=	$condPago["IdCondPago"];								
 											$condNombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);										
-											$condDias	= "(";					
-											$condDias	.= empty($condPago['Dias1CP']) ? '' : $condPago['Dias1CP'];
-											$condDias	.= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
-											$condDias	.= empty($condPago['Dias3CP']) ? '' : ', '.$condPago['Dias3CP'];
-											$condDias	.= empty($condPago['Dias4CP']) ? '' : ', '.$condPago['Dias4CP'];
-											$condDias	.= empty($condPago['Dias5CP']) ? '' : ', '.$condPago['Dias5CP'];
-											$condDias	.= " D&iacute;as)";
+											$condDias = "(";					
+											$condDias .= empty($condPago['Dias1CP']) ? '0' : $condPago['Dias1CP'];
+											$condDias .= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
+											$condDias .= empty($condPago['Dias3CP']) ? '' : ', '.$condPago['Dias3CP'];
+											$condDias .= empty($condPago['Dias4CP']) ? '' : ', '.$condPago['Dias4CP'];
+											$condDias .= empty($condPago['Dias5CP']) ? '' : ', '.$condPago['Dias5CP'];
+											$condDias .= " D&iacute;as)";
+											$condDias .= ($condPago['Porcentaje1CP'] == '0.00') ? '' : ' '.$condPago['Porcentaje1CP'].' %';
 											
 											$condDias	.= ($condPago['Porcentaje1CP'] == '0.00') ? '' : ' '.$condPago['Porcentaje1CP'].' %';
 										}
@@ -115,7 +114,7 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 										</div>  <!-- cbte_boxcontent -->
 									
 									<div class="cbte_boxcontent2" style="padding: 15px; overflow:auto; height:auto;">
-										<table class="datatab" width="95%" border="0" cellpadding="0" cellspacing="0">
+										<table width="95%" border="0">
 											<thead>
 												<tr align="left">
 													<th scope="col" width="10%" align="center">Producto</th>
@@ -132,15 +131,14 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 									<?php
 								}
 								
-								$total			=	0;
-								$totalFinal		+=	0;		
+								$total			=	0;			
 								$idArt			=	$det['pdidart'];
 								$unidades		=	$det['pdcantidad'];
 								$descripcion	=	DataManager::getArticulo('artnombre', $idArt, $empresa, $laboratorio);	
 								$medicinal		=	DataManager::getArticulo('artmedicinal', $idArt, $empresa, $laboratorio);
 								$medicinal		=	($medicinal == 'S') ? 0 : 1;
 								
-								$precio			=	str_replace('EUR','',money_format('%.2n', $det['pdprecio']));
+								$precio			=	round($det['pdprecio'], 3);
 								$b1				=	($det['pdbonif1'] == 0)	?	''	:	$det['pdbonif1'];
 								$b2				=	($det['pdbonif2'] == 0)	?	''	:	$det['pdbonif2'];
 								$bonif			=	($det['pdbonif1'] == 0)	?	''	:	$b1." X ".$b2;
@@ -152,15 +150,13 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 								$totalFinal		+=	$total;
 								
 								$artImagen		=	DataManager::getArticulo('artimagen', $idArt, $empresa, $laboratorio);
-								//$artImagen	 	= $_articulo->__get('Imagen');		
+								
 								$imagenObject	= DataManager::newObjectOfClass('TImagen', $artImagen);
 								$imagen			= $imagenObject->__get('Imagen');
 								$img			= ($imagen) ?	"/pedidos/images/imagenes/".$imagen : "/pedidos/images/sin_imagen.png";
-								
-								/*<img src="<?php echo $img; ?>" alt="Imagen" width="100"/>*/
 							
 								echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
-								echo sprintf("<td height=\"15\" align=\"center\"><img src=\"%s\" alt=\"Imagen\" width=\"100\"/></td><td align=\"center\">%s</td><td>%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $img, $idArt, $unidades, $descripcion, $precio, $bonif, $desc1, $desc2, str_replace('EUR','',money_format('%.2n', $total)));
+								echo sprintf("<td height=\"15\" align=\"center\"><img src=\"%s\" alt=\"Imagen\" width=\"100\"/></td><td align=\"center\">%s</td><td>%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $img, $idArt, number_format($unidades,0), $descripcion, number_format(round($precio,2),2), $bonif, number_format(round($desc1,2),2), number_format(round($desc2,2),2), number_format(round($total,2),2));
 								echo sprintf("</tr>");
 								
 								
@@ -172,7 +168,7 @@ $idPropuesta	= empty($_REQUEST['propuesta']) ? 0 : $_REQUEST['propuesta'];
 						
 						<div class="cbte_boxcontent2" align="left" style="font-size: 14px; background-color: #cfcfcf; padding: 5px; padding-left: 15px; padding-right: 15px; min-height: 20px; overflow: hidden;"> 
 							<div class="cbte_box2" style="height: auto; line-height: 20px; float:left; width: 66%; border:1px solid #cfcfcf;"><span style=" font-weight:bold;"><?php echo $observacion;?></div>
-							<div class="cbte_box" align="right" style="height: auto; line-height: 20px; float:left; width: 33%; font-size:26px;"><span style=" color: #2D567F; font-weight:bold;">TOTAL: <?php echo str_replace('EUR','',money_format('%.2n', $totalFinal));?></div>
+							<div class="cbte_box" align="right" style="height: auto; line-height: 20px; float:left; width: 33%; font-size:26px;"><span style=" color: #2D567F; font-weight:bold;">TOTAL: <?php echo number_format(round($totalFinal,2),2);?></div>
 						</div>  <!-- cbte_boxcontent2 -->
 					
 					<div class="cbte_boxcontent2">    

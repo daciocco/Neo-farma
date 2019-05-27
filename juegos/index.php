@@ -4,14 +4,13 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M"){
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	echo $_SESSION["_usrol"];
 	header("Location: $_nextURL");
- 		exit;
-}
-?> 
+ 	exit;
+} ?> 
 
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
-<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='es'>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php";?>
+	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php";?>	
 </head>
 
 <body>
@@ -22,11 +21,11 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M"){
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php
-        $_section	=	'juegos';
-        $_subsection	= 	'';	
+        $_section	= 'juegos';
+        $_subsection= '';	
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
-        
+    
     <main class="cuerpo">
     	<?php include "lista.php"; ?> 
     </main> <!-- fin cuerpo -->

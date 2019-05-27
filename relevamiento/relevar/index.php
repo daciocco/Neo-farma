@@ -18,8 +18,6 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
     </header><!-- cabecera -->	
     
     <nav class="menuprincipal"> <?php 
-		/*$_section 	= 'relevamiento';
-		$_subsection	= '';*/
 		include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
         

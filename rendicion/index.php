@@ -19,8 +19,8 @@
 		
 	<?php if ($_SESSION["_usrrol"]== "G" || $_SESSION["_usrrol"]== "A" || $_SESSION["_usrrol"]== "V" || $_SESSION["_usrrol"]== "M"){?>
 		<nav class="menuprincipal"> <?php 
-			$_section = "rendicion";
-			$_subsection = "";
+			$_section 		= "cuentas_corrientes";
+			$_subsection 	= "rendicion";
 			include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
 		</nav> <!-- fin menu -->									
 	<?php }?> 

@@ -1,12 +1,10 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.ToolBar.php");	
-$empresa	= isset($_REQUEST['empresa']) ? $_REQUEST['empresa'] : 1;
-$tipo		= isset($_REQUEST['tipo']) ? $_REQUEST['tipo'] : 'C';
-$usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
+$empresa	= isset($_REQUEST['empresa']) 	? $_REQUEST['empresa'] 	: 1;
+$tipo		= isset($_REQUEST['tipo']) 		? $_REQUEST['tipo'] 	: 'C';
+$usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"]: '';
 ?>
 
 <script language="javascript" type="text/javascript">
-	//------------------//
 	// Select  Cuentas  // 
 	function dac_selectCuentas(pag, rows, empresa, activos, tipo) {	
 		$.ajax({
@@ -22,7 +20,7 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
 			beforeSend	: function () {
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},
 			success : 	function (resultado) {
 				if (resultado){
@@ -45,35 +43,30 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
 </script>
 
 <div class="box_body"> <?php
+	$btnNuevo	= 	sprintf( "<a href=\"editar.php\" title=\"Nuevo\"><img class=\"icon-new\"/></a>");	
 	$backURL	= empty($_REQUEST['backURL']) 	? '/pedidos/cuentas/'	:	$_REQUEST['backURL'];
 	$_LPP		= 500;
 	$_total 	= count(DataManager::getCuentas(0, 0, $empresa, '', "'".$tipo."'", $usrZonas));
 	$_paginas 	= ceil($_total/$_LPP);
 	$_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-	$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-	$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-	$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-	$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-	$_GOFirst	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, 1		, $empresa, $tipo,	$_imgFirst);
+	$_GOFirst	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag=%d&empresa=%d&tipo=%s\"></a>", $backURL, 1		, $empresa, $tipo);
 	$_GOPrev3	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_pag-3	, $empresa, $tipo,	$_pag-3);
 	$_GOPrev2	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_pag-2	, $empresa, $tipo,	$_pag-2);
-	$_GOPrev	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_pag-1	, $empresa, $tipo,	$_imgPrev);
+	$_GOPrev	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag=%d&empresa=%d&tipo=%s\"></a>", $backURL, $_pag-1	, $empresa, $tipo);
 	$_GOActual	= sprintf("%s", $_pag);
-	$_GONext	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_pag+1	, $empresa, $tipo,	$_imgNext);
+	$_GONext	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag=%d&empresa=%d&tipo=%s\"></a>", $backURL, $_pag+1	, $empresa, $tipo);
 	$_GONext2	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_pag+2	, $empresa, $tipo,	$_pag+2);
 	$_GONext3	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_pag+3	, $empresa, $tipo,	$_pag+3);
-	$_GOLast	= sprintf("<a href=\"%s?pag=%d&empresa=%d&tipo=%s\">%s</a>", $backURL, $_paginas, $empresa, $tipo,	$_imgLast);
+	$_GOLast	= sprintf("<a class=\"icon-go-last\" href=\"%s?pag=%d&empresa=%d&tipo=%s\"></a>", $backURL, $_paginas, $empresa, $tipo);
 	?>
-
-	<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">
-        <div id="msg_cargando" align="center"></div>      
+	<fieldset id='box_cargando' class="msg_informacion">
+        <div id="msg_cargando"></div>      
     </fieldset>            
     <fieldset id='box_error' class="msg_error">
-        <div id="msg_error" align="center"></div>
+        <div id="msg_error"></div>
     </fieldset>
-    
     <fieldset id='box_confirmacion' class="msg_confirmacion">
-        <div id="msg_confirmacion" align="center"></div>      
+        <div id="msg_confirmacion"></div>      
     </fieldset>
 	
     <div class="barra">
@@ -81,7 +74,6 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
             <input id="txtBuscar" type="search" autofocus placeholder="Buscar por P&aacute;gina"/>
             <input id="txtBuscarEn" type="text" value="tblCuentas" hidden/>
         </div>
-        
         <div class="bloque_7">     
             <select id="empselect" name="empselect" onchange="javascript:dac_selectCuentas(<?php echo $_pag; ?>, <?php echo $_LPP; ?>, empselect.value, '', tiposelect.value);"><?php
                 $empresas	= DataManager::getEmpresas(1); 
@@ -107,6 +99,9 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
                     }                          
                 } ?>
             </select>
+        </div>
+        <div class="bloque_7">
+			<?php echo $btnNuevo ?>                	
         </div>
             
 		<?php
@@ -140,20 +135,7 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
         echo("<table class=\"paginador\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
         echo sprintf("<td height=\"16\">Mostrando p&aacute;gina %d de %d</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td><td width=\"20\">%s</td>", $_pag, $_paginas, $_First, $_Prev3, $_Prev2, $_Prev, $_Actual, $_Next, $_Next2, $_Next3, $_Last); 
         echo("</tr></table>");
-    }
-
-    //BARRA DE HERRAMIENTAS
-    $_links 		= array();
-    $_links[1][]	= array('url'=>'editar.php', 'texto'=>'<img src=../images/icons/icono-nuevo.png border=0 align=absmiddle title=Nueva_Cuenta />', 'class'=>'newitem');
-    $_params 		= array(
-        'modo'		=> 1,
-        'separador' => '',
-        'estilo'	=> 'toolbar',
-        'aspecto'	=> 'links',
-        'links'		=> $_links[1]);
-    $bar = ToolBar::factory($_params);
-    ?> 
-    <div class="toolbar"><?php $bar->show(); ?></div>    
+    }  ?> 
 </div> <!-- Fin box body -->
 
 <div class="box_seccion"> 
@@ -161,9 +143,8 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
       
     <div class="barra">
     	<div class="bloque_7">
-            <a href="/pedidos/agenda/" target="_blank"> <img src="/pedidos/images/icons/icono-calendario.png" width="50" height="50" alt="Agenda"/></a>
+            <a title="Agenda" href="/pedidos/agenda/" target="_blank"> <img class="icon-calendar"/></a>
         </div>
-		
 		<div class="bloque_7">
 			<select id="selectFiltro">
 				<option value="ctaidcuenta">Cuenta</option>
@@ -171,7 +152,6 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
 				<option value="ctacuit">Cuit</option>
 			</select>
 		</div>
-		
 		<div class="bloque_5">
 			<input id="txtFiltro" onKeyPress="if (event.keyCode==13){ dac_mostrarFiltro(selectFiltro.value, this.value);return false;}" type="search" autofocus placeholder="Buscar..."/>
         </div>
@@ -181,17 +161,17 @@ $usrZonas	= isset($_SESSION["_usrzonas"]) ? $_SESSION["_usrzonas"] : '';
  	<div class="lista"> 
         <div id='tablaFiltroCuentas'></div> 
     </div> <!-- Fin listar -->
- 	
+     	
 	<?php		
 	$cuentasPendientes	= DataManager::getCuentas(0, 0, $empresa, NULL, "'C', 'CT'", $usrZonas, 3, 'SolicitudAlta');
 	if (count($cuentasPendientes)) { ?>	
-		<div class="barra" style="background-color: #F63;">
+		<div class="barra" style="background-color: #E49044;">
 			<h1><strong>Existen Clientes con Solicitudes de Alta Pendientes</strong></h1>
 			<hr>      
 		</div>		
 		<div class="lista"> 
 			<?php
-			echo	"<table id=\"tblFiltroCuentas\" class=\"datatab\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"table-layout:fixed;\">";
+			echo	"<table id=\"tblFiltroCuentas\"  style=\"table-layout:fixed;\">";
 			echo	"<thead><tr align=\"left\"><th>Emp</th><th>Cuenta</th><th>Nombre</th><th>Ult Fecha</th></tr></thead>";
 			echo	"<tbody>";
 			foreach ($cuentasPendientes as $k => $cuentaP) {				
@@ -260,7 +240,7 @@ $cantT	= round((($cantT*100)/$total), 2);
 			beforeSend	: function () {
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},
 			success : 	function (resultado) {
 				if (resultado){

@@ -1,5 +1,6 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.hiper.php");
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
 	echo 'SU SESION HA EXPIRADO.'; exit;
 }
@@ -12,9 +13,9 @@ if(!$arrayIdCond){
 if(count($arrayIdCond)){
 	foreach ($arrayIdCond as $j => $condId) {
 		if ($condId) {
-			
 			$condObject	=	DataManager::newObjectOfClass('TCondicionComercial', $condId);
 			$condObject->__set('ID', $condId);
+			DataManagerHiper::deleteSimpleObject($condObject, $condId);
 			DataManager::deleteSimpleObject($condObject);
 
 			//Borra los detalles de artículos
@@ -27,6 +28,7 @@ if(count($arrayIdCond)){
 
 					$artCondObject	=	DataManager::newObjectOfClass('TCondicionComercialArt', $detId);
 					$artCondObject->__set('ID',	$detId);
+					DataManagerHiper::deleteSimpleObject($artCondObject, $detId);
 					DataManager::deleteSimpleObject($artCondObject);
 
 					//Borra las bonificaciones del artículo			
@@ -36,6 +38,7 @@ if(count($arrayIdCond)){
 							$IDCondBonif		=	$artBonif['cbid'];
 							$condBonifObject	=	DataManager::newObjectOfClass('TCondicionComercialBonif', $IDCondBonif);
 							$condBonifObject->__set('ID',	$IDCondBonif);
+							DataManagerHiper::deleteSimpleObject($condBonifObject, $IDCondBonif);
 							DataManager::deleteSimpleObject($condBonifObject);		
 						}
 					}
@@ -44,7 +47,7 @@ if(count($arrayIdCond)){
 
 			//------------//	
 			// Movimiento //
-			$movimiento	=	'CONDICION_COMERCIAL';
+			$movimiento	=	'DeleteCondicion';
 			dac_registrarMovimiento($movimiento, "DELETE", 'TCondicionComercial', $condId);
 		} else {
 			echo "Error al consultar los registros."; exit;

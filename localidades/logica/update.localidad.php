@@ -5,20 +5,22 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol
 	echo "LA SESION HA CADUCADO."; exit;
 }
 
-$idLoc			=	(isset($_POST['idLoc']))		?	$_POST['idLoc']			:	NULL;
-$provincia		=	(isset($_POST['provincia']))	?	$_POST['provincia']		:	NULL;
-$localidad		=	(isset($_POST['localidad']))	?	$_POST['localidad']		:	NULL;
-$codigoPostal	=	(isset($_POST['codigopostal']))	?	$_POST['codigopostal']	:	NULL;
-$zonaVSelect	=	(isset($_POST['zonaVSelect']))	?	$_POST['zonaVSelect']	:	NULL;
-$zonaDSelect	=	(isset($_POST['zonaDSelect']))	?	$_POST['zonaDSelect']	:	NULL;
-$ctaIdWeb		=	(isset($_POST['ctaId']))		?	$_POST['ctaId']			:	NULL;
+$idLoc			=	(isset($_POST['idLoc']))		?	$_POST['idLoc']			: NULL;
+$provincia		=	(isset($_POST['provincia']))	?	$_POST['provincia']		: NULL;
+$localidad		=	(isset($_POST['localidad']))	?	$_POST['localidad']		: NULL;
+$codigoPostal	=	(isset($_POST['codigopostal']))	?	$_POST['codigopostal']	: NULL;
+$zonaVSelect	=	(isset($_POST['zonaVSelect']))	?	$_POST['zonaVSelect']	: NULL;
+$zonaDSelect	=	(isset($_POST['zonaDSelect']))	?	$_POST['zonaDSelect']	: NULL;
+
+$ctaIdWeb		=	(isset($_POST['ctaId']))		?	$_POST['ctaId']			: NULL;
+$zonaVExcWeb	=	(isset($_POST['zonaVExc']))		?	$_POST['zonaVExc']		: NULL;
+
 
 if(empty($provincia)){ echo "Debe indicar una provincia."; exit; }
 if(empty($localidad)){ echo "Debe indicar una localidad."; exit; }
 if(empty($codigoPostal) && $codigoPostal != 0){ echo "Debe indicar un código postal."; exit; }
 if(empty($zonaVSelect)){ echo "Debe indicar una zona de venta."; exit; }
 if(empty($zonaDSelect)){ echo "Debe indicar una zona de distribución."; exit; }
-
 
 //Comprobar que dicha localidad no existe
 $cont 			= 0;
@@ -44,7 +46,8 @@ if($ctaIdWeb){
 	if(count($ctaIdWeb) != count(array_unique($ctaIdWeb))){
 		echo "Existen excepciones duplicadas"; exit;
 	}	
-	//zona excepción debe ser diferente a zona de la localidad
+	
+	//La zona de excepción debe ser diferente a la zona de la localidad	
 	if(in_array($zonaVSelect, $zonaVExcWeb)){
 		echo "Las zonas de excepción deben ser diferentes a la localidad."; exit;
 	}
@@ -123,10 +126,10 @@ if(count($zeCtaIdDDBB)){
 		//SI SE DEFINIO UNA ZONA PARA CUENTA, se modifica en la cuenta.
 		if($zonaDefinida){
 			$ctaObject	= DataManager::newObjectOfClass('TCuenta', $zeCtaIdDDBB[$k]);
-			$ctaObject->__set('Zona'	, $zonaDefinida);
+			$ctaObject->__set('Zona', $zonaDefinida);
 						
 			$ctaObjectHiper	= DataManagerHiper::newObjectOfClass('THiperCuenta', $zeCtaIdDDBB[$k]);
-			$ctaObjectHiper->__set('Zona'	, $zonaDefinida);
+			$ctaObjectHiper->__set('Zona', $zonaDefinida);
 			DataManagerHiper::updateSimpleObject($ctaObjectHiper, $zeCtaIdDDBB[$k]);
 			DataManager::updateSimpleObject($ctaObject);
 			//----------------------------------	

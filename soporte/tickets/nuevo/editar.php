@@ -50,25 +50,24 @@ if($tkidsector){
         
     <main class="cuerpo">
     	<div class="box_body">	                				
-            <form id="fmTicket" class="fm_edit2" method="post" enctype="multipart/form-data">
+            <form id="fmTicket" method="post" enctype="multipart/form-data">
                 <fieldset>
                 	<legend><?php echo $titulo ?></legend>
-                    
-               		<div class="bloque_3">
+               		<div class="bloque_1">
                    		<fieldset id='box_error' class="msg_error">          
-                            <div id="msg_error" align="center"></div>
+                            <div id="msg_error"></div>
                         </fieldset>                                                                         
-                        <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;"> 
-                            <div id="msg_cargando" align="center"></div>      
+                        <fieldset id='box_cargando' class="msg_informacion"> 
+                            <div id="msg_cargando"></div>      
                         </fieldset> 
                         <fieldset id='box_confirmacion' class="msg_confirmacion">
-                            <div id="msg_confirmacion" align="center"></div>      
+                            <div id="msg_confirmacion"></div>      
                         </fieldset>
                     </div>
                     
                     <input type="hidden" name="tkidsector" value="<?php echo $tkidsector;?>" />
                     
-                    <div class="bloque_1"> 
+                    <div class="bloque_5"> 
                         <label for="tkmotivo">Motivo del Servicio</label>
                         <select name="tkmotivo" >   
 							<option id="0" value="0" selected></option> <?php
@@ -78,31 +77,23 @@ if($tkidsector){
                         </select>                        
                     </div>
                     
-                    <div class="bloque_1">
-                        <div class="inputfile"><input id="imagen" name="imagen" class="file" type="file"/></div>
+                    <div class="bloque_6">
+                        <input id="imagen" name="imagen" class="file" type="file"/>
                     </div> 
                     
-                    <div class="bloque_3">
+                    <div class="bloque_8">
+						<?php $urlSend	=	'/pedidos/soporte/tickets/nuevo/logica/update.ticket.php';?>
+						<a id="btnSend" title="Enviar"> 
+							<img class="icon-send" onclick="javascript:dac_sendForm(fmTicket, '<?php echo $urlSend;?>');"/>
+						</a>
+                    </div> 
+                    
+                    <div class="bloque_1">
                         <label for="tkmensaje">Mensaje</label>
                         <textarea name="tkmensaje" type="text"/></textarea> 
                     </div>
-                                       
-                     <!--div class="bloque_3">
-                        <label for="tkcopia">Copiar respuesta a:</label>
-                        <input name="tkcopia" type="text"  maxlength="150" value="<?php //echo $copiar;?>"/>
-                    </div--> 
                     
-                    <div class="bloque_1"></div>
-                     <div class="bloque_4"></div>
-                      <div class="bloque_4"></div>
-                       <div class="bloque_4"></div>
-                    <div class="bloque_4"> 
                     
-						<?php $urlSend	=	'/pedidos/soporte/tickets/nuevo/logica/update.ticket.php';?>
-						<a id="btnSend" title="Enviar" style="cursor:pointer;"> 
-							<img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle" onclick="javascript:dac_sendForm(fmTicket, '<?php echo $urlSend;?>');"/>
-						</a>
-                    </div> 
                 </fieldset>		
             </form>		
     	</div> <!-- FIN box_body -->

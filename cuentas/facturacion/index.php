@@ -20,8 +20,8 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
     
     <nav class="menuprincipal"> 
        <?php
-        $_section 	= 'cuentas';
-        $_subsection	= 'facturacion';
+        $_section 	= 'pedidos';
+        $_subsection= 'facturacion';
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
         

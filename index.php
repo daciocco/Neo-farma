@@ -4,9 +4,8 @@
  	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	header("Location: $_nextURL");
  	exit;
- }
-
-?>
+ } ?>
+ 
 <!DOCTYPE html>
 <html xml:lang='es'>
 <head>
@@ -22,10 +21,9 @@
 		include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
 	</nav> <!-- fin menu -->
 
-	<main class="cuerpo">
+	<main class="cuerpo menu2">
 		<?php 
 		//	USUARIOS DE EMPRESA	//
-		//**********************//
 		if ($_SESSION["_usrrol"]== "G" || $_SESSION["_usrrol"]== "V" || $_SESSION["_usrrol"]== "A" || $_SESSION["_usrrol"]== "M"){?> 
 			<div class="box_down">  
 				<?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/inicio/contenido2.inc.php"); ?>   
@@ -34,7 +32,6 @@
 
 		<?php  
 		//	USUARIOS PROVEEDORES	//
-		//**************************//
 		if ($_SESSION["_usrrol"]=="P"){ ?>
 			<div class="box_down">
 				<?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/banner.header.inc.php"); ?>
@@ -52,15 +49,15 @@
 			if (count($condiciones)) {				
 				$index = 0;
 				foreach ($condiciones as $j => $cond) {	
-					$condId				=	$cond['condid'];
-					$articulosCond		= DataManager::getCondicionArticulos($condId);
+					$condId			= $cond['condid'];
+					$articulosCond	= DataManager::getCondicionArticulos($condId);
 					if (count($articulosCond)) {
 						foreach ($articulosCond as $k => $artCond) {	
-							$condArtOAM		= $artCond["cartoam"];
-							if($condArtOAM == "oferta" || $condArtOAM == "altaoff" || $condArtOAM == "modifoff"){
+							$condArtOAM		= $artCond["cartoferta"];
+							if($condArtOAM == "1"){
 								$condArtIdArt	= $artCond['cartidart'];
-								$condArtNombre		= DataManager::getArticulo('artnombre', $condArtIdArt, 1, 1);
-								$condArtImagen		= DataManager::getArticulo('artimagen', $condArtIdArt, 1, 1);
+								$condArtNombre	= DataManager::getArticulo('artnombre', $condArtIdArt, 1, 1);
+								$condArtImagen	= DataManager::getArticulo('artimagen', $condArtIdArt, 1, 1);
 								$imagenObject	= DataManager::newObjectOfClass('TImagen', $condArtImagen);
 								$imagen			= $imagenObject->__get('Imagen');
 								$img			= ($imagen) ?	"/pedidos/images/imagenes/".$imagen : "/pedidos/images/sin_imagen.png";
@@ -81,25 +78,24 @@
 						$nombre = $arrayArticulos['nombre'][$i];
 						$imagen = $arrayArticulos['imagen'][$i];
 						$palabras = explode(" ", $nombre); ?> 
-						<div class="col-sm-6">	
-							<div class="portfolio-item">
+						<div class="col-sm-6">
+							<div class="portfolio-item">							
 								<div class="hover-bg">
-									<a href="<?php echo $imagen; ?>" target="_blank">
-										<div class="hover-text">
-											<h4><?php echo "Art. N&deg; ".$idArt; ?><h4>
-											<h4><?php echo $palabras[0]; ?></h4>
-											<small><?php echo $nombre; ?></small>	
-										</div>
-										<img src="<?php echo $imagen; ?>" class="img-responsive" alt="Oferta"> 
-									</a>
-								</div>	
+									<div class="hover-text">
+										<i><?php echo $palabras[0]; ?></i>
+										<h4><?php echo "Art. ".$idArt; ?><h4>
+										<hr>
+										<small><?php echo $nombre; ?></small>	
+									</div>
+									<img src="<?php echo $imagen; ?>" class="img-responsive" alt="Oferta">
+								</div>
 							</div>
 						</div>  <?php
 					}
 				}  
 			}?>			
 		</div>
-	</offers> 	
+	</offers>
 	
 	<footer class="pie">
 		<?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/footer.inc.php"); ?>

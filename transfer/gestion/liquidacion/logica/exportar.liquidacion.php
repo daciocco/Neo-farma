@@ -26,7 +26,7 @@ header("content-disposition: attachment;filename=Liquidacion-".$_mes."-".$_anio.
 
 <div id="cuadro-liquidacion">
 	<div id="muestra_liquidacion">     
-   	<table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" cellpadding="0" cellspacing="0" border="0">
+   	<table id="tabla_liquidacion" name="tabla_liquidacion" class="tabla_liquidacion" border="0">
        	<thead>
         	<tr>
                	<th colspan="15" align="left"> 

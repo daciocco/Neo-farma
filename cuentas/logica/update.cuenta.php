@@ -1,69 +1,66 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.hiper.php");
-if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M"){
+if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M") {
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	header("Location: $_nextURL");
 	exit;
 }
 
-$ctaId 				= 	(isset($_POST['ctaid']))			? 	$_POST['ctaid']				: 	NULL;
-$tipo				= 	(isset($_POST['tiposelect']))		? 	$_POST['tiposelect']		: 	NULL;
-$idCuenta 			= 	(isset($_POST['idCuenta']))			? 	$_POST['idCuenta'] 			: 	NULL;
-$empresa			= 	(isset($_POST['empselect']))		? 	$_POST['empselect'] 		: 	NULL;
-$estado				= 	(isset($_POST['estado']))			? 	$_POST['estado']			: 	NULL;
-$nombre 			= 	(isset($_POST['nombre']))			? 	$_POST['nombre'] 			: 	NULL;
-$asignado 			= 	(isset($_POST['asignado']))			? 	$_POST['asignado'] 			: 	NULL;
-$zona				= 	(isset($_POST['zona']))				? 	$_POST['zona'] 				: 	NULL;
-$ruteo 				= 	(isset($_POST['ruteo']))			? 	$_POST['ruteo'] 			: 	NULL;
-$empleados 			= 	(isset($_POST['empleados']))		? 	$_POST['empleados'] 		: 	NULL;
-$cuit 				= 	(isset($_POST['cuit']))				? 	$_POST['cuit'] 				: 	NULL;
-$categoriaComercial = 	(isset($_POST['categoriaComer']))	? 	$_POST['categoriaComer'] 	: 	NULL;
-$categoriaIVA		= 	(isset($_POST['categoriaIva']))		? 	$_POST['categoriaIva'] 		: 	NULL;
-$condicionPago		= 	(isset($_POST['condicionPago']))	? 	$_POST['condicionPago'] 	: 	NULL;
-$agenteRetPerc		= 	(isset($_POST['agenteRetPerc']))	? 	$_POST['agenteRetPerc'] 	: 	NULL;
-$telefono 			= 	(isset($_POST['telefono']))			? 	$_POST['telefono'] 			: 	NULL;
-$direccionEntrega 	= 	(isset($_POST['direccionEntrega']))	? 	$_POST['direccionEntrega'] 	: 	NULL;
-$correo 			= 	(isset($_POST['correo']))			? 	$_POST['correo'] 			: 	NULL;
-$web 				= 	(isset($_POST['web']))				? 	$_POST['web'] 				: 	NULL;
-$observacion 		= 	(isset($_POST['observacion']))		? 	$_POST['observacion'] 		: 	NULL;
-
-$imagen1 			= 	(isset($_POST['nombreFrente']))		? 	$_POST['nombreFrente'] 		: 	NULL;
-$imagen2 			= 	(isset($_POST['nombreInterior']))	? 	$_POST['nombreInterior'] 	: 	NULL;
-
+$ctaId 				= (isset($_POST['ctaid']))			? $_POST['ctaid']		: NULL;
+$tipo				= (isset($_POST['tiposelect']))		? $_POST['tiposelect']	: NULL;
+$idCuenta 			= (isset($_POST['idCuenta']))		? $_POST['idCuenta'] 	: NULL;
+$empresa			= (isset($_POST['empselect']))		? $_POST['empselect'] 	: NULL;
+$estado				= (isset($_POST['estado']))			? $_POST['estado']		: NULL;
+$nombre 			= (isset($_POST['nombre']))			? $_POST['nombre'] 		: NULL;
+$asignado 			= (isset($_POST['asignado']))		? $_POST['asignado'] 	: NULL;
+$zona				= (isset($_POST['zona']))			? $_POST['zona'] 		: NULL;
+$ruteo 				= (isset($_POST['ruteo']))			? $_POST['ruteo'] 		: NULL;
+$empleados 			= (isset($_POST['empleados']))		? $_POST['empleados'] 	: NULL;
+$cuit 				= (isset($_POST['cuit']))			? $_POST['cuit'] 		: NULL;
+$categoriaComercial = (isset($_POST['categoriaComer']))	? $_POST['categoriaComer']: NULL;
+$categoriaIVA		= (isset($_POST['categoriaIva']))	? $_POST['categoriaIva']: NULL;
+$condicionPago		= (isset($_POST['condicionPago']))	? $_POST['condicionPago'] : NULL;
+$agenteRetPerc		= (isset($_POST['agenteRetPerc']))	? $_POST['agenteRetPerc'] : NULL;
+$telefono 			= (isset($_POST['telefono']))		? $_POST['telefono'] 	: NULL;
+$direccionEntrega 	= (isset($_POST['direccionEntrega'])) ? $_POST['direccionEntrega'] : NULL;
+$correo 			= (isset($_POST['correo']))			? $_POST['correo'] 		: NULL;
+$web 				= (isset($_POST['web']))			? $_POST['web'] 		: NULL;
+$observacion 		= (isset($_POST['observacion']))	? $_POST['observacion']: NULL;
+$imagen1 			= (isset($_POST['nombreFrente']))	? $_POST['nombreFrente']: NULL;
+$imagen2 			= (isset($_POST['nombreInterior']))	? $_POST['nombreInterior'] : NULL;
 //Domicilio
-$provincia 			= 	(isset($_POST['provincia']))		?	$_POST['provincia'] 		: 	NULL;
-$localidad 			= 	(isset($_POST['localidad']))		?	$_POST['localidad'] 		: 	NULL;
-
-$direccion 			= 	(isset($_POST['direccion']))		?	$_POST['direccion'] 		: 	NULL;
-$nro 				= 	(isset($_POST['nro']))				?	$_POST['nro'] 				: 	NULL;
-$piso 				= 	(isset($_POST['piso']))				?	$_POST['piso'] 				: 	NULL;
-$dpto 				= 	(isset($_POST['dpto']))				?	$_POST['dpto'] 				: 	NULL;
-$cp 				= 	(isset($_POST['codigopostal']))		?	$_POST['codigopostal'] 		: 	NULL;
-$longitud 			= 	(isset($_POST['longitud']))			?	$_POST['longitud'] 			: 	NULL;
-$latitud 			= 	(isset($_POST['latitud']))			?	$_POST['latitud'] 			: 	NULL;
+$provincia 			= (isset($_POST['provincia']))		? $_POST['provincia'] 	: NULL;
+$localidad 			= (isset($_POST['localidad']))		? $_POST['localidad'] 	: NULL;
+$direccion 			= (isset($_POST['direccion']))		? $_POST['direccion'] 	: NULL;
+$nro 				= (isset($_POST['nro']))			? $_POST['nro'] 		: NULL;
+$piso 				= (isset($_POST['piso']))			? $_POST['piso'] 		: NULL;
+$dpto 				= (isset($_POST['dpto']))			? $_POST['dpto'] 		: NULL;
+$cp 				= (isset($_POST['codigopostal']))	? $_POST['codigopostal']: NULL;
+$longitud 			= (isset($_POST['longitud']))		? $_POST['longitud'] 	: NULL;
+$latitud 			= (isset($_POST['latitud']))		? $_POST['latitud'] 	: NULL;
 //Retenciones y Percepciones
-$categIva 			= 	(isset($_POST['categoriaIva']))		?	$_POST['categoriaIva'] 		: 	NULL;
-$agenteRetPerc 		= 	(isset($_POST['agenteRetPerc']))	?	$_POST['agenteRetPerc'] 	: 	NULL;
-$ctoCompras 		= 	(isset($_POST['ctoCompras']))		?	$_POST['ctoCompras'] 		: 	NULL;
-$ctoImpositivo 		= 	(isset($_POST['ctoImpositivo']))	?	$_POST['ctoImpositivo'] 	: 	NULL;
-$ctoCobranza 		= 	(isset($_POST['ctoCobranza']))		?	$_POST['ctoCobranza'] 		: 	NULL;
-$ctoRecExp 			= 	(isset($_POST['ctoRecExp']))		?	$_POST['ctoRecExp'] 		: 	NULL;
-
-$cadena 			= 	(isset($_POST['cadena']))			?	$_POST['cadena'] 			: 	NULL;
-$tipoCadena 		= 	(isset($_POST['tipoCadena']))		?	$_POST['tipoCadena'] 		: 	NULL;
-
-$tipoCadenaNombre	=	($tipoCadena == 1) ? 'Sucursal' 	: 	'';
-$nroIngBrutos		= 	(isset($_POST['nroIngBrutos']))		?	$_POST['nroIngBrutos'] 		: 	NULL;
+$categIva 			= (isset($_POST['categoriaIva']))	? $_POST['categoriaIva'] : NULL;
+$agenteRetPerc 		= (isset($_POST['agenteRetPerc']))	? $_POST['agenteRetPerc'] : NULL;
+$ctoCompras 		= (isset($_POST['ctoCompras']))		? $_POST['ctoCompras'] 	: NULL;
+$ctoImpositivo 		= (isset($_POST['ctoImpositivo']))	? $_POST['ctoImpositivo'] : NULL;
+$ctoCobranza 		= (isset($_POST['ctoCobranza']))	? $_POST['ctoCobranza'] : NULL;
+$ctoRecExp 			= (isset($_POST['ctoRecExp']))		? $_POST['ctoRecExp'] 	: NULL;
+$cadena 			= (isset($_POST['cadena']))			? $_POST['cadena'] 		: NULL;
+$tipoCadena			= (isset($_POST['tipoCadena']))		? $_POST['tipoCadena'] 	: NULL;
+$tipoCadenaNombre	= ($tipoCadena == 1) ? 'Sucursal' 	: '';
+$nroIngBrutos		= (isset($_POST['nroIngBrutos']))	? $_POST['nroIngBrutos'] : NULL;
 //Arrays
-$arrayCtaIdDrog		= 	(isset($_POST['cuentaId']))			? 	$_POST['cuentaId'] 			: 	NULL;
-$arrayCtaCliente	= 	(isset($_POST['cuentaIdTransfer']))	? 	$_POST['cuentaIdTransfer'] 	: 	NULL;
-$fechaAlta			=	(isset($_POST['fechaAlta']))		? 	$_POST['fechaAlta'] 		: 	NULL;
-$activa				=	(isset($_POST['activa']))			? 	$_POST['activa'] 			: 	NULL;
+$arrayCtaIdDrog		= (isset($_POST['cuentaId']))		? $_POST['cuentaId'] 	: NULL;
+$arrayCtaCliente	= (isset($_POST['cuentaIdTransfer']))? $_POST['cuentaIdTransfer'] :	NULL;
+$fechaAlta			= (isset($_POST['fechaAlta']))		? $_POST['fechaAlta'] 	: NULL;
+$activa				= (isset($_POST['activa']))			? $_POST['activa'] 		: NULL;
 
-//*************************//
-// Obligatorio para todos  //
-//*************************//
+$lista				= (isset($_POST['listaPrecio']))	? $_POST['listaPrecio']	: NULL;
+$listaNombre		= DataManager::getLista('NombreLT', 'IdLista', $lista);
+
+//-------------------------------------
+// Controles obligatorios para todos  
 //Un prospecto puede no estar obligado a ingresar los siguientes datos
 if($tipo != "PS" && $tipo != "O"){
 	if(empty($asignado)){ echo "La cuenta debe tener un usuario asignado. "; exit; }
@@ -90,6 +87,17 @@ if(!empty($categoriaIVA)){
 	}
 }
 
+//La zona debe corresponder a la zona relacionada a la localidad. Si no es la misma deberá solicitarlo luego como excepción para que se modifique o aclararlo en la observación para administración
+if(empty($provincia) || empty($localidad) || empty($longitud) || empty($latitud)){
+	echo "Complete los datos de domicilio."; exit;
+} else {
+	$zonaLocalidad = DataManager::getLocalidad('loczonavendedor', $localidad);
+	if($zonaLocalidad != $zona){
+		$nombreLocalidad	= DataManager::getLocalidad('locnombre', $localidad);
+		echo "La zona correspondiente a la localidad $nombreLocalidad es la $zonaLocalidad. En caso de desear una diferente, deberá solicitarlo en la observación para cargar luego como excepción."; exit;
+	} 
+}
+
 if(!empty($correo)){
 	$correo = trim($correo, ' ');
 	if (!dac_validateMail($correo)) {
@@ -101,7 +109,6 @@ if(empty($correo) && empty($telefono)){ echo "Debe indicar un correo o un tel&ea
 
 //***************************************//
 //Control de cuentas transfers cargados  // //relacionadas (para droguerías transfers)
-//***************************************//
 if(!empty($arrayCtaIdDrog)){	
 	if(count($arrayCtaIdDrog)){ //$arrayCtaIdDrog = implode(",", $arrayCtaIdDrog);
 		for($i = 0; $i < count($arrayCtaIdDrog); $i++){
@@ -147,13 +154,11 @@ if (isset($_FILES['multifile'])) {
 			$peso	 		=	$myFiles['size'][$i];				
 			if($peso > MAX_FILE){
 				echo "El archivo ".$nombreOriginal." no debe superar los ".(MAX_FILE / 1024)." MB"; exit;
-			}			
-			
+			}	
 			if(!dac_fileFormatControl($myFiles["type"][$i], 'imagen')){
 				echo "El archivo ".$nombreOriginal." debe tener formato imagen o pdf."; exit;		
 			}			
-		}
-						
+		}				
 		if ($myFiles['error'][$i] != 0 && $myFiles['error'][$i] != 4){ 
 			echo 'No se pudo subir el archivo <b>'.$nombreOriginal.'</b> debido al siguiente Error: '.$myFiles['error'][$i];
 		}
@@ -173,28 +178,25 @@ $zonaEntrega		= (empty($localidad)) ? 0 : DataManager::getLocalidad('loczonaentr
 //header And footer
 include_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/headersAndFooters.php");
 
-//******************//
-//	TIPO DE CUENTA	//	
-//******************//	
-$tipoDDBB	=	dac_consultarTipo($ctaId); //$idCuenta, $empresa);
+//---------------------
+//	TIPO DE CUENTA		
+$tipoDDBB	=	dac_consultarTipo($ctaId);
 $estadoDDBB	= 	dac_consultarEstado($idCuenta, $empresa);
 
 //Controlo cambio tipo cuenta
 dac_controlesCambioTipoCuenta($tipoDDBB, $tipo, $estadoDDBB, $estado);
 	
 switch($tipo){	
-	//**********//
 	//	cliente	//	
-	//**********//
 	case 'C':
 	case 'CT':
 		if($estadoDDBB == 'CambioRazonSocial' || $estadoDDBB == 'CambioDomicilio' || $estadoDDBB == 'SolicitudBaja'){
 			echo "La cuenta ya no puede ser modificada."; exit;
-		}
-		
+		}		
 		//Controles Generales	
 		if(empty($zona) || $zona==199){ echo "Indique la zona del vendedor."; exit; }
 		if(empty($ruteo)){ echo "Indique el ruteo."; exit; }
+		if(empty($lista)){ echo "Indique lista de precios."; exit; }
 		if(empty($agenteRetPerc)){ echo "Indique si es agente de Retenci&oacute;n/Percepci&oacute;n."; exit; }
 		if(empty($categoriaIVA)){ echo "Indique categor&iacute;a de iva."; exit; }		
 				
@@ -230,8 +232,20 @@ switch($tipo){
 		
 		switch($estado) {
 			case 'SolicitudAlta':
-				$est = 5;
-				$estadoNombre = 'Solicitud de Alta';				
+				$est 		  	= 5;
+				$estadoNombre 	= 'Solicitud de Alta';				
+				
+				//Busca las categorías de la lista de precios seleccionadas y consotrla que exista la condicion Comercial seleccionada en la cuenta
+				$categoriasListaPrecios	= DataManager::getLista('CategoriaComercial', 'IdLista', $lista);
+				if(!empty($categoriasListaPrecios)){
+					$categoriasComerciales = explode(",", $categoriasListaPrecios);
+					if(!in_array($categoriaComercial, $categoriasComerciales)) {						
+						$categoriaNombre = DataManager::getCategoriaComercial('catnombre', 'catidcat', $categoriaComercial);						
+						echo "La Categoría Comercial '$categoriaComercial - $categoriaNombre' NO corresponde a la Lista de Precios '$listaNombre'"; exit;
+					}
+				}
+				//--------------------------------
+								
 				if(dac_controlesAlta($cadena, $ctaId, $empresa, $cuit, $estadoDDBB, $zona, $tipoDDBB, $tipo)){
 					$idCuenta 	= dac_crearNroCuenta($empresa, $zona);					
 					$fechaAlta	= "2001-01-01 00:00:00";
@@ -282,6 +296,10 @@ switch($tipo){
                                     <tr>
                                         <th align="left" width="200">Categor&iacute;a Iva</th>	
                                         <td align="left" width="400">'.$catIvaNombre.'</td>
+                                    </tr>
+									<tr>
+                                        <th align="left" width="200">Lista de Precios</th>	
+                                        <td align="left" width="400">'.$listaNombre.'</td>
                                     </tr>
 									<tr>
                                         <th align="left" width="200">Cadena</th>	
@@ -514,7 +532,7 @@ switch($tipo){
 				$mail->msgHTML($cuerpoMail2);
 
 				$mail->AddBCC("infoweb@neo-farma.com.ar");	
-				$mail->AddBCC("anadiaz@neo-farma.com.ar");
+				$mail->AddBCC("cuentas@neo-farma.com.ar");
 				$mail->AddAddress($_SESSION["_usremail"], $estadoNombre.' de la cuenta '.$tipo.". Enviada");
 
 				if($mail){
@@ -525,12 +543,10 @@ switch($tipo){
 				
 				//******************//	
 				//	Registro ESTADO	//
-				//******************//
 				dac_registrarEstado('TCuenta', $ctaId, $est, $tipo."_".$estado);
 
 				//**********************//	
 				//	Registro MOVIMIENTO	//
-				//**********************//
 				$movimiento = 'CUENTA_'.$tipo;	
 				$movTipo	= 'UPDATE';
 				dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", $ctaId);
@@ -591,6 +607,10 @@ switch($tipo){
                                     <tr>
                                         <th align="left" width="200">Categor&iacute;a Iva</th>	
                                         <td align="left" width="400">'.$catIvaNombre.'</td>
+                                    </tr>
+									<tr>
+                                        <th align="left" width="200">Lista de Precios</th>	
+                                        <td align="left" width="400">'.$listaNombre.'</td>
                                     </tr>
 									<tr>
                                         <th align="left" width="200">Cadena</th>	
@@ -682,11 +702,9 @@ switch($tipo){
 				
 				DataManagerHiper::updateSimpleObject($ctaObjectHiper, $ctaId);
 				DataManager::updateSimpleObject($ctaObject);
-				//----------------------------
 								
 				//**********//
 				//	CORREO	//
-				//**********//
 				require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/mailConfig.php" );
 				$mail->From    = $from;
 				$mail->FromName= $fromName;
@@ -845,7 +863,7 @@ switch($tipo){
 				$mail->msgHTML($cuerpoMail2);
 
 				$mail->AddBCC("infoweb@neo-farma.com.ar");	
-				$mail->AddBCC("anadiaz@neo-farma.com.ar");
+				$mail->AddBCC("cuentas@neo-farma.com.ar");
 				$mail->AddBCC("robertorodriguez@gezzi.com.ar");
 				$mail->AddAddress($_SESSION["_usremail"], $estadoNombre.' de la cuenta '.$tipo.". Enviada");
 				
@@ -924,6 +942,10 @@ switch($tipo){
                                         <td align="left" width="400">'.$catIvaNombre.'</td>
                                     </tr>
 									<tr>
+                                        <th align="left" width="200">Lista de Precios</th>	
+                                        <td align="left" width="400">'.$listaNombre.'</td>
+                                    </tr>
+									<tr>
                                         <th align="left" width="200">Cadena</th>	
                                         <td align="left" width="400">'.$cadena.'</td>
                                     </tr>
@@ -994,6 +1016,17 @@ switch($tipo){
 				if(dac_controlesModificacion($estadoDDBB, $fechaAlta, $cadena, $empresa, $cuit, $ctaId)){
 					$fechaAlta = dac_controlesModificacion($estadoDDBB, $fechaAlta, $cadena, $empresa, $cuit, $ctaId);
 				}
+				
+				//Busca las categorías de la lista de precios seleccionadas y consotrla que exista la condicion Comercial seleccionada en la cuenta
+				$categoriasListaPrecios	= DataManager::getLista('CategoriaComercial', 'IdLista', $lista);
+				if(!empty($categoriasListaPrecios)){
+					$categoriasComerciales = explode(",", $categoriasListaPrecios);
+					if(!in_array($categoriaComercial, $categoriasComerciales)) {						
+						$categoriaNombre = DataManager::getCategoriaComercial('catnombre', 'catidcat', $categoriaComercial);						
+						echo "La Categoría Comercial '$categoriaComercial - $categoriaNombre' NO corresponde a la Lista de Precios '$listaNombre'";
+					}
+				}
+				//--------------------------------
 				
 				//**********//
 				//	CORREO	//
@@ -1332,7 +1365,7 @@ switch($tipo){
 		
 		$mail->msgHTML($cuerpoMail);
 		$mail->AddBCC("infoweb@neo-farma.com.ar");		
-		$mail->AddBCC("anadiaz@neo-farma.com.ar");
+		$mail->AddBCC("cuentas@neo-farma.com.ar");
 		$mail->AddAddress($_SESSION["_usremail"], $estadoNombre.' de la cuenta '.$tipo.". Enviada");
 		switch($estado){
 			case 'SolicitudAlta':
@@ -1342,21 +1375,19 @@ switch($tipo){
 				$mail->AddBCC("leonardosenno@neo-farma.com.ar");	
 				break;	
 		}
-		
 		break;
 		
 	//**************//
 	//	TRANSFER	//	
-	//**************//	
 	case 'T':
 	case 'TT':	
 		//Controles generales
 		if(empty($zona) || $zona==199){ echo "Indique la zona del vendedor."; exit; }
 		if(empty($ruteo)){ echo "Indique el ruteo."; exit; }
 		if (empty($cp) || !is_numeric($cp)) { echo "Indique c&oacute;digo postal."; exit; }	
+		
 		//**********//
 		//	CORREO	//
-		//**********//
 		$from 			=	$_SESSION["_usremail"];
 		$fromName		=	"Usuario ".$_SESSION["_usrname"];
 		$cuerpoMail_3 	= 	'	
@@ -1378,11 +1409,11 @@ switch($tipo){
 		switch($estado){
 			case 'SolicitudAlta':
 				$est = 5;
-				$estadoNombre = 'Solicitud de Alta';							
+				$estadoNombre = 'Solicitud de Alta';
 				if(dac_controlesAlta($cadena, $ctaId, $empresa, $cuit, $estadoDDBB, $zona, $tipoDDBB, $tipo)){
 					$idCuenta 	= dac_crearNroCuenta($empresa, $zona);
 					$fechaAlta	= "2001-01-01 00:00:00";
-				};			
+				}			
 				break;
 			case 'CambioRazonSocial':
 			case 'CambioDomicilio':
@@ -1437,7 +1468,6 @@ switch($tipo){
 		if(count($arrayCtaIdDrog) < 1){
 			echo "Debe cargar al menos una droguer&iacute;a con n&uacute;mero de cuenta transfer."; exit;	
 		}
-		//**********************//
 				
 		//**********//
 		//	CORREO	//
@@ -1621,7 +1651,6 @@ switch($tipo){
 		
 	//**************//
 	//	PROSPECTO	//	
-	//**************//	
 	case 'PS':
 		require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/mailConfig.php" );
 		//Controlo campos generales
@@ -1744,16 +1773,16 @@ $ctaObject->__set('Bonif3'			, 0);
 $ctaObject->__set('CuentaContable'	, '1.1.3.01.01'); 
 $ctaObject->__set('Credito'			, 0);
 $ctaObject->__set('NroEmpresa'		, 0);
+$ctaObject->__set('Lista'			, $lista);
 
 //--------------------------------//
 //	PREPARO CUENTA PARA HiperWin
 $ctaObjectHiper	= ($ctaId) ? DataManagerHiper::newObjectOfClass('THiperCuenta', $ctaId) : DataManagerHiper::newObjectOfClass('THiperCuenta');
-
 $ctaObjectHiper->__set('Empresa'			, $empresa);
 $ctaObjectHiper->__set('Cuenta'				, $idCuenta);
 $ctaObjectHiper->__set('Tipo'				, $tipo);
 $ctaObjectHiper->__set('Estado'				, $estado);
-$ctaObjectHiper->__set('Nombre'				, $nombre);
+$ctaObjectHiper->__set('Nombre'				, strtoupper($nombre) );
 $ctaObjectHiper->__set('CUIT'				, $cuit);
 $ctaObjectHiper->__set('Zona'				, $zona);
 $ctaObjectHiper->__set('ZonaEntrega'		, $zonaEntrega);
@@ -1795,7 +1824,7 @@ $ctaObjectHiper->__set('Bonif3'				, 0);
 $ctaObjectHiper->__set('CuentaContable'		, '1.1.3.01.01'); 
 $ctaObjectHiper->__set('Credito'			, 0);
 $ctaObjectHiper->__set('NroEmpresa'			, 0);
-
+$ctaObjectHiper->__set('Lista'				, $lista);
 
 if($tipo == "C" || $tipo == "CT") { 	
 	if($estado == 'ModificaDatos') {
@@ -1820,8 +1849,7 @@ if(!empty($interiorNombre)){
 if ($ctaId){
 	//UPDATE
 	$ctaObject->__set('UsrUpdate'	, $_SESSION["_usrid"]);
-	$ctaObject->__set('LastUpdate'	, date("Y-m-d H:i:s"));
-	
+	$ctaObject->__set('LastUpdate'	, date("Y-m-d H:i:s"));	
 	$ctaObjectHiper->__set('UsrUpdate'	, $_SESSION["_usrid"]);
 	$ctaObjectHiper->__set('LastUpdate'	, date("Y-m-d H:i:s"));
 		
@@ -1964,7 +1992,7 @@ if ($interiorPeso != 0){
 			echo "Error al intentar subir el archivo."; exit;
 		}
 	} else {
-		echo "El archivo frente debe tener formato imagen."; exit;		
+		echo "El archivo frente debe tener formato imagen."; exit;
 	}
 }
 
@@ -2151,7 +2179,7 @@ function dac_crearNroCuenta($empresa, $zona){
 
 function dac_existeCuitCuenta($empresa, $cuit, $ctaId){
 	$cont = 0;
-	$cuentas	=	DataManager::getCuentaAll('ctaid', 'ctacuit', $cuit, $empresa);
+	$cuentas = DataManager::getCuentaAll('ctaid', 'ctacuit', $cuit, $empresa);
 	if(count($cuentas)){
 		//SI no hay ctaid es que es alta. Si existen cuentas con el cuit es que ya existe
 		if(empty($ctaId)){ return TRUE; }		
@@ -2159,7 +2187,6 @@ function dac_existeCuitCuenta($empresa, $cuit, $ctaId){
 		foreach ($cuentas as $k => $cuenta) {
 			$cuentaId	= $cuenta['ctaid'];	
 			$ctatipo	= DataManager::getCuenta('ctatipo', 'ctaid', $cuentaId, $empresa);
-
 			//$ctacadena	= DataManager::getCuenta('ctaidcadena', 'ctaid', $cuentaId, $empresa);
 			$ctacadena	= DataManager::getCuentasCadena($empresa, NULL, $cuentaId);
 			
@@ -2172,8 +2199,6 @@ function dac_existeCuitCuenta($empresa, $cuit, $ctaId){
 		if($cont >= 1) {			
 			return TRUE;
 		}
-		
-		
 	}
 	return FALSE;
 }

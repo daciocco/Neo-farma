@@ -25,18 +25,23 @@ if ($propuesta) {
 		
 		switch ($estadoDDBB){
 			case 1: //PENDIENTE
-				switch ($estado){			
-					case 2:
-						if ($_SESSION["_usrrol"]!="A" &&  $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M"){
-							echo "No puede realizar el proceso."; exit;
-						} else {
-							$resultado = "APROBADA";	
-						}			
-						break;
-					case 3:
-						$resultado = "RECHAZADA";
-						$propuestaObject->__set('Activa' , 0);
-						break;
+				if ($_SESSION["_usrid"]=="7" || $_SESSION["_usrid"]=="20" || $_SESSION["_usrid"]=="33" || $_SESSION["_usrid"]=="82" || $_SESSION["_usrid"]=="28" || $_SESSION["_usrid"]=="40" || $_SESSION["_usrid"]=="69"){
+					switch ($estado){			
+						case 2:
+							/*if ($_SESSION["_usrrol"]!="A" &&  $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M"){
+								echo "No puede realizar el proceso."; exit;
+							} else {
+								$resultado = "APROBADA";	
+							}	*/
+							$resultado = "APROBADA";
+							break;
+						case 3:
+							$resultado = "RECHAZADA";
+							$propuestaObject->__set('Activa' , 0);
+							break;
+					}
+				} else {
+					echo "No puede realizar el proceso."; exit;
 				}
 				break;
 			case 2: //APROBADA

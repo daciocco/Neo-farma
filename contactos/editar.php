@@ -38,18 +38,17 @@ $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=
 ?>
 <!DOCTYPE html>
 <html lang="es">
-<body style="background-image: none; background-color: transparent;">
+<body class="body-contact">
     <head>
         <?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php";?>
-        <script language="JavaScript" type="text/javascript" src="/pedidos/contactos/logica/jquery/jquery.enviar.js"></script>
-        
+        <script language="JavaScript" type="text/javascript" src="/pedidos/contactos/logica/jquery/jquery.enviar.js"></script>        
     </head>
                 
 	
-	<form name="fm_prov_contact_edit" class="fm_edit_iframe" method="POST">
+	<form method="POST">
 		<input name="ctoid" id="ctoid" type="text" value="<?php echo $_ctoid; ?>" hidden/>
 		<input name="origenid" id="origenid" type="text" value="<?php echo $_origenid; ?>" hidden/>                                                 		
-		<div class="bloque_1">
+		<div class="bloque_5">
 			<label for="ctoorigen">Origen</label>
 			<select id="ctoorigen" name="ctoorigen"/> 
 				<option></option> 		
@@ -57,7 +56,7 @@ $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=
 			</select>
 		</div>
 
-		<div class="bloque_3">    
+		<div class="bloque_5">    
 			<label for="ctosector">Sector / Departamento</label>
 			<select id="ctosector" name="ctosector"/> 
 				<option></option> <?php 
@@ -78,7 +77,7 @@ $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=
 			</select>
 		</div>
 
-		<div class="bloque_3">    
+		<div class="bloque_5">    
 			<label for="ctopuesto">Puesto</label>
 			<select id="ctopuesto" name="ctopuesto"/> 
 				<option></option> <?php 
@@ -98,7 +97,8 @@ $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=
 				} ?>                                
 			</select>
 		</div>
-		<div class="bloque_4">
+		<div class="bloque_5">
+			<label>G&eacute;nero</label>
 			<select id="ctogenero" name="ctogenero"/>
 				<?php
 				if ($_genero == "F"){ ?> 
@@ -118,17 +118,17 @@ $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=
 				} ?>
 			</select>
 		</div>
-		<div class="bloque_2">    
+		<div class="bloque_5">    
 			<input name="ctonombre" id="ctonombre" type="text" placeholder="Nombre"  maxlength="50" value="<?php echo $_nombre;?>"/>
 		</div>
-		<div class="bloque_1">    
+		<div class="bloque_5">    
 			<input name="ctoapellido" id="ctoapellido" type="text" placeholder="Apellido" maxlength="50" value="<?php echo $_apellido;?>"/>
 		</div>
 		
-		<div class="bloque_3">
+		<div class="bloque_5">
 			<input name="ctotelefono" id="ctotelefono" type="text" placeholder="Tel&eacute;fono" maxlength="20" value="<?php echo $_telefono;?>"/>
 		</div>
-		<div class="bloque_3">
+		<div class="bloque_5">
 			<input name="ctointerno" id="ctointerno" type="text" placeholder="Interno" maxlength="10" value="<?php echo $_interno; ?>"/>
 		</div>
 		<div class="bloque_1">
@@ -136,18 +136,16 @@ $_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=
 		</div>
 		<div class="bloque_1">
 			<fieldset id='box_cargando' class="msg_informacion">                  
-				<div id="msg_cargando" align="center"></div>      
-			</fieldset>            
-
+				<div id="msg_cargando"></div>      
+			</fieldset>    
 			<fieldset id='box_error' class="msg_error">           
-				<div id="msg_error" align="center"></div>
+				<div id="msg_error"></div>
 			</fieldset>
-
 			<fieldset id='box_confirmacion' class="msg_confirmacion">
-				<div id="msg_confirmacion" align="center"></div>      
+				<div id="msg_confirmacion"></div>      
 			</fieldset>
 		</div>
-		<div class="bloque_3">
+		<div class="bloque_5">
 			<?php echo $_button; ?>
 		</div>
 

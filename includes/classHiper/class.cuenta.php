@@ -74,9 +74,8 @@ class THiperCuenta extends PropertyObject {
 		$this->propertyTable['UsrAssigned'] 		= 'ctausrassigned';
 		$this->propertyTable['UsrUpdate'] 			= 'ctausrupdate';
 		$this->propertyTable['LastUpdate'] 			= 'ctaupdate';
-		$this->propertyTable['Activa'] 				= 'ctaactiva';		
-		//campos que están solo en Hiper
-		//$this->propertyTable['Lista']				= 'Lista';
+		$this->propertyTable['Activa'] 				= 'ctaactiva';
+		$this->propertyTable['Lista']				= 'Lista';
 	}
      
 	function __toString() {
@@ -93,23 +92,18 @@ class THiperCuenta extends PropertyObject {
 	public function __getTableName()  {
 		return $this->_tablename;
 	}
-	
 	public function __getFieldID()  {
 		return $this->_fieldid;
 	}
-
 	public function __getFieldActivo()  {
 		return $this->_fieldactivo;
 	}
-	
 	public function __newID()  {
 		return ('#'.$this->_fieldid);
 	}
-
 	public function __validate()  {
 		return true;
 	}
-	
 	/*public function __getFieldIDTwo()  {
 		return $this->_fieldidTwo;
 	}

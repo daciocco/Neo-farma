@@ -45,20 +45,37 @@
         
     <main class="cuerpo">
     	<div class="box_body">       				
-			<form id="fm_rel_edit" name="fm_rel_edit" class="fm_edit2" method="post">
+			<form id="fm_rel_edit" name="fm_rel_edit" method="post">
 				<fieldset>
 					<legend>Relevamiento</legend>
-					<div class="bloque_4">
-						<label for="nro">N&uacute;mero *</label>
+					<div class="bloque_1">   
+						<fieldset id='box_informacion' class="msg_informacion">
+							<div id="msg_informacion"></div> 
+						</fieldset>  
+						<fieldset id='box_error' class="msg_error">          
+							<div id="msg_error"></div>
+						</fieldset>
+						<fieldset id='box_cargando' class="msg_informacion">
+							<div id="msg_cargando"></div>      
+						</fieldset> 
+						<fieldset id='box_confirmacion' class="msg_confirmacion">
+							<div id="msg_confirmacion"></div>      
+						</fieldset>
+					</div>
+
+					<input type="hidden" id="relid" name="relid" value="<?php echo @$_relid;?>" />
+					
+					<div class="bloque_8">
+						<label for="nro">Nro</label>
 						<input type="text" name="nro" id="nro" maxlength="2" value="<?php echo @$_nro;?>"/>
 					</div>
 
-					<div class="bloque_4">
+					<div class="bloque_8">
 						<label for="orden">Orden</label>
 						<input type="text" name="orden" id="orden"  maxlength="2" value="<?php echo @$_orden;?>"/>
 					</div>
 
-					<div class="bloque_1">
+					<div class="bloque_7">
 						<label for="tipo">Tipo Respuesta</label>
 						<select id="tipo" name="tipo"/> 
 							<option value="" <?php if(empty($_tipo)){echo 'selected="selected"';}?>></option>
@@ -70,37 +87,19 @@
 						</select>                                    
 					</div>
 
-					<div class="bloque_2">
+					<div class="bloque_7">
 						<label for="nulo" >Admite Nulos </label></br>   
-						<input id="nulo" name="nulo" type="checkbox" <?php if($_nulo){echo "checked=checked";};?> />                                                     
+						<input id="nulo" name="nulo" type="checkbox" <?php if($_nulo){echo "checked=checked";};?> />
 					</div>
-
-					<div class="bloque_3" align="center">
-						<label for="pregunta">Pregunta</label>
-						<textarea id="pregunta" name="pregunta" value="<?php echo $_pregunta;?>" style="resize:none;" onKeyUp="javascript:dac_LimitaCaracteres(event, 'pregunta', 200);" onKeyDown="javascript:dac_LimitaCaracteres(event, 'pregunta', 200);"/><?php echo $_pregunta;?></textarea>
-						</br>
-						<fieldset id='box_informacion' class="msg_informacion">
-							<div id="msg_informacion" align="center"></div> 
-						</fieldset>
-					</div>
-
-					<div class="bloque_3">     
-						<fieldset id='box_error' class="msg_error">          
-							<div id="msg_error" align="center"></div>
-						</fieldset>
-
-						<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                                                	<div id="msg_cargando" align="center"></div>      
-						</fieldset> 
-
-						<fieldset id='box_confirmacion' class="msg_confirmacion">
-							<div id="msg_confirmacion" align="center"></div>      
-						</fieldset>
-					</div>
-
-					<input type="hidden" id="relid" name="relid" value="<?php echo @$_relid;?>" />
-
-					<div class="bloque_2">
+					
+					<div class="bloque_8">
+						<br>
 						<input id="btsend" type="button" value="Enviar" title="Enviar Relevamiento"/>   
+					</div>
+
+					<div class="bloque_1">
+						<label for="pregunta">Pregunta</label>
+						<textarea id="pregunta" name="pregunta" value="<?php echo $_pregunta;?>" onKeyUp="javascript:dac_LimitaCaracteres(event, 'pregunta', 200);" onKeyDown="javascript:dac_LimitaCaracteres(event, 'pregunta', 200);"/><?php echo $_pregunta;?></textarea>
 					</div>
 				</fieldset>	
 			</form>	

@@ -1,0 +1,96 @@
+//Para adaptar estilos a diferentes navegadores
+//Variables Mixins
+
+=border-radius($radio)
+    -moz-border-radius: $radio
+    -webkit-border-radius: $radio
+    -o-border-radius: $radio
+    -ms-border-radius: $radio
+    border-radius: $radio
+
+=border-top-left-radius($radio)
+    -webkit-border-top-left-radius: $radio
+    -moz-border-radius-topleft: $radio
+    border-top-left-radius: $radio
+
+=border-bottom-left-radius($radio)
+    -webkit-border-bottom-left-radius: $radio
+    -moz-border-radius-bottomleft: $radio
+    border-bottom-left-radius: $radio
+
+//transition: [transition-property] [transition-duration] [transition-timing-function] [transition-delay]
+=transition($property, $duration, $timing, $delay)
+    -moz-transition: $property $duration $timing $delay
+    -webkit-transition: $property $duration $timing $delay
+    -o-transition: $property $duration $timing $delay
+    -ms-transition: $property $duration $timing $delay
+    transition: $property $duration $timing $delay
+
+=transformTranslateY($translateY)
+    -webkit-transform: translateY($translateY)
+    -o-transform: translateY($translateY)
+    -ms-transform: translateY($translateY)
+    -moz-transform: translateY($translateY)
+    transform: translateY($translateY)
+
+=linear-gradient($from, $porc1, $to, $porc2) 
+    background: $to
+    background: -moz-linear-gradient(top, $from $porc1, $to $porc2)
+    background: -webkit-gradient(linear, left top, left bottom, color-stop($porc1, $from), color-stop($porc2,$to))
+    background: -webkit-linear-gradient(top, $from $porc1, $to $porc2)
+    background: -o-linear-gradient(top, $from $porc1, $to $porc2)
+    background: linear-gradient(to bottom, $from $porc1, $to $porc2)
+//	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=$from, endColorstr=$to)
+
+//Animation
+// =keyframes($name)
+//     @-o-keyframes #{$name}
+//         @content
+//     @-moz-keyframes #{$name}
+//         @content
+//     @-webkit-keyframes #{$name}
+//         @content 
+//     @-keyframes #{$name}
+//         @content
+
+=animation-name($name)
+    -o-animation-name: $name
+    -moz-animation-name: $name
+    -webkit-animation-name: $name
+    animation-name: $name
+
+=animation-duration($duration)
+    -o-animation-duration: $duration
+    -moz-animation-duration: $duration
+    -webkit-animation-duration: $duration
+    animation-duration: $duration
+
+=animation-timing-function($timing)
+    -o-animation-timing-function: $timing
+    -moz-animation-timing-function: $timing
+    -webkit-animation-timing-function: $timing
+    animation-timing-function: $timing
+
+=animation-iteration-count($count)
+    -o-animation-iteration-count: $count
+    -moz-animation-iteration-count: $count
+    -webkit-animation-iteration-count: $count
+    animation-iteration-count: $count
+    
+// =animation-fill-mode($fill)
+//     -o-animation-fill-mode: $fill
+//     -moz-animation-fill-mode: $fill
+//     -webkit-animation-fill-mode: $fill
+//     animation-fill-mode: $fill
+
+// =animation-play-state($state)
+//     -o-animation-play-state: $state
+//     -moz-animation-play-state: $state
+//     -webkit-animation-play-state: $state
+//     animation-play-state: $state
+
+// =animation($animation)
+//     -o-animation: $animation
+//     -moz-animation: $animation
+//     -webkit-animation: $animation
+//     animation: $animation

@@ -50,20 +50,7 @@ if (count($condiciones) > 0) {
 			$condBonificar = 1;
 		}
 	}
-} 
-if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0){
-	array_unshift ( $articulosIdArt	, 369 );
-	array_unshift ( $articulosCant 	, 1 );
-	array_unshift ( $articulosPrecio, 0 );
-	array_unshift ( $articulosB1 	, 0 );
-	array_unshift ( $articulosB2 	, 0 );
-	array_unshift ( $articulosD1 	, 0 );
-	array_unshift ( $articulosD2 	, 0 );
-}
-//-------------------------------------
-
-
-?>
+} ?>
 
 <!DOCTYPE html>
 <html lang='es'>
@@ -71,9 +58,7 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php"; ?>  
 	<script language="JavaScript"  src="/pedidos/pedidos/logica/jquery/jquery.js" type="text/javascript"></script>
 	
-	
 	<script>
-		/****************************************/
 		/*  Carga Datos de Cuentas al Pedido	*/
 		function dac_cargarCuentaCadena(idcli, nombre, observacion, fijo) {
 			"use strict";
@@ -83,11 +68,11 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 			}
 			campo 		+= '<div class="bloque_8"> ';
 			campo 		+= '	<label for="pwidcta">Cuenta</label>';
-			campo 		+= '	<input type="text" name="pwidcta[]" value="'+idcli+'" readonly style="border:none;"/>';
+			campo 		+= '	<input type="text" name="pwidcta[]" value="'+idcli+'" readonly/>';
 			campo 		+= '</div>';
 			campo 		+= '<div class="bloque_3">';
 			campo 		+= '	<label>Raz&oacute;n social</label>';
-			campo 		+= '	<input type="text" value="'+nombre+'" readonly style="border:none;"/>';
+			campo 		+= '	<input type="text" value="'+nombre+'" readonly/>';
 			campo 		+= '</div>';
 			
 			campo 		+= '<div class="bloque_4">';
@@ -101,9 +86,7 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 			campo 		+= '</div>';
 			
 			campo 		+= '<div class="bloque_7">';
-			campo 		+= '	<div class="inputfile">';
-			campo 		+= '		<input name="file[]" class="file" type="file">';
-			campo 		+= '	</div>';
+			campo 		+= '	<input name="file[]" class="file" type="file">';
 			campo 		+= '</div>';
 			
 			campo 		+= '</fieldset>';	
@@ -119,14 +102,14 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 				campo +=	'<div id="rut'+idcli+'-'+idArticulos[i]+'">';				
 					campo += 	'<input name="pwidart'+idcli+'[]" type="text" value="'+idArticulos[i]+'" hidden/>';
 					
-					campo += 	'<div class="bloque_9"><input id="btmenos" type="button" value="-" onClick="dac_eliminarArt('+idcli+', '+idArticulos[i]+')" style="background-color:#C22632;"></div>';
+					campo += 	'<div class="bloque_9"><input id="btmenos" type="button" value="-" onClick="dac_eliminarArt('+idcli+', '+idArticulos[i]+')" style="background-color:#ba140c;"></div>';
 					campo += 	'<div class="bloque_2"><strong> Art&iacute;culo '+idArticulos[i]+ '</strong></br>'+nombresArt[i]+'</div>';
 					
 					campo += 	'<div class="bloque_8"><strong> Cantidad </strong> <input name="pwcant'+idcli+'[]" type="text" maxlength="5"/></div>';
-					campo += 	'<div class="bloque_8"><strong> Precio </strong> <input type="text" name="pwprecioart'+idcli+'[]" value="'+preciosArt[i]+'"  readonly style="border:none"/> </div>';
+					campo += 	'<div class="bloque_8"><strong> Precio </strong> <input type="text" name="pwprecioart'+idcli+'[]" value="'+preciosArt[i]+'" readonly /> </div>';
 					campo += 	'<div class="bloque_8"><strong>Bonifica</strong> <input name="pwbonif1'+idcli+'[]" type="text" maxlength="5"/></div>';
-					campo += 	'<div class="bloque_8"><strong>Desc 1 </strong> <input type="text" name="pwdesc1'+idcli+'[]" value="'+desc1[i]+'" readonly style="border:none"/></div>';
-					campo += 	'<div class="bloque_8"><strong>Desc 2 </strong> <input type="text" name="pwdesc2'+idcli+'[]" value="'+desc2[i]+'" readonly style="border:none"/></div>';	
+					campo += 	'<div class="bloque_8"><strong>Desc 1 </strong> <input type="text" name="pwdesc1'+idcli+'[]" value="'+desc1[i]+'" readonly/></div>';
+					campo += 	'<div class="bloque_8"><strong>Desc 2 </strong> <input type="text" name="pwdesc2'+idcli+'[]" value="'+desc2[i]+'" readonly/></div>';	
 				campo += 	'</div><hr>';
 			};
 			campo 		+= '</fieldset>';
@@ -183,19 +166,19 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
                 	<legend>Pedido CADENA</legend>
                    	<div class="bloque_1" align="right">
                         <a id="btsendPedidoCadena" title="Enviar">
-                            <img src="/pedidos/images/icons/icono-send.png" onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png';" onmouseout="this.src='/pedidos/images/icons/icono-send.png';" border="0" align="absmiddle"/>
+                            <img class="icon-send" />
                         </a>
                     </div> 
                     
                     <div class="bloque_1" align="center">     
                         <fieldset id='box_error' class="msg_error">          
-                            <div id="msg_error" align="center"></div>
+                            <div id="msg_error"></div>
                         </fieldset>    
                         <fieldset id='box_cargando' class="msg_informacion">
-                            <div id="msg_cargando" align="center"></div>      
+                            <div id="msg_cargando"></div>      
                         </fieldset> 
                         <fieldset id='box_confirmacion' class="msg_confirmacion">
-                            <div id="msg_confirmacion" align="center"></div>      
+                            <div id="msg_confirmacion"></div>      
                         </fieldset>
                         <fieldset id='box_observacion' class="msg_alerta">
                             <div id="msg_atencion" align="center"></div>       
@@ -205,7 +188,7 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
                     <div class="bloque_5">
                     	<label for="pwusrasignado">Asignado a</label>
                       	<input type="text" name="pwusrasignado" id="pwusrasignado" value="<?php echo $usrAsignado; ?>" hidden/>
-                       	<input type="text" value="<?php echo $usrAsigName; ?>" readonly style="border:none;"/>
+                       	<input type="text" value="<?php echo $usrAsigName; ?>" readonly/>
                     </div>        
                     
                     <div class="bloque_5">
@@ -249,13 +232,15 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 									$idCond		= $cond['condid'];	
 									$condCodigo	= $cond['IdCondPago'];
 									$condNombre	=  	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $cond['condtipo']);			
-									$condDias	= "(";					
-									$condDias	.= empty($cond['Dias1CP']) ? '' : $cond['Dias1CP'];
-									$condDias	.= empty($cond['Dias2CP']) ? '' : ', '.$cond['Dias2CP'];
-									$condDias	.= empty($cond['Dias3CP']) ? '' : ', '.$cond['Dias3CP'];
-									$condDias	.= empty($cond['Dias4CP']) ? '' : ', '.$cond['Dias4CP'];
-									$condDias	.= empty($cond['Dias5CP']) ? '' : ', '.$cond['Dias5CP'];
-									$condDias	.= " D&iacute;as)";					
+									$condDias = "(";					
+									$condDias .= empty($cond['Dias1CP']) ? '0' : $cond['Dias1CP'];
+									$condDias .= empty($cond['Dias2CP']) ? '' : ', '.$cond['Dias2CP'];
+									$condDias .= empty($cond['Dias3CP']) ? '' : ', '.$cond['Dias3CP'];
+									$condDias .= empty($cond['Dias4CP']) ? '' : ', '.$cond['Dias4CP'];
+									$condDias .= empty($cond['Dias5CP']) ? '' : ', '.$cond['Dias5CP'];
+									$condDias .= " D&iacute;as)";
+									$condDias .= ($condPago['Porcentaje1CP'] == '0.00') ? '' : ' '.$condPago['Porcentaje1CP'].' %';
+									
 									$condPorc	= ($cond['Porcentaje1CP']== '0.00') ? '' : $cond['Porcentaje1CP'];
 									
                                     //Descarto la opción FLETERO
@@ -274,10 +259,10 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
         
         <div class="box_seccion">
             <div class="barra">
-                <div class="buscadorizq">
+                <div class="bloque_5">
                     <h1>Cuentas Cadenas</h1>                	
                 </div>
-                <div class="buscadorder">
+                <div class="bloque_5">
                 	<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
                     <input id="txtBuscarEn" type="text" value="tblTablaCta" hidden/>
                 </div> 
@@ -292,7 +277,7 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 					
 					$cuentas	= DataManager::getCuentasCadena($empresa, $ctaIdCadena, NULL);
 					if (count($cuentas)) {
-						echo '<table id="tblTablaCta" border="0" width="100%" align="center" style="table-layout:fixed;">';
+						echo '<table id="tblTablaCta" style="table-layout:fixed;">';
 						echo '<thead><tr align="left"><th>Cuenta</th><th>Nombre</th><th>Localidad</th></tr></thead>';
 						echo '<tbody>';
 						
@@ -315,7 +300,7 @@ if($empresa == 1 && $categoria <> 1 && $laboratorio == 1 && $condBonificar == 0)
 						echo '</tbody></table>';
 					}
 				} else { 
-					echo '<table border="0" width="100%"><tr><td align="center">No hay registros activos.</td></tr></table>';
+					echo '<table><tr><td align="center">No hay registros activos.</td></tr></table>';
 				} ?>
             </div> <!-- Fin lista -->			
         </div> <!-- FIN box_seccion-->	

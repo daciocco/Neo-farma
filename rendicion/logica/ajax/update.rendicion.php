@@ -5,12 +5,12 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	echo 'SU SESION HA EXPIRADO.'; exit;
 }
 
-$_retencion 	=	(isset($_REQUEST['ret']))			? $_REQUEST['ret'] 			: '0.00';
-$_deposito		=	(isset($_REQUEST['dep']))			? $_REQUEST['dep'] 			: '0.00';
-$_nrorendicion	=	(isset($_REQUEST['rendicion']))		? $_REQUEST['rendicion'] 	: NULL;
+$_retencion 	= (isset($_REQUEST['ret']))			? $_REQUEST['ret'] 		: '0.00';
+$_deposito		= (isset($_REQUEST['dep']))			? $_REQUEST['dep'] 		: '0.00';
+$_nrorendicion	= (isset($_REQUEST['rendicion']))	? $_REQUEST['rendicion']: NULL;
 
-$_retencion 	= empty($_retencion) 	? '0.00' : $_retencion;
-$_nrorendicion 	= empty($_nrorendicion) ? '0.00' : $_nrorendicion;
+$_retencion 	= empty($_retencion)? '0.00' : $_retencion;
+$_deposito 		= empty($_deposito) ? '0.00' : $_deposito;
 
 if(empty($_nrorendicion)){
 	echo "No se verifica el número de rendición."; exit;
@@ -21,8 +21,9 @@ if (count($_rendiciones)){
 	foreach ($_rendiciones as $k => $_rendicion) {
 		$_rendid		=	$_rendicion['rendid'];
 		$_rendicionbject= 	DataManager::newObjectOfClass('TRendicion', $_rendid);
+		
 		$_rendicionbject->__set('Retencion',	$_retencion);
- 		$_rendicionbject->__set('Deposito',		$_deposito);		
+ 		$_rendicionbject->__set('Deposito',		$_deposito);
 		DataManager::updateSimpleObject($_rendicionbject);
 		echo 1; exit;		
 	}

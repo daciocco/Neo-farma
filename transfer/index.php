@@ -18,8 +18,8 @@
     
 	<?php if ($_SESSION["_usrrol"]== "G" || $_SESSION["_usrrol"]== "A" || $_SESSION["_usrrol"]== "V" || $_SESSION["_usrrol"]== "M"){?>
 		 <nav class="menuprincipal"> <?php 
-			$_section	=	"pedidos";
-			$_subsection 	= 	"mis_transfers";
+			$_section	= "pedidos";
+			$_subsection= "mis_transfers";
 			include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
 		</nav>										
 	<?php }?>	

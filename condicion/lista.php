@@ -1,13 +1,13 @@
 <div class="box_body">
 	<div class="bloque_1">
 		<fieldset id='box_error' class="msg_error">          
-			<div id="msg_error" align="center"></div>
+			<div id="msg_error"></div>
 		</fieldset>
-		<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">   
-			<div id="msg_cargando" align="center"></div>      
+		<fieldset id='box_cargando' class="msg_informacion">   
+			<div id="msg_cargando"></div>      
 		</fieldset>
 		<fieldset id='box_confirmacion' class="msg_confirmacion">
-			<div id="msg_confirmacion" align="center"></div>
+			<div id="msg_confirmacion"></div>
 		</fieldset>
 	</div>
 	
@@ -46,13 +46,12 @@
 		</div>
 		<?php 
 		if ($_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="M"){
-			$btnNuevo	= 	sprintf( "<a href=\"editar.php\" title=\"Nuevo\"><img src=\"/pedidos/images/icons/icono-nuevo50.png\" border=\"0\" align=\"absmiddle\" title=\"Nuevo\"/></a>");
-			$btnStatus		= 	sprintf( "<img src=\"/pedidos/images/icons/icono-pendiente.png\" border=\"0\" align=\"absmiddle\" title=\"Cambiar Estado\" onclick=\"javascript:dac_ModificarSelect('status')\"/>");
-			$btnDuplicar	= 	sprintf( "<img src=\"/pedidos/images/icons/icono-copytoall.png\" border=\"0\" align=\"absmiddle\" title=\"Duplicar\" onclick=\"javascript:dac_ModificarSelect('duplicate')\"/>");
-			$btnPrecio		= 	sprintf( "<img src=\"/pedidos/images/icons/icono-precio.png\" border=\"0\" align=\"absmiddle\" title=\"Modificar Precios\" onclick=\"javascript:dac_ModificarSelect('price')\"/>");
-			$btnEliminar	= 	sprintf( "<img src=\"/pedidos/images/icons/icono-eliminar-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Eliminar\" onclick=\"javascript:dac_eliminarCondicion()\" />");
+			$btnNuevo	= sprintf( "<a href=\"editar.php\" title=\"Nuevo\"><img class=\"icon-new\"/></a>");
+			$btnStatus	= sprintf( "<a title=\"Cambiar Estado\"><img class=\"icon-status-pending\" onclick=\"javascript:dac_ModificarSelect('status')\"/></a>");
+			$btnDuplicar= sprintf( "<a title=\"Duplicar\"><img class=\"icon-copy-to-all\" onclick=\"javascript:dac_ModificarSelect('duplicate')\"/></a>");
+			$btnPrecio	= sprintf( "<a title=\"Modificar Precios\"><img class=\"icon-price\" onclick=\"javascript:dac_ModificarSelect('price')\"/></a>");
+			$btnEliminar= sprintf( "<a title=\"Eliminar\"><img class=\"icon-delete\" onclick=\"javascript:dac_eliminarCondicion()\" /></a>"); ?>
 			
-			?>
 			<div class="bloque_1">
 				<?php echo $btnNuevo; ?>
 				<?php echo $btnStatus; ?>
@@ -61,8 +60,7 @@
 				<?php echo $btnEliminar; ?>
 			</div>
 			<?php
-		} ?> 		
-		
+		} ?>
 		<hr>
 	</div> <!-- Fin barra -->
 
@@ -85,15 +83,15 @@
 <div class="box_seccion"> <?php
 	if ($_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="M"){
 	?>
-	<fieldset class="fm_edit_seccion">
+	<fieldset>
 		<legend>Modificar Datos</legend>
-		<div class="bloque_2">
+		<div class="bloque_6">
 			<input id="startDate" name="startDate" type="text" placeholder="INICIO" readonly/>
 		</div>
-		<div class="bloque_2">
+		<div class="bloque_6">
 			<input id="endDate" name="endDate" type="text" placeholder="FIN" readonly/>
 		</div>
-		<div class="bloque_2">
+		<div class="bloque_7">
 			<input type="button" id="btnEdit" value="Editar" title="Editar"/>
 		</div>
 	</fieldset>
@@ -102,13 +100,13 @@
 <hr>
 
 <script src="logica/jquery/jqueryFooter.js"></script>
+
+
 <script src="/pedidos/js/jquery/jquery.paging.js"></script>	
 <script>
 	//#######################################
 	// 			PAGING DACIOCCO
 	//#######################################
-	
-	//---------------------------------------
 	//Funcion que devuelve cantidad de Filas
 	function dac_filas(callback) {
 		var empresa = $('#empselect').val(),

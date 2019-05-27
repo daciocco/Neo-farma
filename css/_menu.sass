@@ -1,0 +1,289 @@
+@charset "ISO-8859-1"
+
+/* MENU DESPLEGABLE */
+.menu_bar
+    display: none
+
+header
+    font-family: $font-family3
+    text-align: left
+    width: 100%
+    nav // barra completa del navegaro
+        background: $blue
+        z-index: 1000
+        ul  // barra donde se encuentran los sos botones, que tambien es la del desplegable
+            width: 960px
+            text-align: left
+            list-style: none
+            li //botones del menu
+                display: inline-block
+                position: relative
+                ul //barra del submenu
+                    display: none
+                    background-color: $darkBlue
+                    position: absolute
+                    width: 100%
+                    z-index: 1000
+                    .current_submenu
+                        background-color: $darkBlue
+                        font-size: 10px
+                        font-weight: bold                    
+                    &:hover
+                        display: block
+                    li //botones del submenu
+                        display: block
+                        overflow: hidden
+                        border-bottom: 2px solid rgba(255,255,255,.5)
+                        width: 250px
+                        a
+                            display: block
+                a
+                    font-size: 12px
+                    color: $white
+                    display: block
+                    text-decoration: none
+                    padding: 20px 20px 20px 20px
+                    +transition(all, 1s, ease-out, 0s)
+                    &:hover // hover del submení
+                        display: block
+                        background: $white
+                        color: $black
+                        font-weight: bold
+                    img
+                        margin: -18px 0px -18px 0px              
+                &:hover //hover de la botonera principal cuando se pasa sobre opciones de su propio submenú
+                    background: $blue2
+                    ul //para submenúes
+                        display: block
+            .boton_menu
+                background-color: $blue
+            .current_menu /* parte desplegable (submenu) con el texto */	
+                background-color: $blue2
+                font-size: 10px
+                font-weight: bold
+
+    nav2 //	MENU ADMINISTRADOR
+        background: $darkGray
+        z-index: 500
+        height: body
+        ul
+            width: 960px
+            text-align: left
+            list-style: none
+            li
+                display: inline-block
+                position: relative               
+                ul
+                    display: none
+                    background-color: $darkGray
+                    position: absolute
+                    width: auto
+                    z-index: 1000
+                    li
+                        display: block
+                        overflow: hidden
+                        border-bottom: 2px solid rgba(255,255,255,.5)
+                        width: 250px
+                        a
+                            display: block
+                    .current_submenu
+                        background-color: $gray2
+                        font-size: 10px
+                        font-weight: bold
+                        min-width: 240px
+                    &:hover
+                        display: block
+                a
+                    font-size: 12px
+                    color: $gray
+                    display: block
+                    text-decoration: none
+                    padding: 15px 15px 15px 15px
+                    +transition(all, 1s, ease-out, 0s)
+                    &:hover
+                        display: block
+                        background: $gray
+                        color: $black
+                        font-weight: bold
+                &:hover
+                    background: $gray2
+                    ul
+                        display: block
+                #uno
+                    top: -46px !important
+                    top: -77px
+                #dos
+                    top: -92px !important
+                    top: -123px
+                #tres
+                    top: -138px !important
+                    top: -261px
+                #cuatro
+                    top: -184px !important
+                    top: -307px
+                #cinco
+                    top: -230px !important
+                    top: -353px    
+            .boton_menu
+                background-color: $darkGray
+            .current_menu 
+                background-color: $darkGray
+                font-size: 10px
+                font-weight: bold            
+
+/* Menu contenidos */
+.titulobox
+    height: 35px
+    padding: 3px
+    border: none
+    font: normal 140%/100% $font-family2
+    font-weight: 700
+    font-size: 16px
+    color: $gray2
+
+.box_mini2
+    float: left
+    text-decoration: none
+    cursor: pointer
+    color: $darkBlue
+    width: 14%
+    height: 60px
+    margin: 1%
+    padding-top: 20px
+    background-color: transparent
+    border: 2px solid $darkBlue
+    font: normal 140%/100% $font-family2
+    font-weight: 700
+    font-size: 16px
+    +transition(background, 1s, ease-out, 0s)
+    p
+        font-size: 14px
+        color: $gray2
+    &:hover
+        color: $white
+        background-color: $darkBlue
+
+//menú secundario
+.temas2
+    text-align: center
+    width: 100%
+    &:nth-child(2)
+        .box_mini2
+            color: $blue2
+            border-color: $blue2
+            &:hover
+                color: $white
+                background-color: $blue2
+    &:nth-child(3)
+        .box_mini2
+            color: $blue
+            border-color: $blue
+            &:hover
+                color: $white
+                background-color: $blue
+    &:nth-child(4)
+        .box_mini2
+            color: $lightBlue
+            border-color: $lightBlue
+            &:hover
+                color: $white
+                background-color: $lightBlue
+
+.noticias
+    width: 100%
+    height: 50px
+    margin-top: 10px
+
+.boxmenu
+    float: left
+    margin: 20px 0 0 20px
+    min-width: 180px
+    min-height: 110px	
+    border: 1px solid $lightBlue
+    border-right: 2px solid $lightBlue
+    border-bottom: 2px solid $lightBlue
+    background-color: $lightGray
+
+.tema_soporte
+    background-color: transparent
+    +transition(background, 1s, ease-out, 0s)
+    border: 2px solid $blue
+    float: left
+    -webkit-flex-basis: 25%
+    +border-radius(2px)
+    box-sizing: border-box
+    min-width: 260px
+    min-height: 100px
+    text-transform: uppercase
+    padding: 10px
+    font-size: 12px
+    color: $gray2
+    margin: 1em
+    align-self: center
+    cursor: pointer
+    white-space: normal
+    &:hover
+        background: $lightOrange
+
+@media screen and (max-width:768px)
+    .menu_bar
+        display: block
+        width: 100%
+        background: $gray
+        position: fixed
+        top: 0
+        left: 0
+        z-index: 5000
+        .bt-menu
+            display: block
+            padding: 15px
+            background: $blue
+            color: $white
+            overflow: hidden
+            text-decoration: none
+            font-weight: bold
+            font-size: 25px
+    header
+        nav
+            width: 100%
+            height: calc(100% - 60px)
+            left: -100% //* inicia el menú a la izquierda y fuera de la pantalla p mostrar con el javascript*/
+            top: 60px		
+            position: fixed
+            overflow: scroll
+            ul
+                width: 100%
+                overflow: hidden
+                li
+                    display: block
+                    border-bottom: 1px solid rgba(255,255,255, .3)
+                    ul
+                        position: relative
+                        li
+                            a
+                                padding-left: 8%
+                        &:hover
+                            display: block
+                        .current_submenu
+                            width: 100%
+                    a
+                        width: 100%
+                        padding-left: 5%
+                        display: block
+                        font-size: 16px
+                .current_menu
+                    width: 100%
+        nav2 /* Menu admin */
+            ul
+                width: 100%   
+    .btn_menu
+        background-color: $blue
+    .box_mini2
+        width: 30%
+
+@media screen and (max-width:375px)
+    .box_mini2
+        width: 46%
+    .titulobox
+        height: 20px
+        padding: 1px

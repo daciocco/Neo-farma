@@ -5,8 +5,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	echo $_SESSION["_usrol"];
 	header("Location: $_nextURL");
 	exit;
-}
-?>
+} ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -35,4 +34,3 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
     </footer> <!-- fin pie -->
 </body>
 </html>
-

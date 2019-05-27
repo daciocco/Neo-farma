@@ -9,7 +9,7 @@ function initialize(data) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});					
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			$("#btnSendTransfer").hide(100);
 		},
 		success : 	function (resultado) {
@@ -156,7 +156,7 @@ function initialize(data) {
 												routes += '<div class="bloque_1"><b>Segmento ' + routeSegment + ': ' + route.legs[j].distance.text + '</b></div>';
 												routes += '<div class="bloque_5"> <b>Desde: </b>' + route.legs[j].start_address+ '</b></div>';
 												routes += '<div class="bloque_5"> <b>Hasta: </b>' + route.legs[j].end_address+ '</div>';
-												routes += '<hr style="border-bottom: 1px solid #117db6;">';
+												routes += '<hr class="hr-line">';
 												summaryPanel.html(routes);
 											}
 										} else {
@@ -220,7 +220,7 @@ function initialize(data) {
 
 function dac_cargarDatosCuenta(idCuenta, nombre, direccion){
 	"use strict";	
-	var campo = '<div id="reg'+idCuenta+'"><div class="bloque_6"><label><b>Cuenta:</b></label> '+idCuenta+' </div><div class="bloque_4"><label><b>Razón Social:	</b></label> '+nombre+'</div><div class="bloque_1"><label><b>Dirección:</b></label> '+direccion+'</div><hr style="border-bottom: 1px solid #117db6;"></div>';	
+	var campo = '<div id="reg'+idCuenta+'"><div class="bloque_6"><label><b>Cuenta:</b></label> '+idCuenta+' </div><div class="bloque_4"><label><b>Razón Social:	</b></label> '+nombre+'</div><div class="bloque_1"><label><b>Dirección:</b></label> '+direccion+'</div><hr class="hr-line"></div>';	
 	$("#listCuentas").before(campo);
 }
 

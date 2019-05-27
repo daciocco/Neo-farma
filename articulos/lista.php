@@ -9,16 +9,13 @@ $backURL	= empty($_REQUEST['backURL']) ? '/pedidos/articulos/': $_REQUEST['backU
 $_total 	= DataManager::getArticulos(0, 0, '', $activos, $idLaboratorio, $idEmpresa);
 $_paginas 	= ceil(count($_total)/$_LPP);
 $_pag		= isset($_REQUEST['pag']) ? min(max(1,$_REQUEST['pag']),$_paginas) : 1;
-$_imgFirst	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-first.png");
-$_imgLast 	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-last.png");
-$_imgNext	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-next.png");
-$_imgPrev	= sprintf("<img src=\"%s\" width=\"16\" height=\"15\" border=\"0\" align=\"absmiddle\" id=\"go_first\" />","../images/icons/icono-previous.png");
-$_GOFirst	= sprintf("<a href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\">%s</a>", $backURL, 1, $idEmpresa, $idLaboratorio, $activos, $_imgFirst);
-$_GOPrev	= sprintf("<a href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\">%s</a>", $backURL, $_pag-1, $idEmpresa, $idLaboratorio, $activos,	$_imgPrev);
-$_GONext	= sprintf("<a href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\">%s</a>", $backURL, $_pag+1, $idEmpresa, $idLaboratorio, $activos,	$_imgNext);
-$_GOLast	= sprintf("<a href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\">%s</a>", $backURL, $_paginas, $idEmpresa, $idLaboratorio, $activos, $_imgLast);
-
-$btnPreciosCondiciones =	sprintf("<input type=\"button\" id=\"btPreciosCondiciones\" value=\"Actualizar $ Condiciones\" title=\"Actualizar $ Condiciones Comerciales\"/>"); ?>
+$_GOFirst	= sprintf("<a class=\"icon-go-first\" href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\"></a>", $backURL, 1, $idEmpresa, $idLaboratorio, $activos);
+$_GOPrev	= sprintf("<a class=\"icon-go-previous\" href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\"></a>", $backURL, $_pag-1, $idEmpresa, $idLaboratorio, $activos);
+$_GONext	= sprintf("<a class=\"icon-go-next\" href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\"></a>", $backURL, $_pag+1, $idEmpresa, $idLaboratorio, $activos);
+$_GOLast	= sprintf("<a class=\"icon-go-last\" href=\"%s?pag=%d&empresa=%d&laboratorio=%d&activos=%d\"></a>", $backURL, $_paginas, $idEmpresa, $idLaboratorio, $activos);
+$btnPreciosCondiciones =	sprintf("<input type=\"button\" id=\"btPreciosCondiciones\" value=\"Actualizar $ Condiciones\" title=\"Actualizar Precio en Condiciones Comerciales\"/>");
+$btnNuevo	= sprintf( "<a class=\"icon-new\" href=\"editar.php\" title=\"Nuevo\"><img title=\"Nuevo\"/></a>");
+?>
 
 <script language="javascript" type="text/javascript">
 	//--------------------
@@ -37,7 +34,7 @@ $btnPreciosCondiciones =	sprintf("<input type=\"button\" id=\"btPreciosCondicion
 			beforeSend	: function () {
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},
 			success : 	function (resultado) {
 				$('#box_cargando').css({'display':'none'});
@@ -58,19 +55,19 @@ $btnPreciosCondiciones =	sprintf("<input type=\"button\" id=\"btPreciosCondicion
 	}
 </script>
 
-
 <div class="box_body"> <!-- datos --> 
-	<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">
-        <div id="msg_cargando" align="center"></div>      
-    </fieldset>            
-    <fieldset id='box_error' class="msg_error">
-        <div id="msg_error" align="center"></div>
-    </fieldset>
-    
-    <fieldset id='box_confirmacion' class="msg_confirmacion">
-        <div id="msg_confirmacion" align="center"></div>      
-    </fieldset>
-    
+	<div class="bloque_1"> 
+		<fieldset id='box_cargando' class="msg_informacion">
+			<div id="msg_cargando"></div>      
+		</fieldset>            
+		<fieldset id='box_error' class="msg_error">
+			<div id="msg_error"></div>
+		</fieldset>
+		<fieldset id='box_confirmacion' class="msg_confirmacion">
+			<div id="msg_confirmacion"></div>      
+		</fieldset>
+  	</div>  
+  	
     <div class="barra">
 		<div class="bloque_7">             
             <select id="empselect" name="empselect" onchange="javascript:dac_selectArticulos(<?php echo $_pag; ?>, <?php echo $_LPP; ?>, empselect.value, actselect.value, labselect.value);"><?php
@@ -96,16 +93,19 @@ $btnPreciosCondiciones =	sprintf("<input type=\"button\" id=\"btPreciosCondicion
                     }                       
                 } ?>
             </select>
-        </div> 
-		
+        </div>
+        
 		<div class="bloque_7">            
             <select id="actselect" name="actselect" onchange="javascript:dac_selectArticulos(<?php echo $_pag; ?>, <?php echo $_LPP; ?>, empselect.value, actselect.value, labselect.value);">
-                   <option id="" value="" <?php if ($activos == ""){ echo "selected"; } ?> >Todos</option>
-                   <option id="1" value="1" <?php if ($activos == "1"){ echo "selected"; } ?> >Activos</option>
-                   <option id="0" value="0" <?php if ($activos == "0"){ echo "selected"; } ?> >Inactivos</option>
+			   <option value="1" <?php if ($activos == "1"){ echo "selected"; } ?> >Activos</option>
+			   <option value="0" <?php if ($activos == "0"){ echo "selected"; } ?> >Inactivos</option>
             </select>
-        </div> 
-		 
+        </div>
+        
+        <div class="bloque_8"> 
+        	<?php echo $btnNuevo; ?>
+		</div> 
+		
 		<?php
 		echo "<script>";
 		echo "javascript:dac_selectArticulos($_pag, $_LPP, empselect.value, actselect.value, labselect.value)";
@@ -124,24 +124,10 @@ $btnPreciosCondiciones =	sprintf("<input type=\"button\" id=\"btPreciosCondicion
 		$_Prev	= ($_pag > 1) ? $_GOPrev : "&nbsp;";
 		$_Last	= ($_pag < $_paginas) ? $_GOLast : "&nbsp;";
 		$_Next	= ($_pag < $_paginas) ? $_GONext : "&nbsp;";
-		echo("<table class=\"paginador\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
-		echo sprintf("<td height=\"16\">Mostrando p&aacute;gina %d de %d</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td>", $_pag, $_paginas, $_First, $_Prev, $_Next, $_Last); 
+		echo("<table class=\"paginador\" cellpadding=\"0\" cellspacing=\"0\"><tr>"); 
+		echo sprintf("<td>Mostrando p&aacute;gina %d de %d</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td><td width=\"25\">%s</td>", $_pag, $_paginas, $_First, $_Prev, $_Next, $_Last); 
 		echo("</tr></table>"); 
-	}
-	
-	//BARRA DE HERRAMIENTAS (ARTICULOS)
-	$_links 		= array();
-	$_links[1][]	= array('url'=>'editar.php', 'texto'=>'<img src=../images/icons/icono-nuevo50.png border=0 align=absmiddle title=Nuevo/>', 'class'=>'newitem');
-
-	$_params 		= array(
-		'modo'		=> 1,
-		'separador' => '',
-		'estilo'	=> 'toolbar',
-		'aspecto'	=> 'links',
-		'links'		=> $_links[1]);
-	$bar = ToolBar::factory($_params); ?>
-
-	<div class="toolbar"><?php $bar->show(); ?></div>
+	} ?>
 </div> <!-- Fin box body -->
 
 <div class="box_seccion"> 

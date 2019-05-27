@@ -1,0 +1,322 @@
+$rute-icons: '/pedidos/images/icons/'
+
+%icon-shared
+    width: 32px //48px
+    border: 0
+    align-content: center
+    vertical-align: middle
+    cursor: pointer
+
+.icon-user
+    @extend %icon-shared
+    content: url($rute-icons+'icono-usuario.png')
+
+.icon-user-assigned
+    @extend %icon-shared
+    content: url($rute-icons+'icono-usr-asign.png')
+    &:hover
+        content: url($rute-icons+'icono-usr-asign-hover.png')
+
+.icon-key-loguin
+    @extend %icon-shared
+    content: url($rute-icons+'icono-login.png')
+
+.icon-provider
+    @extend %icon-shared
+    content: url($rute-icons+'icono-proveedor.png')
+
+.icon-mail
+    @extend %icon-shared
+    content: url($rute-icons+'icono-correo.png')
+
+.icon-mail-menu
+    @extend %icon-shared
+    content: url($rute-icons+'icono-correo-white.png')
+    &:hover
+        content: url($rute-icons+'icono-correo.png')
+
+.icon-proposal-approved
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-pedido-aprobar.png')
+    &:hover
+        content: url($rute-icons+'icono-pedido-aprobar-hover.png')
+
+.icon-proposal-rejected
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-pedido-rechazar.png')
+    &:hover
+        content: url($rute-icons+'icono-pedido-rechazar-hover.png')
+
+
+.icon-home
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-home-hover.png')
+    &:hover
+        content: url($rute-icons+'icono-home.png')
+
+.icon-logout
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-logout-hover.png')
+    &:hover
+        content: url($rute-icons+'icono-logout.png')
+
+.icon-game
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-juegos-white.png')
+    &:hover
+        content: url($rute-icons+'icono-juegos.png')
+
+.icon-support
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-float-white.png')
+    &:hover
+        content: url($rute-icons+'icono-float.png')
+
+.icon-help
+    @extend %icon-shared
+    content: url($rute-icons+'icono-ayuda.png')
+    &:hover
+        content: url($rute-icons+'icono-ayuda-hover.png')
+
+.icon-new
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-nuevo.png')
+    &:hover
+        content: url($rute-icons+'icono-nuevo-hover.png')
+
+.icon-new2
+    @extend %icon-shared 
+    height: 30px
+    width: 30px
+    content: url($rute-icons+'icono-nuevo2.png')
+    &:hover
+        content: url($rute-icons+'icono-nuevo2-hover.png')
+
+.icon-send
+    @extend %icon-shared
+    float: right
+    content: url($rute-icons+'icono-send.png')
+    &:hover
+        content: url($rute-icons+'icono-send-hover.png')
+
+.icon-status-active //Green
+    @extend %icon-shared
+    content: url($rute-icons+'icono-activo-claro.png')
+    &:hover
+        content: url($rute-icons+'icono-activo-hover.png')
+
+.icon-status-inactive //Red
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-desactivo-claro.png')
+    &:hover
+        content: url($rute-icons+'icono-desactivo-hover.png')
+
+.icon-status-close //Gray
+    @extend %icon-shared
+    content: url($rute-icons+'icono-cerrado.png')
+    &:hover
+        content: url($rute-icons+'icono-cerrado-hover.png')
+
+.icon-status-pending //Yellow
+    @extend %icon-shared
+    content: url($rute-icons+'icono-pendiente.png')
+    &:hover
+        content: url($rute-icons+'icono-pendiente-hover.png')
+
+.icon-edit
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-editar.png')
+    &:hover
+        content: url($rute-icons+'icono-editar-hover.png')
+
+.icon-edit-zone
+    @extend %icon-shared
+    content: url($rute-icons+'icono-zona.png')
+    &:hover
+        content: url($rute-icons+'icono-zona-hover.png')
+
+.icon-detail
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-lista.png')
+    &:hover
+        content: url($rute-icons+'icono-lista-hover.png')
+
+.icon-delete
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-eliminar.png')
+    &:hover
+        content: url($rute-icons+'icono-eliminar-hover.png')
+
+.icon-xls-export
+    @extend %icon-shared 
+    content: url($rute-icons+'export_excel.png')
+    &:hover
+        content: url($rute-icons+'export_excel-hover.png')
+
+.icon-xls-import
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-importxls.png')
+
+.icon-xls-export-planif
+    @extend %icon-shared 
+    content: url($rute-icons+'exportexcelplanif.png')
+
+.icon-xls-export-parte
+    @extend %icon-shared 
+    content: url($rute-icons+'exportexcelpartes.png')
+
+.icon-check
+    @extend %icon-shared 
+    width: 28px 
+    content: url($rute-icons+'icono-check.png')
+
+.icon-uncheck
+    @extend %icon-shared 
+    width: 28px
+    content: url($rute-icons+'icono-delete50.png')
+
+.icon-xls-export-report
+    @extend %icon-shared 
+    content: url($rute-icons+'exportexcelreport.png')
+
+.icon-calendar-menu
+    @extend %icon-shared
+    content: url($rute-icons+'icono-calendario-white.png')
+    &:hover
+        content: url($rute-icons+'icono-calendario.png')
+
+.icon-calendar
+    @extend %icon-shared
+    content: url($rute-icons+'icono-calendario.png')
+    &:hover
+        content: url($rute-icons+'icono-calendario-white.png')
+
+.icon-loading
+    @extend %icon-shared 
+    content: url(/pedidos/images/gif/loading.gif)
+
+.icon-relieve
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-encuesta.png')
+    &:hover
+        content: url($rute-icons+'icono-encuesta-hover.png')
+
+.icon-locate
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-map-locate.png')
+    &:hover
+        content: url($rute-icons+'icono-map-locate-hover.png')
+
+.icon-save
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-save.png')
+    &:hover
+        content: url($rute-icons+'icono-save-hover.png')
+
+.icon-pdf
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-pdf.png')
+    &:hover
+        content: url($rute-icons+'icono-pdf-hover.png')
+
+.icon-order-pdf
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-ordencompra.png')
+    &:hover
+        content: url($rute-icons+'icono-pdf-hover.png')
+
+.icon-order-jpg
+    @extend %icon-shared 
+    content: url($rute-icons+'icono-ordencompra.png')
+    &:hover
+        content: url($rute-icons+'icono-jpg-hover')
+
+.icon-key
+    @extend %icon-shared
+    height: 30px
+    width: 30px
+    content: url($rute-icons+'icono-key.png')
+
+.icon-phone
+    @extend %icon-shared 
+    height: 30px
+    width: 30px
+    content: url($rute-icons+'icono-telefono.png')
+    &:hover
+        content: url($rute-icons+'icono-telefono-hover.png')
+
+.icon-print
+    @extend %icon-shared
+    content: url($rute-icons+'icono-print.png')
+    &:hover
+        content: url($rute-icons+'icono-print-hover.png')
+
+.icon-notify
+    @extend %icon-shared
+    content: url($rute-icons+'icono-correo-fecha.png')
+    &:hover
+        content: url($rute-icons+'icono-correo-fecha-hover.png')
+
+.icon-copy
+    @extend %icon-shared
+    content: url($rute-icons+'ico-copy.png')
+
+.icon-copy-to-all
+    @extend %icon-shared
+    content: url($rute-icons+'icono-copytoall.png')
+    &:hover
+        content: url($rute-icons+'icono-copytoall.png')
+
+.icon-price
+    @extend %icon-shared
+    content: url($rute-icons+'icono-precio.png')
+    &:hover
+        content: url($rute-icons+'icono-precio.png')
+
+.icon-youtube
+    @extend %icon-shared
+    content: url($rute-icons+'icono-youtube.png')
+
+.icon-file
+    @extend %icon-shared
+    content: url($rute-icons+'icono-adjuntar.png')
+    float: right
+
+//Marcadores Zonas GoogleMaps
+%icon-shared-marker
+    border: 0
+    height: 20px
+    align-content: center
+    cursor: pointer
+
+.icon-marker
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcador.png')
+
+.icon-marker-green
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorGreen.png')
+
+.icon-marker-dark-green
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorGreenHover.png')
+
+.icon-marker-yellow
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorYellow.png')
+
+.icon-marker-orange
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorOrange.png')
+
+.icon-marker-orange-hover
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorOrangeHover.png')
+
+.icon-marker-red
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorRed.png')
+
+.icon-marker-green-yellow
+    @extend %icon-shared-marker
+    content: url($rute-icons+'marcadorGY.png')

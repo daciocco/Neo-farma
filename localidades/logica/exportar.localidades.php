@@ -1,11 +1,12 @@
 <?php 
-require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php" );/*
+session_start();
+require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol"]!="M" && $_SESSION["_usrrol"]!="G"){
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	echo $_SESSION["_usrol"];
  	header("Location: $_nextURL");
 	exit;
-}*/
+}
 
 header("Content-Type: application/vnd.ms-excel");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -36,7 +37,7 @@ header("content-disposition:attachment;filename=Localidades-".date('d-m-y').".xl
 	</style>
 </head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0" style="table-layout: fixed;">
+	<table border="0" style="table-layout: fixed;">
 		<thead>
 			<tr>
 				<TD style="font-size:16px; color:#117db6; border:1px solid #666">Provincia</TD>
@@ -69,17 +70,29 @@ header("content-disposition:attachment;filename=Localidades-".date('d-m-y').".xl
 						$zeZonaDDBB	= $ze['zeZona'];						
 						$idCuenta	= DataManager::getCuenta('ctaidcuenta', 'ctaid', $zeCtaIdDDBB);
 						$nombre		= DataManager::getCuenta('ctanombre', 'ctaid', $zeCtaIdDDBB);
-						$excepciones .= "$zeZonaDDBB|$idCuenta|$nombre <br>";
+						$excepciones= '';
+						$excepciones= "$zeZonaDDBB|$idCuenta|$nombre";
+						
+						echo sprintf("<tr align=\"left\">");
+						if(($k % 2) == 0){					
+							echo sprintf("<td class='par'>%s</td><td class='par'>%s</td><td class='par'>%s</td class='par'><td class='par'>%s</td><td class='par'>%s</td><td class='par'>%s</td>", $provincia, $localidad, $cp, $zonaV, $excepciones, $zonaDistribucion);					
+						} else {
+							echo sprintf("<td class='impar'>%s</td><td class='impar'>%s</td><td class='impar'>%s</td class='impar'><td class='impar'>%s</td><td class='impar'>%s</td><td class='impar'>%s</td>", $provincia, $localidad, $cp, $zonaV, $excepciones, $zonaDistribucion);	
+						}
+						echo sprintf("</tr>");
+						
 					}
+				} else {
+					echo sprintf("<tr align=\"left\">");
+					if(($k % 2) == 0){					
+						echo sprintf("<td class='par'>%s</td><td class='par'>%s</td><td class='par'>%s</td class='par'><td class='par'>%s</td><td class='par'>%s</td><td class='par'>%s</td>", $provincia, $localidad, $cp, $zonaV, $excepciones, $zonaDistribucion);					
+					} else {
+						echo sprintf("<td class='impar'>%s</td><td class='impar'>%s</td><td class='impar'>%s</td class='impar'><td class='impar'>%s</td><td class='impar'>%s</td><td class='impar'>%s</td>", $provincia, $localidad, $cp, $zonaV, $excepciones, $zonaDistribucion);	
+					}
+					echo sprintf("</tr>");
 				}
 				
-				echo sprintf("<tr align=\"left\">");
-				if(($k % 2) == 0){					
-					echo sprintf("<td class='par'>%s</td><td class='par'>%s</td><td class='par'>%s</td class='par'><td class='par'>%s</td><td class='par'>%s</td><td class='par'>%s</td>", $provincia, $localidad, $cp, $zonaV, $excepciones, $zonaDistribucion);					
-				} else {
-					echo sprintf("<td class='impar'>%s</td><td class='impar'>%s</td><td class='impar'>%s</td class='impar'><td class='impar'>%s</td><td class='impar'>%s</td><td class='impar'>%s</td>", $provincia, $localidad, $cp, $zonaV, $excepciones, $zonaDistribucion);	
-				}
-				echo sprintf("</tr>");
+				
 				
 			}
 		} ?>

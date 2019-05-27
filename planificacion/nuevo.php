@@ -22,14 +22,14 @@ if (count($_accobject)) {
 //---------------------
 $_fecha_planif			=	empty($_REQUEST['fecha_planif'])	?	date("d-m-Y")	:	$_REQUEST['fecha_planif'];
 //---------------------
-$_button_enviar 		= 	sprintf("<a title=\"Enviar Planificaci&oacute;n\" onclick=\"javascript:dac_Guardar_Planificacion(1)\">%s</a>", "<img src=\"/pedidos/images/icons/icono-send50.png\" border=\"0\" align=\"absmiddle\"/>");
-$_button_print			= 	sprintf( "<a href=\"detalle_planificacion.php?fecha_planif=%s\" title=\"Imprimir Planificaci&oacute;n\" target=\"_blank\">%s</a>", $_fecha_planif, "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" align=\"absmiddle\" />");
-$_button_guardar_planif= 	sprintf( "<a title=\"Guardar Planificaci&oacute;n\" onclick=\"javascript:dac_Guardar_Planificacion(0)\">%s</a>", "<img src=\"/pedidos/images/icons/icono-save50.png\" border=\"0\" align=\"absmiddle\" />");
-$_button_nuevo			= 	sprintf( "<a title=\"Nueva Planificaci&oacute;n\" onclick=\"javascript:dac_Carga_Planificacion('','','','1')\">%s</a>", "<img src=\"/pedidos/images/icons/icono-nuevo50.png\" border=\"0\" align=\"absmiddle\" />");
-$_button_enviar_parte 	= 	sprintf("<a title=\"Enviar Parte\" onclick=\"javascript:dac_Guardar_Parte(1)\">%s</a>", "<img src=\"/pedidos/images/icons/icono-send50.png\" border=\"0\" align=\"absmiddle\"/>"); 
-$_button_print_parte	= 	sprintf( "<a href=\"detalle_parte.php?fecha_planif=%s\" title=\"Imprimir Parte\" target=\"_blank\">%s</a>", $_fecha_planif, "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" align=\"absmiddle\" />"); 
-$_button_guardar_parte	= 	sprintf( "<a title=\"Guardar Parte\" onclick=\"javascript:dac_Guardar_Parte(0)\">%s</a>", "<img src=\"/pedidos/images/icons/icono-save50.png\" border=\"0\" align=\"absmiddle\" />");  
-$_button_nuevo_parte	= 	sprintf( "<a title=\"Nuevo Parte\" onclick=\"javascript:dac_Carga_Parte('','','','','','','1','0', '%s')\">%s</a>", $_acciones, "<img src=\"/pedidos/images/icons/icono-nuevo50.png\" border=\"0\" align=\"absmiddle\" />");
+$_button_enviar 		= 	sprintf("<a title=\"Enviar Planificaci&oacute;n\" onclick=\"javascript:dac_Guardar_Planificacion(1)\">%s</a>", "<img class=\"icon-send\"/>");
+$_button_print			= 	sprintf( "<a href=\"detalle_planificacion.php?fecha_planif=%s\" title=\"Imprimir Planificaci&oacute;n\" target=\"_blank\">%s</a>", $_fecha_planif, "<img class=\"icon-print\"/>");
+$_button_guardar_planif= 	sprintf( "<a title=\"Guardar Planificaci&oacute;n\" onclick=\"javascript:dac_Guardar_Planificacion(0)\">%s</a>", "<img class=\"icon-save\"/>");
+$_button_nuevo			= 	sprintf( "<a title=\"Nueva Planificaci&oacute;n\" onclick=\"javascript:dac_Carga_Planificacion('','','','1')\">%s</a>", "<img class=\"icon-new\"/>");
+$_button_enviar_parte 	= 	sprintf("<a title=\"Enviar Parte\" onclick=\"javascript:dac_Guardar_Parte(1)\">%s</a>", "<img class=\"icon-send\"/>"); 
+$_button_print_parte	= 	sprintf( "<a href=\"detalle_parte.php?fecha_planif=%s\" title=\"Imprimir Parte\" target=\"_blank\">%s</a>", $_fecha_planif, "<img class=\"icon-print\"/>"); 
+$_button_guardar_parte	= 	sprintf( "<a title=\"Guardar Parte\" onclick=\"javascript:dac_Guardar_Parte(0)\">%s</a>", "<img class=\"icon-save\"/>");  
+$_button_nuevo_parte	= 	sprintf( "<a title=\"Nuevo Parte\" onclick=\"javascript:dac_Carga_Parte('','','','','','','1','0', '%s')\">%s</a>", $_acciones, "<img class=\"icon-new\"/>");
 $_btn_anularplanif		= 	sprintf("<input type=\"submit\" id=\"btsend\" value=\"Anular\" style=\"float:right;\" title=\"Anular Planificaci&oacute;n\" onclick=\"javascript:dac_Anular_Planificacion()\"/>");
 $_btn_anularparte		= 	sprintf("<input type=\"submit\" id=\"btsend\" value=\"Anular\" style=\"float:right;\" title=\"Anular Parte\" onclick=\"javascript:dac_Anular_Parte()\"/>");
 
@@ -96,13 +96,13 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
 <div class="box_body">
 	<div class="bloque_1">     
 		<fieldset id='box_error' class="msg_error">          
-			<div id="msg_error" align="center"></div>
+			<div id="msg_error"></div>
 		</fieldset> 
-		<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;"> 
-			<div id="msg_cargando" align="center"></div>      
+		<fieldset id='box_cargando' class="msg_informacion"> 
+			<div id="msg_cargando"></div>      
 		</fieldset> 
 		<fieldset id='box_confirmacion' class="msg_confirmacion">
-			<div id="msg_confirmacion" align="center"></div>      
+			<div id="msg_confirmacion"></div>      
 		</fieldset>
 	</div>	
 	<hr>
@@ -122,29 +122,39 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
 
 		<?php if ($_SESSION["_usrrol"]== "V" || $_SESSION["_usrrol"]== "A" ){ ?>
 			<div class="bloque_8">
-				<img src="/pedidos/images/icons/ico-copy.png" border="0" align="absmiddle" title="Duplicar" onclick="javascript:dac_Duplicar_Planificacion('<?php echo $_fecha_planif;?>')"/>
+				<br>
+				<a title="Duplicar" onclick="javascript:dac_Duplicar_Planificacion('<?php echo $_fecha_planif;?>')"><img class="icon-copy" /></a>
 			</div>
 		<?php }?>
 
 		<?php if ($_SESSION["_usrrol"]== "G" || $_SESSION["_usrrol"]== "A" || $_SESSION["_usrrol"]== "M"){?> 
 			<div class="bloque_8">
-				<img src="/pedidos/images/icons/exportexcelplanif.png" border="0" align="absmiddle" title="Exportar Planificaciones" onclick="javascript:dac_ExportarPlanifOPartesToExcel(fecha_planif.value, fecha_destino.value, 'planificado')"/>
+				<br>
+				<a title="Exportar Planificaciones" onclick="javascript:dac_ExportarPlanifOPartesToExcel(fecha_planif.value, fecha_destino.value, 'planificado')">
+					<img class="icon-xls-export-planif" />
+				</a>				
 			</div>
 
 			<div class="bloque_8">
-				<img src="/pedidos/images/icons/exportexcelpartes.png" border="0" align="absmiddle" title="Exportar Partes" onclick="javascript:dac_ExportarPlanifOPartesToExcel(fecha_planif.value, fecha_destino.value, 'parte')"/>
+				<br>
+				<a title="Exportar Partes" onclick="javascript:dac_ExportarPlanifOPartesToExcel(fecha_planif.value, fecha_destino.value, 'parte')">
+					<img class="icon-xls-export-parte"/>
+				</a>
 			</div>	
 		<?php }?>    
 		<input id="tipo_exportado" name="tipo_exportado" type="text" hidden>       
 		<?php if ($_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="M"){?>
 			<div class="bloque_8">
-				<img src="/pedidos/images/icons/exportexcelreport.png" border="0" align="absmiddle" title="Exportar Reporte" onclick="javascript:dac_ExportarPlanifOPartesToExcel(fecha_planif.value, fecha_destino.value, 'reporte')"/>
+				<br>
+				<a title="Exportar Reporte" onclick="javascript:dac_ExportarPlanifOPartesToExcel(fecha_planif.value, fecha_destino.value, 'reporte')">
+					<img class="icon-xls-export-report"/>
+				</a>
 			</div>					
 		<?php }?>
 	</form>	
 	<hr>
 
-	<div class="barra" style="background-color: #F63;">
+	<div class="bg-orange barra">
 		<h1>IMPORTANTE! Recuerda pedir a todas tus cuentas, <br>
 		<strong>DISPONE de habilitación y DT.</strong></h1>
 	</div>
@@ -155,10 +165,10 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
 			<h1>Planificaci&oacute;n</h1> 
 		</div>
 		<hr>
-		<div class="bloque_8"> <?php echo $_button_nuevo; ?> </div>
-		<div class="bloque_8"> <?php echo $_button_guardar_planif; ?>  </div>
-		<div class="bloque_8"> <?php echo $_button_print; ?> </div>
-		<div class="bloque_8"> <?php echo $_button_enviar; ?> </div>
+		<div class="bloque_9"> <?php echo $_button_nuevo; ?> </div>
+		<div class="bloque_9"> <?php echo $_button_guardar_planif; ?>  </div>
+		<div class="bloque_9"> <?php echo $_button_print; ?> </div>
+		<div class="bloque_9"> <?php echo $_button_enviar; ?> </div>
 		<hr>
 	</div> <!-- Fin barra -->
 
@@ -192,10 +202,10 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
 				<h1>Parte Diario</h1>  
 			</div>
 			<hr>
-			<div class="bloque_8"> <?php echo $_button_nuevo_parte; ?> </div>
-			<div class="bloque_8"> <?php echo $_button_guardar_parte; ?></div>
-			<div class="bloque_8"> <?php echo $_button_print_parte; ?> </div>
-			<div class="bloque_8"> <?php echo $_button_enviar_parte; ?> </div>
+			<div class="bloque_9"> <?php echo $_button_nuevo_parte; ?> </div>
+			<div class="bloque_9"> <?php echo $_button_guardar_parte; ?></div>
+			<div class="bloque_9"> <?php echo $_button_print_parte; ?> </div>
+			<div class="bloque_9"> <?php echo $_button_enviar_parte; ?> </div>
 			<hr>
 		</div> <!-- Fin barra -->
 
@@ -279,14 +289,14 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
  	<!-- ALERTAS -->	 
 	<?php if ($_SESSION["_usrrol"]== "V" || $_SESSION["_usrrol"]== "A"){ ?>
 		<?php if (!empty($_msg_error_planif)){?>
-		<div class="barra" style="background-color: #F63;">
+		<div class="bg-orange barra">
 			<h1><?php echo $_msg_error_planif; ?></h1> 
 			<hr>      
 		</div> <!-- Fin barra -->
 		<?php }?>
 
 		<?php if (!empty($_msg_error_parte)){?>
-		<div class="barra" style="background-color: #F63;">
+		<div class="bg-orange barra">
 			<h1><?php echo $_msg_error_parte; ?></h1>   
 			<hr>    
 		</div> <!-- Fin barra -->
@@ -294,8 +304,8 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
 
 		<!-- LISTADO DE CLIENTES -->
 		<div class="barra">
-			<div class="buscadorizq"> <h1>Cuentas</h1> </div>
-			<div class="buscadorder">
+			<div class="bloque_5"> <h1>Cuentas</h1> </div>
+			<div class="bloque_5">
 				<input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
 				<input id="txtBuscarEn" type="text" value="tblTablaCli" hidden/>
 			</div>  
@@ -395,6 +405,4 @@ if ($_SESSION["_usrrol"]=="V"){ //ALERTAS//
 <script language="JavaScript"  src="/pedidos/planificacion/logica/jquery/jqueryUsrFooter.js" type="text/javascript"></script>
 <?php if ($_SESSION["_usrrol"]== "G" || $_SESSION["_usrrol"]== "A"){ ?> 
 	<script language="JavaScript"  src="/pedidos/planificacion/logica/jquery/jqueryAdminFooter.js" type="text/javascript"></script>
-<?php } ?> 
-
-
+<?php } ?>

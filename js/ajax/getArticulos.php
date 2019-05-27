@@ -8,10 +8,8 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
  	exit;
 }
 
-//*************************************************
 $laboratorio	= 	(isset($_POST['idlab']))	? $_POST['idlab']	:	NULL;
 $empresa		= 	(isset($_POST['idemp']))	? $_POST['idemp']	:	NULL;
-//*************************************************
 
 if (!empty($laboratorio))	{
 	$articulos	= DataManager::getArticulos(0, 1000, 1, 1, $laboratorio, $empresa);	

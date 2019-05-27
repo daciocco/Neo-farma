@@ -275,22 +275,30 @@ $artObjectHiper->__set('Familia' 		, $familia);
 $artObjectHiper->__set('Lista' 			, $lista);
 
 if ($artId) {
-	//UPDATE	
+	//UPDATE
+	$movTipo	= 'UPDATE';	
 	DataManagerHiper::updateSimpleObject($artObjectHiper, $artId);
 	DataManager::updateSimpleObject($artObject);
+	
+	
 } else {
 	//INSERT
+	$movTipo	= 'INSERT';	
 	$artObject->__set('Activo'	, 1);
 	$artObject->__set('Stock'	, 1);
 	$artObject->__set('ID'		, $artObject->__newID());
 	DataManagerHiper::_getConnection('Hiper'); //Controla conexión a HiperWin
-	$idArt = DataManager::insertSimpleObject($artObject);
+	$artId = DataManager::insertSimpleObject($artObject);
 	
-	$artObjectHiper->__set('Activo'	, 1);
-	$artObjectHiper->__set('Stock'	, 1);
-	$artObjectHiper->__set('ID'		, $idArt);
-	DataManagerHiper::insertSimpleObject($artObjectHiper, $idArt);
+	$artObjectHiper->__set('Activo' , 1);
+	$artObjectHiper->__set('Stock'  , 1);
+	$artObjectHiper->__set('ID'	 	, $artId);
+	DataManagerHiper::insertSimpleObject($artObjectHiper, $artId);
 }
- 
+
+//	Registro MOVIMIENTO	 //
+$movimiento = 'Articulo_'.$artIdart;
+dac_registrarMovimiento($movimiento, $movTipo, "TArticulo", $artId);
+
 echo "1"; exit;
 ?>

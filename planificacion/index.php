@@ -17,9 +17,9 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
     	<?php include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/header.inc.php"); ?>
     </header><!-- cabecera -->	
 
-	<nav class="menuprincipal"> <?php 
+	<nav class="menuprincipal"> <?php
 		$_section 		= "planificar";
-        $_subsection	= "";
+        $_subsection	= "planificar";
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
 	</nav> <!-- fin menu -->
  

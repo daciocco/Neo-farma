@@ -2,17 +2,15 @@
 session_start();
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.dm.php" );
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="M"){
-	echo '<table border="0" width="100%"><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
+	echo '<table><tr><td align="center">SU SESION HA EXPIRADO.</td></tr></table>'; exit;
  	exit;
 }
 
-//*************************************************
 $empresa	= 	(isset($_POST['idEmpresa']))	? 	$_POST['idEmpresa']	:	NULL;
-//*************************************************
 
 $cadenas	= DataManager::getCadenas($empresa); 
 if (count($cadenas)) {
-	echo '<table id="tblCadenas" class="datatab" width="100%" border="0">';
+	echo '<table id="tblCadenas">';
 	echo '<thead><tr><th>Cadena</th><th>Nombre</th></tr></thead>';
 	echo '<tbody>';
 	
@@ -31,7 +29,7 @@ if (count($cadenas)) {
 	echo "</tbody></table>";
 	
 } else {
-	echo	'<table border="0" width="100%"><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
+	echo	'<table><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
 }
 
 ?>

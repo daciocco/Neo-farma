@@ -175,7 +175,7 @@ class DataManagerHiper {
     	}
     	return $_ID;
   	}
-	
+	*/
 	public static function updateToTable($_tabla, $_fieldID, $_condition="TRUE") {
     	$hDB = DataManagerHiper::_getConnection();
 		$hDB->startTransaction();
@@ -192,7 +192,7 @@ class DataManagerHiper {
 		}
 		return $_rows;
   	}
-		
+	/*
 	public static function deleteToTable($_tabla, $_campos = NULL) {
 		if  (empty($_campos)  || is_null($_campos)){ $_condicionWhere 	= 	"TRUE";
 		} else {$_condicionWhere 	= 	$_campos;}

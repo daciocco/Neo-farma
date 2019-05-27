@@ -20,6 +20,12 @@ if ($id) {
 	
 	DataManagerHiper::updateSimpleObject($artObjectHiper, $id);
 	DataManager::updateSimpleObject($artObject);
+	
+	//	Registro MOVIMIENTO	 //
+	$movimiento = 'ChangeStatus';
+	$movTipo	= 'UPDATE';
+	dac_registrarMovimiento($movimiento, $movTipo, "TArticulo", $id);
 }
+
 echo "1"; exit;
 ?>

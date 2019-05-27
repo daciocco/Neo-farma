@@ -68,7 +68,7 @@ if ($_provid) {
 	$_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=\"Enviar\"/>");
 	$_action = "logica/update.proveedor.php?backURL=".$backURL;	
 } else {	
-	if (!$_sms) {
+	//if (!$_sms) {
 		$_idempresa 	= "";
 		$_idproveedor 	= "";
 		$_loguin		= "";
@@ -82,7 +82,7 @@ if ($_provid) {
 		$_telefono 		= "";
 		$_correo		= "";
 		$_observacion 	= "";
-	}	
+	//}	
 	$_button = sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=\"Enviar\"/>");
 	$_action = sprintf("logica/update.proveedor.php?provid=%d&backURL=", $_provid, $backURL);	
 } ?>
@@ -189,14 +189,34 @@ if ($_provid) {
 			 <div id="pdf_amp"></div>
 		</div> 
 			
-		<div class="box_body"> 
-		                           				
-			<form id="fm_proveedor_edit" name="fm_proveedor_edit" class="fm_edit2" method="post" action="<?php echo $_action;?>">
+		<div class="box_body"> 		                           				
+			<form id="fm_proveedor_edit" name="fm_proveedor_edit" method="post" action="<?php echo $_action;?>">
 				<fieldset >
 					<legend>Proveedor</legend>
 					<div class="bloque_1">
+                       	 <?php 
+						if ($_sms) {
+							if ($_sms < 17) { ?>      
+								<fieldset id='box_error' class="msg_error" style="display:block;">          
+									<div id="msg_error"><?php echo $_info; ?></div>
+								</fieldset> <?php 
+							} else { ?>
+								<fieldset id='box_confirmacion' class="msg_confirmacion" style="display:block;">
+									<div id="msg_confirmacion"><?php echo $_info; ?></div>      
+								</fieldset> <?php 
+							} 
+						} ?>                                                                      
+                        <fieldset id='box_cargando' class="msg_informacion"> 
+                            <div id="msg_cargando"></div>      
+                        </fieldset> 
+                    </div>
+					<input type="hidden" id="provid" name="provid" value="<?php echo $_provid;?>" />
+					<input type="hidden" id="activo" name="activo" value="<?php echo $_activo;?>" />
+					<input type="hidden" name="pag" value="<?php echo $_pag;?>" />
+
+					<div class="bloque_5">
 						<label for="idempresa">Empresa *</label>
-                        <select id="idempresa" name="idempresa"  style="color:#5c788e;"><?php
+                        <select id="idempresa" name="idempresa" ><?php
                             $empresas	= DataManager::getEmpresas(1); 
                             if (count($empresas)) {	
                                 foreach ($empresas as $k => $emp) {
@@ -206,38 +226,42 @@ if ($_provid) {
                                     } else { $selected=""; } ?>
                                     <option id="<?php echo $idEmp; ?>" value="<?php echo $idEmp; ?>" <?php echo $selected; ?>><?php echo $nombreEmp; ?></option><?php  
                                 }                            
-                            } 
-							
-							?>
-                        </select>
-					
+                            }  ?>
+                        </select>					
 					</div>
-					<div class="bloque_2">
+					
+					<div class="bloque_7">
 						<label for="loguin">Usuario</label>
-						<input name="loguin" type="text" value="<?php echo $_loguin; ?>" disabled>
+						<input name="loguin" type="text" value="<?php echo $_loguin; ?>" disabled >
 					</div>
 					
-					<div class="bloque_2">
-						<label for="idproveedor">Id Proveedor *</label>
+					<div class="bloque_7">
+						<br>  
+						<?php echo $_button; ?>
+					</div>
+					<hr>
+					
+					<div class="bloque_7">
+						<label for="idproveedor">Id Proveedor</label>
 						<input name="idproveedor" id="idproveedor" type="text" maxlength="10" value="<?php echo $_idproveedor; ?>">
 					</div>
-					<div class="bloque_1">
-						<label for="nombre">Proveedor *</label>
+					<div class="bloque_5">
+						<label for="nombre">Proveedor</label>
 						<input name="nombre" id="nombre" type="text" maxlength="50" value="<?php echo $_nombre;?>">
 					</div> 
 					
-					<div class="bloque_2">	
-						<label for="cuit">CUIT *</label>
+					<div class="bloque_7">	
+						<label for="cuit">CUIT</label>
 						<input name="cuit"  id="cuit" type="text" maxlength="13" value="<?php echo $_cuit;?>">
 					</div> 
 					 
-					<div class="bloque_2">	
-						<label for="nroIBB">Nro. IBB *</label>
+					<div class="bloque_7">	
+						<label for="nroIBB">Nro. IBB</label>
 						<input name="nroIBB"  id="nroIBB" type="text" maxlength="13" value="<?php echo $_nroIBB;?>"/>
 					</div>  
 					
-					<div class="bloque_1">
-						<label for="idprovincia">Provincia *</label>
+					<div class="bloque_6">
+						<label for="idprovincia">Provincia</label>
                         <select id="idprovincia" name="idprovincia"/> 
                             <option value="0" selected> Provincia... </option> <?php
                             $provincias	= DataManager::getProvincias(); 
@@ -254,75 +278,39 @@ if ($_provid) {
                             } ?> 
                         </select>
 					</div>
-					<div class="bloque_1">	
-						<label for="idloc">Localidad *</label>
+					<div class="bloque_6">	
+						<label for="idloc">Localidad</label>
 						<input name="idloc"  id="idloc" type="text" maxlength="30" value="<?php echo $_idloc;?>"/>
 					</div>
 																
-					<div class="bloque_3">
-						<label for="direccion">Direcci&oacute;n *</label>
+					<div class="bloque_5">
+						<label for="direccion">Direcci&oacute;n</label>
 						<input name="direccion" id="direccion" type="text" maxlength="50" value="<?php echo $_direccion;?>"/>
 					</div>
-					<div class="bloque_2">
-						<label for="cp">C&oacute;digo Postal</label>
+					<div class="bloque_7">
+						<label for="cp">Cod Postal</label>
 						<input name="cp"  id="cp" type="text" maxlength="10" value="<?php echo $_cp;?>"/>
 					</div>	
 					
-					<div class="bloque_2">
-						<label for="telefono">Tel&eacute;fono *</label>
-						<input name="telefono" id="telefono" type="text" maxlength="20" value="<?php echo $_telefono;?>"/>
+					<div class="bloque_7">
+						<label for="telefono">Tel&eacute;fono</label>
+						<input name="telefono" id="telefono" type="text" maxlength="20" value="<?php echo $_telefono;?>" />
 					</div>
 					
-					<div class="bloque_1">
-						<label for="correo">Correo *</label>
+					<div class="bloque_5">
+						<label for="correo">Correo</label>
 						<input name="correo" id="correo" type="text" maxlength="50" value="<?php echo $_correo;?>"/>
 					</div>
-					<div class="bloque_3">
+					
+					<div class="bloque_5">
 						<label for="observacion">Observaci&oacute;n</label>
 						<textarea name="observacion" id="observacion" type="text" onkeyup="javascript:dac_LimitaCaracteres(event, 'observacion', 200);" onkeydown="javascript:dac_LimitaCaracteres(event, 'observacion', 200);" value="<?php echo $_observacion;?>"/><?php echo $_observacion;?></textarea>                           
-					</div>
-
-					<?php 
-					if ($_sms) {
-						if ($_sms < 17) { ?> 
-							<div class="bloque_3">
-								<fieldset id='box_error' class="msg_error" style="display:block;">
-									<legend>&iexcl;ERROR!</legend>                     
-									<div id="msg_error" align="center"><?php echo $_info; ?></div>
-								</fieldset>
-							</div> <?php 
-						} else { ?> 
-							<div class="bloque_3">
-								<fieldset id='box_confirmacion' class="msg_confirmacion" style="display:block;">
-									<div id="msg_confirmacion" align="center"><?php echo $_info; ?></div>      
-								</fieldset>
-							</div> <?php 
-						} 
-					}?>
-
-					<div class="bloque_3">     
-						<fieldset id='box_error' class="msg_error">
-							<legend>&iexcl;ERROR!</legend>                     
-							<div id="msg_error" align="center"></div>
-						</fieldset>
-
-						<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                 		<div id="msg_cargando" align="center"></div>      
-						</fieldset> 
-					</div>
-
-					<input type="hidden" id="provid" name="provid" value="<?php echo $_provid;?>" />
-					<input type="hidden" id="activo" name="activo" value="<?php echo $_activo;?>" />
-					<input type="hidden" name="pag" value="<?php echo $_pag;?>" />
-
-					<div class="bloque_3">
-						<label for="_accion">&nbsp;</label>  
-						<?php echo $_button; ?>
 					</div>
 				</fieldset>
 				
 				<fieldset>
 					<legend>Documentaci&oacute;n</legend>  
-					<div class="bloque_3">
+					<div class="bloque_1">
 						<div class="lista"> <?php
 							$ruta 	=	$_SERVER['DOCUMENT_ROOT'].'/pedidos/login/registrarme/archivos/proveedor/'.$_provid."/";													
 							$data	=	dac_listar_directorios($ruta);	
@@ -349,14 +337,14 @@ if ($_provid) {
 											$archivo 	= 	trim($name[3]);
 											
 
-											$_eliminar	=	sprintf ("<a href=\"logica/eliminar.archivo.php?provid=%d&backURL=%s&archivo=%s\" title=\"Eliminar\" onclick=\"return confirm('&iquest;Est&aacute; seguro que desea ELIMINAR EL ARCHIVO?')\"> <img src=\"../images/icons/icono-eliminar.png\" border=\"0\" align=\"absmiddle\"/></a>", $_provid, $_SERVER['PHP_SELF'], $archivo,  "Eliminar");
+											$_eliminar	=	sprintf ("<a href=\"logica/eliminar.archivo.php?provid=%d&backURL=%s&archivo=%s\" title=\"Eliminar\" onclick=\"return confirm('&iquest;Est&aacute; seguro que desea ELIMINAR EL ARCHIVO?')\"> <img class=\"icon-delete\"/></a>", $_provid, $_SERVER['PHP_SELF'], $archivo,  "Eliminar");
 											if($ext == "pdf"){ ?>
 												<tr class="<?php echo $clase;?>">
 													<td><?php echo $name[0]."/".$name[1]."/".$name[2]; ?></td>
 													<td><?php echo $name[3]; ?></td>
 													<td align="center">
 														<a href='<?php echo "../login/registrarme/archivos/proveedor/".$_provid."/".$archivo; ?>' target="_blank">
-															<img id="imagen" src="../images/icons/icono-pdf.png" height="60px"/>
+															<img id="imagen" class="icon-pdf"/>
 														</a>
 													</td>
 													<td><?php echo $_eliminar;?></td>
@@ -384,11 +372,11 @@ if ($_provid) {
 						</div>
 					</div>
 					
-					<div class="bloque_1">	
-						<div class="inputfile"><input id="archivo" name="archivo" class="file" type="file"/></div>
+					<div class="bloque_5">	
+						<input id="archivo" name="archivo" class="file" type="file"/>
 					</div>
 					
-					<div class="bloque_2">
+					<div class="bloque_8">
 					 	<input type="button" id="btfile_send" value="Subir">
 					</div> 
 				</fieldset>

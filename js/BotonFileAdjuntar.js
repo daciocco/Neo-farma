@@ -1,11 +1,10 @@
 var file = {
 	maxlength:20, // maximum length of filename before it's trimmed
-		
 	convert:function(){
 		// Convert all file type inputs.
 		$('input[type=file]').each(function(){
 			$(this).wrap('<div class="file" />');
-			$(this).parent().prepend('<div id="imagenfile"></div>'); /*('<div id="imagenfile">Buscar&#8230;</div>')*/
+			$(this).parent().prepend('<a><img class="icon-file"/></a>');
 			$(this).parent().prepend('<span class="spanfile">Sin archivo</span>');
 			$(this).fadeTo(0,0);
 			$(this).attr('size', '50'); // Use this to adjust width for FireFox.
@@ -14,7 +13,7 @@ var file = {
 		});
 	},
 	
-	update:function(x){
+	update:function(x) {
 		// Update the filename display.
 		var filename = x.val().replace(/^.*\\/g,'');
 		if(filename.length > this.maxlength){

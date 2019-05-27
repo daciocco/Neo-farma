@@ -1,5 +1,5 @@
 <?php
-$btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=\"Guardar\" style=\"background-color:#DF6900;\"/>");
+$btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value=\"Guardar\"/>");
 ?>
 
 <link rel="stylesheet" type="text/css" href="../../js/jquery-ui-1.11.4/jquery-ui.structure.css"/>
@@ -11,16 +11,13 @@ $btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value
 	$_origen		=	empty($_REQUEST['origen']) 		? 	'' 	: 	$_REQUEST['origen'];
 	$_nroRel		=	empty($_REQUEST['nroRel']) 		? 	0 	:	$_REQUEST['nroRel'];
 	$empresa		=	empty($_REQUEST['empresa']) 		? 	0 	:	$_REQUEST['empresa'];
-	
 	$_procorreo		= 	DataManager::getCuenta('ctacorreo', 'ctaid', $_origenid, $empresa);	
 	$_protelefono	= 	DataManager::getCuenta('ctatelefono', 'ctaid', $_origenid, $empresa);
 	
-	//**************//
 	//	ENCUETAS	//
-	//**************//
 	$_relevamiento	= DataManager::getRelevamiento($_nroRel, 1); 
 	if (count($_relevamiento)) { ?>
-		<form id="fm_relevar" class="fm_edit2" method="post">	
+		<form id="fm_relevar" method="post">	
 			<input type="text" id="origenid" name="origenid" hidden="hidden" value="<?php echo $_origenid; ?>">	
 			<input type="text" id="origen" name="origen" hidden="hidden" value="<?php echo $_origen; ?>">
 			<input type="text" id="nrorel" name="nrorel" hidden="hidden" value="<?php echo $_nroRel; ?>"> 
@@ -35,7 +32,6 @@ $btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value
 					$_relpregorden 	=	$_rel["relpregorden"];
 					$_relpregunta	= 	$_rel["relpregunta"];
 					$_reltiporesp	= 	$_rel["reltiporesp"];
-
 					//Consulto si ya existe el relevamiento hecho para poner las respuestas.
 					$_respuesta		=	'';
 					$_resid			=	'';
@@ -47,44 +43,43 @@ $btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value
 						}
 					} ?>  
 
-					<div class="bloque_3">
+					<div class="bloque_1">
 						<h4> <?php echo ($k+1).") ".$_relpregunta; ?> </h4>
 					</div>
 
 					<input type="text" name="resid<?php echo $k; ?>" id="resid<?php echo $k; ?>" value="<?php echo $_resid; ?>" hidden="hidden">
 										
-					<!--div class="bloque_3"-->
 					<?php
 					switch ($_reltiporesp){
 						case 'sino': ?>
-							<div class="bloque_1">
+							<div class="bloque_8">
 								<input type="radio" name="sino<?php echo $k; ?>" value="1" <?php if($_respuesta == 1) { echo "checked='checked'";} ?>>Si
 							</div>
-							<div class="bloque_1">
+							<div class="bloque_8">
 								<input type="radio" name="sino<?php echo $k; ?>" value="2" <?php if($_respuesta == 2) { echo "checked='checked'";} ?>>No
-							</div> <?php								
+							</div> <hr><?php								
 							break;
 						case 'cant': ?>
-							<div class="bloque_3">	
+							<div class="bloque_8">	
 								<input type="text" name="cant<?php echo $k; ?>" id="cant<?php echo $k; ?>" maxlength="4" max="1000" min="0" value="<?php echo $_respuesta; ?>">
 							</div> <?php
 							break;
 						case 'abierto': ?>
-							<div class="bloque_3">
-								<textarea id="respuesta<?php echo $k; ?>" name="respuesta<?php echo $k; ?>" style="resize:none;" onKeyUp="javascript:dac_LimitaCaracteres(event, 'respuesta', 200);" onKeyDown="javascript:dac_LimitaCaracteres(event, 'respuesta', 200);" /><?php echo $_respuesta; ?></textarea>
+							<div class="bloque_1">
+								<textarea id="respuesta<?php echo $k; ?>" name="respuesta<?php echo $k; ?>" onKeyUp="javascript:dac_LimitaCaracteres(event, 'respuesta', 200);" onKeyDown="javascript:dac_LimitaCaracteres(event, 'respuesta', 200);" /><?php echo $_respuesta; ?></textarea>
 							</div> <?php
 							break;
 						default:	?>
-							<div class="bloque_3">
+							<div class="bloque_1">
 								Error en el tipo de respuesta.
 							</div>
 							<?php
 							break;
 					} ?>  
-					<!--/div--> <?php 
+						<?php 
 				} ?>
 				
-				<div id="relevar" class="bloque_1">
+				<div id="relevar" class="bloque_4">
 					<label >Resultado</label>
 					<select id="resultado_arg" name="resultado_arg">
 						<option value="0" selected></option>
@@ -97,32 +92,29 @@ $btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value
 					</select> 
 				</div> 
 				
-				<div class="bloque_2">
+				<div class="bloque_7">
+					<br>
 					<?php echo $btAccion; ?>
 				</div>
 					
-				<div id="mensajesAlertas" class="bloque_3">
+				<div id="mensajesAlertas" class="bloque_1">
 					<div id="alertas">		
 						<fieldset id='box_error' class="msg_error">          
-							<div id="msg_error" align="center"></div>
+							<div id="msg_error"></div>
 						</fieldset>
-
 						<fieldset id='box_cargando' class="msg_informacion">                    	
-							<div id="msg_cargando" align="center"></div>      
+							<div id="msg_cargando"></div>      
 						</fieldset> 
-
 						<fieldset id='box_confirmacion' class="msg_confirmacion">
-							<div id="msg_confirmacion" align="center"></div>      
+							<div id="msg_confirmacion"></div>      
 						</fieldset>
 					</div>
 				</div>    <!-- Fin mensajesAlertas -->
 				
 			</fieldset>  
 		</form>	<?php	
-	}
-	//*****************//
-
-	?>        
+	} ?>      
+	  
 	<div id="dialogo" style="display:none;"></div>
 	<div id="reprogramar" style="display:none;"></div>
 	<div id="enviarmail" style="display:none;"></div>        
@@ -288,15 +280,13 @@ $btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value
 		
 		var alertas		=	'<div id="alertas">';          
 			alertas		+=	'<fieldset id="box_error" class="msg_error">';          
-			  alertas		+=	'<div id="msg_error" align="center"></div>';
-			alertas		+=	'</fieldset>';
-											
+			  alertas		+=	'<div id="msg_error"></div>';
+			alertas		+=	'</fieldset>';											
 			alertas		+=	'<fieldset id="box_cargando" class="msg_informacion">';                    	
-			  alertas		+=	'<div id="msg_cargando" align="center"></div>';      
-			alertas		+=	'</fieldset>';
-						  
+			  alertas		+=	'<div id="msg_cargando"></div>';      
+			alertas		+=	'</fieldset>';						  
 			alertas		+=	'<fieldset id="box_confirmacion" class="msg_confirmacion">';
-			  alertas		+=	'<div id="msg_confirmacion" align="center"></div>';      
+			  alertas		+=	'<div id="msg_confirmacion"></div>';      
 			alertas		+=	'</fieldset>';
 			alertas		+=	'</div>';
 				
@@ -306,8 +296,6 @@ $btAccion	= sprintf("<input type=\"submit\" id=\"btsend\" name=\"_accion\" value
 	}	
 	
 </script>
-
-<!--script type="text/javascript" src="../../js/funciones_comunes.js"></script-->
 
 
     

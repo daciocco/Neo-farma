@@ -8,19 +8,16 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" &&  $_SESSION["_usrro
 
 $idPropuesta=	empty($_REQUEST['propuesta']) 	?	0	:	$_REQUEST['propuesta'];
 
-$btnPrint	=	sprintf( "<a id=\"imprimir\" href=\"print.propuesta.php?propuesta=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $idPropuesta, "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-print-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-print.png';\"/>");
-
-$btnAprobar	=	sprintf( "<a id=\"aprobarPropuesta\" title=\"Aprobar\" style=\"cursor:pointer\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-aprobar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-aprobar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-aprobar.png';\"/>");
-
-$btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"cursor:pointer\">%s</a>", "<img src=\"/pedidos/images/icons/icono-pedido-rechazar.png\" border=\"0\" onmouseover=\"this.src='/pedidos/images/icons/icono-pedido-rechazar-hover.png';\" onmouseout=\"this.src='/pedidos/images/icons/icono-pedido-rechazar.png';\"/>");
-
+$btnPrint	=	sprintf( "<a id=\"imprimir\" href=\"print.propuesta.php?propuesta=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $idPropuesta, "<img class=\"icon-print\"/>");
+$btnAprobar	=	sprintf( "<a id=\"aprobarPropuesta\" title=\"Aprobar\">%s</a>", "<img class=\"icon-proposal-approved\"/>");
+$btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\">%s</a>", "<img class=\"icon-proposal-rejected\"/>");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<?php require $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/metas.inc.php";?>
-    <script language="JavaScript"  src="/pedidos/pedidos/logica/jquery/jquery.aprobar.js" type="text/javascript"></script>
+    <script language="JavaScript" src="/pedidos/pedidos/logica/jquery/jquery.aprobar.js" type="text/javascript"></script>
 </head>
 
 <body>	
@@ -29,8 +26,8 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
     </header><!-- cabecera -->			
     
     <nav class="menuprincipal"> <?php 
-        $_section	=	"pedidos";
-        $_subsection 	=	"mis_pedidos";
+        $_section	= "pedidos";
+        $_subsection= "mis_propuestas";
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->	
         
@@ -39,13 +36,13 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
         
         <!--div class="bloque_3"-->
 			<fieldset id='box_error' class="msg_error">          
-				<div id="msg_error" align="center"></div>
+				<div id="msg_error"></div>
 			</fieldset>  
-			<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">   
-				<div id="msg_cargando" align="center"></div>      
+			<fieldset id='box_cargando' class="msg_informacion">   
+				<div id="msg_cargando"></div>      
 			</fieldset>
 			<fieldset id='box_confirmacion' class="msg_confirmacion">
-				<div id="msg_confirmacion" align="center"></div>     
+				<div id="msg_confirmacion"></div>     
 			</fieldset>
 		<!--/div-->
        
@@ -116,7 +113,7 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
 											$condPagoCodigo	=	$condPago["IdCondPago"];
 											$condNombre	= 	DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $condPago['condtipo']);	
 											$condDias	= "(";					
-											$condDias	.= empty($condPago['Dias1CP']) ? '' : $condPago['Dias1CP'];
+											$condDias	.= empty($condPago['Dias1CP']) ? '0' : $condPago['Dias1CP'];
 											$condDias	.= empty($condPago['Dias2CP']) ? '' : ', '.$condPago['Dias2CP'];
 											$condDias	.= empty($condPago['Dias3CP']) ? '' : ', '.$condPago['Dias3CP'];
 											$condDias	.= empty($condPago['Dias4CP']) ? '' : ', '.$condPago['Dias4CP'];
@@ -137,7 +134,7 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
 									</div>  <!-- cbte_boxcontent -->
                                     
                                     <div class="cbte_boxcontent2">
-                                        <table class="datatab" width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <table>
                                             <thead>
                                                 <tr align="left">
                                                     <th scope="col" width="10%" height="18" align="center">C&oacute;digo</th>
@@ -168,11 +165,12 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
 											$desc1			=	($det['pddesc1'] == 0)	?	''	:	$det['pddesc1'];
 											$desc2			=	($det['pddesc2'] == 0)	?	''	:	$det['pddesc2'];
 
-											$total			=	round(dac_calcularPrecio($unidades, $precio, $medicinal, $desc1, $desc2), 2);	
+											$total			=	round(dac_calcularPrecio($unidades, $precio, $medicinal, $desc1, $desc2), 3);	
 											$totalFinal		+=	$total;
 
 											echo sprintf("<tr class=\"%s\">", ((($k % 2) == 0)? "par" : "impar"));
-											echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $idArt, $unidades, $descripcion, $precio, $bonif, $desc1, $desc2, str_replace('EUR','',$total));
+								
+											echo sprintf("<td height=\"15\" align=\"center\">%s</td><td align=\"center\">%s</td><td>%s</td><td align=\"right\" style=\"padding-right:15px;\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"center\">%s</td><td align=\"right\" style=\"padding-right:5px;\">%s</td>", $idArt, number_format($unidades,0), $descripcion, number_format(round($precio,2),2), $bonif, number_format(round($desc1,2),2), number_format(round($desc2,2),2), number_format(round($total,2),2) );								
 											echo sprintf("</tr>");
 							} ?>
 										</table> 
@@ -184,7 +182,7 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
 								<?php echo $observacion;?>
                            </div>
                             <div class="cbte_box" align="right" style="font-size:18px; float: right;">
-                            	TOTAL: <?php echo str_replace('EUR','',$totalFinal);?>
+                            	TOTAL: <?php echo number_format(round($totalFinal,2),2); ?>
                             </div>
                         </div>  <!-- cbte_boxcontent2 -->
 					                             
@@ -203,7 +201,6 @@ $btnRechazar=	sprintf( "<a id=\"rechazarPropuesta\" title=\"Rechazar\" style=\"c
 							if($estado != 3 && $estado != '0'){
 								echo $btnRechazar;	
 							}
-								
 						}
 						?> 
 					</div>  <!-- cbte_boxcontent2 -->  <?php

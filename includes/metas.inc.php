@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         
     <!-- ESTILOS CSS-->
-	<link rel="stylesheet" type="text/css" href="/pedidos/css/todos.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/pedidos/css/all.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" media="screen" />
 
     <!-- JQUERY-->    

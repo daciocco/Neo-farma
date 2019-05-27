@@ -1,5 +1,6 @@
 //Carga la ventana
 $(document).ready(function() {	
+	"use strict";
 	$('#abrir-slotmachine').click(function(){
 		$('#slotmachine').fadeIn('slow');
 		
@@ -23,6 +24,7 @@ $(document).ready(function() {
 });
 	
 $(window).resize(function () {
+	"use strict";
 	$('#slotmachine').css({
 		'width': '100%',
 		'height': '100%',

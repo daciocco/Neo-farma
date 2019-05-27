@@ -16,7 +16,7 @@ $_LPP		= 	(isset($_POST['rows']))		?	$_POST['rows']		:	NULL;
 $cuentas	= DataManager::getCuentas($pag, $_LPP, $empresa, $activos, "'".$tipo."'", $_SESSION["_usrzonas"]);
 $_rows		= count($cuentas); //DataManager::getCuentas($pag, $_LPP, $empresa, $activos, $tipo, 
 
-echo	"<table id=\"tblCuentas\" class=\"datatab\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"table-layout:fixed;\">";
+echo	"<table id=\"tblCuentas\"  style=\"table-layout:fixed;\">";
 
 if (count($cuentas)) {	
 	echo	"<thead><tr align=\"left\"><th>Cuenta</th><th>Nombre</th><th>Provincia</th><th>Localidad</th><th>Modificada</th><th align=\"center\">Acciones</th></tr></thead>";
@@ -38,7 +38,7 @@ if (count($cuentas)) {
 			
 			$_editar	= sprintf( "onclick=\"window.open('editar.php?ctaid=%d')\" style=\"cursor:pointer;\"",$id);
 			
-			$_status	= ($cuenta['ctaactiva']) ? "<img src=\"/pedidos/images/icons/icono-activo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Activa\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>" : "<img src=\"/pedidos/images/icons/icono-desactivo-claro.png\" border=\"0\" align=\"absmiddle\" title=\"Inactiva\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>";
+			$_status	= ($cuenta['ctaactiva']) ? "<img class=\"icon-status-active\" title=\"Activa\" style=\"cursor:pointer;\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>" : "<img class=\"icon-status-inactive\" title=\"Inactiva\" onclick=\"javascript:dac_changeStatus('/pedidos/cuentas/logica/changestatus.php', $id, $pag)\"/>";
 			
 			((($k % 2) == 0)? $clase="par" : $clase="impar");
 			

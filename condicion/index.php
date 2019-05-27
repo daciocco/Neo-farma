@@ -20,7 +20,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol
     
     <nav class="menuprincipal"> <?php
         $_section		=	'condiciones';
-        $_subsection 	=	'';
+        $_subsection	=	'condiciones_comerciales';
         include($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/menu.inc.php"); ?>
     </nav> <!-- fin menu -->
         

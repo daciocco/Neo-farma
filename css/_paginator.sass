@@ -1,0 +1,54 @@
+//Paginator PHP
+.paginador
+    width: 100%
+    border: 0
+    td
+        height: 16px
+        
+%icon-paginator-shared
+    width: 16px
+    border: 0
+    align-content: center
+    vertical-align: middle
+
+.icon-go-first
+    @extend %icon-paginator-shared 
+    content: url(/pedidos/images/icons/icono-first.png)
+    &:hover
+        content: url(/pedidos/images/icons/icono-first.png)
+
+.icon-go-previous
+    @extend %icon-paginator-shared 
+    content: url(/pedidos/images/icons/icono-previous.png)
+    &:hover
+        content: url(/pedidos/images/icons/icono-previous.png)
+
+.icon-go-next
+    @extend %icon-paginator-shared 
+    content: url(/pedidos/images/icons/icono-next.png)
+    &:hover
+        content: url(/pedidos/images/icons/icono-next.png)
+
+.icon-go-last
+    @extend %icon-paginator-shared 
+    content: url(/pedidos/images/icons/icono-last.png)
+    &:hover
+        content: url(/pedidos/images/icons/icono-last.png)
+
+// Jquery Paginator
+paginator
+    width: 100%
+.paginadores
+    width: 16px
+    height: 15px
+    border: none
+    align-content: center
+    margin: 0 2px 0 2px
+    cursor: pointer
+#tabpage
+    width: 50px
+    margin: 0 20px 0 20px
+#stat
+    color: $darkGray
+    font-weight: bold
+    font-size: 12px

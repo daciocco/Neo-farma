@@ -7,7 +7,7 @@ class TCondicionComercial extends PropertyObject {
 	protected $_fieldactivo	= 'condactiva';
 	protected $_timestamp	= 0;
     protected $_id			= 0;
-
+	
     public function __construct($_id=NULL) {
 		$this->_timestamp	= time();		
 		$this->_id			= $_id;
@@ -19,11 +19,11 @@ class TCondicionComercial extends PropertyObject {
 		$this->propertyTable['Empresa']				= 'condidemp';
 		$this->propertyTable['Laboratorio']			= 'condidlab';		
 		$this->propertyTable['Cuentas']				= 'condidcuentas';
-		 /*Se trata de condicionde uso único para los clientes separados por coma indicados en un string (Cuentas)*/		 
+		 /*Se trata de condicionde uso único para los clientes separados por coma indicados en un string (Cuentas)*/
 		$this->propertyTable['Nombre']				= 'condnombre';
 		$this->propertyTable['Tipo']				= 'condtipo';	/*Pack, listas, condiciones, kits, etc*/	
 		$this->propertyTable['CondicionPago']		= 'condcondpago';
-		$this->propertyTable['CantidadMinima']		= 'condcantmin'; //Cantidad de unidades mñínima por condición 			 
+		$this->propertyTable['CantidadMinima']		= 'condcantmin'; //Cantidad de unidades mñínima por condición
 		$this->propertyTable['MinimoReferencias'] 	= 'condminreferencias'; 
 		$this->propertyTable['MinimoMonto'] 		= 'condminmonto';					
 		$this->propertyTable['FechaInicio']			= 'condfechainicio';
@@ -38,6 +38,7 @@ class TCondicionComercial extends PropertyObject {
 		$this->propertyTable['UsrUpdate']			= 'condusrupdate';
 		$this->propertyTable['LastUpdate']			= 'condlastupdate';
 		$this->propertyTable['Activa'] 				= 'condactiva';
+		$this->propertyTable['Lista'] 				= 'condlista';
     }
     
 	function __toString() {
@@ -54,19 +55,15 @@ class TCondicionComercial extends PropertyObject {
 	public function __getTableName()  {
 		return $this->_tablename;
 	}
-	
 	public function __getFieldID()  {
 		return $this->_fieldid;
 	}
-	
 	public function __getFieldActivo()  {
 		return $this->_fieldactivo;
 	}
-	
 	public function __newID()  {
 		return ('#'.$this->_fieldid);
 	}
-
 	public function __validate()  {
 		return true;
 	}

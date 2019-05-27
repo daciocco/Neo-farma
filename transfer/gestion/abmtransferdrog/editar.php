@@ -26,29 +26,28 @@ if ($_ABMestado) {
 } else {
 	$_contador_filas=	2;
 	$_activo = 0;
-}
+}	
 
-$_guardar		=	sprintf( "<img id=\"btsend\" value=\"Guardar Cambios\" title=\"Guardar Cambios\"  src=\"/pedidos/images/icons/icono-save50.png\" border=\"0\" align=\"absmiddle\" onclick=\"javascript:dac_sendForm(%s, 'logica/update.abm.php');\" />", 'fm_abm_edit');
+$_guardar		=	sprintf( "<img id=\"btsend\" value=\"Guardar Cambios\" title=\"Guardar Cambios\"  class=\"icon-save\" onclick=\"javascript:dac_sendForm(%s, 'logica/update.abm.php');\" />", 'fm_abm_edit');
 
 if($_drogid){		
-	$_boton_exportar=	sprintf( "<a href=\"logica/exportar.abm.php?mes=%d&anio=%d&drogid=%d\" title=\"exportar abm\"><img src=\"/pedidos/images/icons/export_excel.png\" border=\"0\" align=\"absmiddle\"/></a> ", $_mes, $_anio, $_drogid);		
+	$_boton_exportar=	sprintf( "<a href=\"logica/exportar.abm.php?mes=%d&anio=%d&drogid=%d\" title=\"exportar abm\"><img class=\"icon-xls-export\"/></a> ", $_mes, $_anio, $_drogid);		
 	$_boton_copy	= 	sprintf( "<img src=\"/pedidos/images/icons/ico-copy.png\" border=\"0\" align=\"absmiddle\" title=\"duplicar abm\" onclick=\"javascript:dac_Duplicarabm(%d, %d, %d, 0)\"/>", $_mes, $_anio, $_drogid);	
-	$_boton_copyAll	= 	sprintf( "<img src=\"/pedidos/images/icons/icono-copytoall.png\" border=\"0\" align=\"absmiddle\" title=\"duplicar abm para todos\" onclick=\"javascript:dac_Duplicarabm(%d, %d, %d, 1)\"/>", $_mes, $_anio, $_drogid);
 }
 ?>
 
 <div class="box_body"> 	
-	<form id="fm_abm_edit" name="fm_abm_edit" class="fm_edit2" method="POST" >
+	<form id="fm_abm_edit" name="fm_abm_edit" method="POST" >
     	<fieldset>
             <div class="bloque_3">     
                 <fieldset id='box_error' class="msg_error">          
-                    <div id="msg_error" align="center"></div>
+                    <div id="msg_error"></div>
                 </fieldset>                                                                         
-                <fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">                        	
-                    <div id="msg_cargando" align="center"></div>      
+                <fieldset id='box_cargando' class="msg_informacion">                        	
+                    <div id="msg_cargando"></div>      
                 </fieldset> 
                 <fieldset id='box_confirmacion' class="msg_confirmacion">
-                    <div id="msg_confirmacion" align="center"></div>      
+                    <div id="msg_confirmacion"></div>      
                 </fieldset>
             </div>
             
@@ -83,7 +82,6 @@ if($_drogid){
 				<?php echo $_boton_print; ?> 
            		<?php echo $_boton_exportar; ?> 
            		<?php echo $_boton_copy; ?> 
-           		<?php echo $_boton_copyAll; ?> 
             </div>
              
             <input id="mes_abm" name="mes_abm" type="text" value="<?php echo $_mes; ?>" hidden/>
@@ -91,7 +89,7 @@ if($_drogid){
             <input id="drogid_abm" name="drogid_abm" type="text" value="<?php echo $_drogid; ?>" hidden/>  
             
             <div style="width:550px; height:350px; overflow-x:auto;">    
-				<table name="tabla_abm" class="tabla_abm" cellpadding="0" cellspacing="0" border="0">
+				<table name="tabla_abm" class="tabla_abm" border="0">
 					<thead>
 						<?php if(!empty($_drogid)){ ?>                                  
 						<tr>
@@ -153,7 +151,7 @@ if($_drogid){
 									<td>
 										<input id="difcompens" name="difcompens[]" type="text" size="10px" maxlength="5" value="<?php echo $_abmDifComp; ?>" align="center" placeholder="%" onblur="javascript:ControlComa(this.id, this.value);" style="width:80px;"/></td>                          
 									<td class="eliminar">
-										<img src="/pedidos/images/icons/icono-eliminar-claro.png" border="0" align="absmiddle" onclick="javascript:dac_eliminarAmb(<?php echo $k;?>)" />
+										<img class="icon-delete" onclick="javascript:dac_eliminarAmb(<?php echo $k;?>)" />
 									</td>
 								</tr> <?php 
 							} //FIN del FOR 
@@ -169,10 +167,10 @@ if($_drogid){
                             
 <div class="box_seccion">
     <div class="barra">
-        <div class="buscadorizq">
+        <div class="bloque_5">
         	<h1>Art&iacute;culos</h1>
         </div>
-        <div class="buscadorder">
+        <div class="bloque_5">
             <input id="txtBuscar" type="search" autofocus placeholder="Buscar..."/>
             <input id="txtBuscarEn" type="text" value="tblTablaArt" hidden/>
         </div>
@@ -240,7 +238,7 @@ if($_drogid){
 		
 		
 		campo +='</select></td>';		
-		campo +='<td><input id="difcompens'+nextinput+'" name="difcompens[]" type="text" size="10px" maxlength="5" placeholder="%" onblur="javascript:ControlComa(this.id, this.value);" style="width:80px;"/></td><td class="eliminar"><img src="/pedidos/images/icons/icono-eliminar-claro.png" border="0" align="absmiddle" onClick="dac_eliminarAmb('+nextinput+')"/></td></tr>';
+		campo +='<td><input id="difcompens'+nextinput+'" name="difcompens[]" type="text" size="10px" maxlength="5" placeholder="%" onblur="javascript:ControlComa(this.id, this.value);" style="width:80px;"/></td><td class="eliminar"><img class="icon-delete" onClick="dac_eliminarAmb('+nextinput+')"/></td></tr>';
 		
 		$("#lista").append(campo);
 	}		
@@ -289,7 +287,7 @@ if($_drogid){
 									$('#box_confirmacion').css({'display':'none'});
 									$('#box_error').css({'display':'none'});
 									$('#box_cargando').css({'display':'block'});
-									$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+									$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 								},		
 								success : function (resultado) { 								
 									if (resultado){

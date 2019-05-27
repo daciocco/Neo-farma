@@ -34,7 +34,7 @@ header("content-disposition: attachment;filename=TablaAbm-".date('d-m-y').".xls"
 <TITLE>::. Exportacion de Datos .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0">			
+	<table border="0">			
 		<?php
 		$registros	= DataManager::getAbms(0, $fechaInicio->format("Y-m-d"), $fechaFin->format("Y-m-d")); 	
 		if(count($registros)){

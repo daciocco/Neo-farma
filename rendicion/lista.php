@@ -6,6 +6,7 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	header("Location: $_nextURL");
  	exit;
 }
+
 $_max_rendicion = 0;
 $_rendID 		= 0;
 
@@ -24,12 +25,12 @@ if (count($_rendiciones) > 0) {
 }
 
 /*************************************************************************************************/ 
-$_button_print	=	sprintf( "<a id=\"imprimir\" href=\"detalle_rendicion.php?nro_rendicion=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $_nro_rendicion, "<img src=\"/pedidos/images/icons/icono-print.png\" border=\"0\" />");
+$_button_print	=	sprintf( "<a id=\"imprimir\" href=\"detalle_rendicion.php?nro_rendicion=%s\" target=\"_blank\" title=\"Imprimir\" >%s</a>", $_nro_rendicion, "<img class=\"icon-print\"/>");
 $_button_print2	=	sprintf( "<input type=\"submit\" title=\"Imprimir\" value=\"Ver\" target=\"_blank\" />");
-$_button_nuevo	= 	sprintf( "<a id=\"open_talonario\" class=\"botones_rend\" title=\"Agregar\">%s</a>", "<img src=\"/pedidos/images/icons/icono-nuevo50.png\" border=\"0\" />");
+$_button_nuevo	= 	sprintf( "<a id=\"open_talonario\" class=\"botones_rend\" title=\"Agregar\">%s</a>", "<img class=\"icon-new\" />");
 $_btn_close_popup 	= 	sprintf( "<a id=\"close-talonario\" href=\"#\">%s</a>", "<img id=\"close_rend\" src=\"/pedidos/images/icons/icono-close20.png\" border=\"0\" align=\"absmiddle\" />");
-$_button_eliminar	=	sprintf( "<a id=\"eliminar_talonario\" title=\"Eliminar\" href=\"#\" onclick=\"dac_deleteRecibo()\">%s</a>", "<img id=\"close_rend\" src=\"/pedidos/images/icons/icono-eliminar.png\" border=\"0\" />");
-$_button_enviar		=	sprintf( "<a id=\"enviar\" title=\"Enviar Rendicion\" href=\"#\" onclick=\"dac_EnviarRendicion()\">%s</a>", "<img id=\"enviar_rend\" src=\"/pedidos/images/icons/icono-send50.png\" border=\"0\" />");
+$_button_eliminar	=	sprintf( "<a id=\"eliminar_talonario\" title=\"Eliminar\" href=\"#\" onclick=\"dac_deleteRecibo()\">%s</a>", "<img id=\"close_rend\" class=\"icon-delete\"/>");
+$_button_enviar		=	sprintf( "<a id=\"enviar\" title=\"Enviar Rendicion\" href=\"#\" onclick=\"dac_EnviarRendicion()\">%s</a>", "<img class=\"icon-send\"/>");
 //---------------------//
  $_btn_anularrendi		= 	sprintf("<input type=\"button\" id=\"btsend\" value=\"Anular\" title=\"Anular Rendici&oacute;n\" onclick=\"javascript:dac_Anular_Rendicion()\"/>");
 ?>                
@@ -51,7 +52,7 @@ function dac_GrabarEfectivo(ret, dep){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});					
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) {
 			$('#box_cargando').css({'display':'none'});
@@ -61,7 +62,7 @@ function dac_GrabarEfectivo(ret, dep){
 				document.getElementById("total_efectivo").value = document.getElementById("total").value -  ret - dep;								
 			} else {
 				$('#box_error').css({'display':'block'});
-				$("#msg_error").html(result);	
+				$("#msg_error").html(result);
 			}																								
 		},
 		error: function () {
@@ -95,27 +96,25 @@ function dac_EnviarRendicion(){
 </script>
 
 <div class="box_down" style="overflow: auto;"> 
-	<!--div class="acco_bloq_2"-->  
-		<fieldset id='box_observacion' class="msg_alerta">
-			<div id="msg_atencion" align="center"></div>       
-		</fieldset>
-		<fieldset id='box_error' class="msg_error">          
-			<div id="msg_error" align="center"></div>
-		</fieldset>
-		<fieldset id='box_cargando' class="msg_informacion" style="alignment-adjust:central;">  
-			<div id="msg_cargando" align="center"></div>      
-		</fieldset>
-		<fieldset id='box_confirmacion' class="msg_confirmacion">
-			<div id="msg_confirmacion" align="center"></div>      
-		</fieldset>
-	<!--/div-->  
+	<fieldset id='box_observacion' class="msg_alerta">
+		<div id="msg_atencion" align="center"></div>       
+	</fieldset>
+	<fieldset id='box_error' class="msg_error">          
+		<div id="msg_error"></div>
+	</fieldset>
+	<fieldset id='box_cargando' class="msg_informacion">  
+		<div id="msg_cargando"></div>      
+	</fieldset>
+	<fieldset id='box_confirmacion' class="msg_confirmacion">
+		<div id="msg_confirmacion"></div>      
+	</fieldset>
 	<?php if ($_SESSION["_usrrol"]!= "M"){ 
 		//Consulta última Rendición del usuario
 		$_rendicion	=	DataManager::getDetalleRendicion($_SESSION["_usrid"], $_nro_rendicion);		
 		if (count($_rendicion) > 0) { 
 			$readonly = '';?>
 			<!--div id="muestra-rendicion" style="overflow-x: auto;" align="center"-->            
-				<table id="tabla_rendicion" cellpadding="0" cellspacing="0" border="1" class="display">
+				<table id="tabla_rendicion" border="1" class="display">
 					<thead>                    
 						<tr align="left">
 							<th colspan="7" align="center"><?php echo $_SESSION["_usrname"]; ?></th>
@@ -399,7 +398,7 @@ function dac_EnviarRendicion(){
 									$total_efectivo = $total_efectivo - (floatval($_rendRetencionVend) + floatval($_rendDepositoVend)); 
 									?>	
 									<input hidden id="total" name="total" type="text" value="<?php echo $total ?>" readonly/>
-									<input id="total_efectivo" name="total_efectivo" type="text" style="width:50px; text-align:right; font-weight:bold; border:none" value="<?php echo round($total_efectivo, 2 ); ?>" readonly/> <?php 
+									<input id="total_efectivo" name="total_efectivo" type="text" style="width:50px; text-align:right; font-weight:bold; border:none" value="<?php echo number_format(round($total_efectivo,2),2); ?>" readonly/> <?php 
 								}?>
 							</th>
 							<th align="right" style="font-weight:bold;"><?php  if ($total_transfer != 0) {echo "$".$total_transfer;} ?></th>
@@ -435,7 +434,7 @@ function dac_EnviarRendicion(){
 			<!--/div--> <!-- FIN muestra-rendicion -->  <?php
 		} else { 
 			if ($_SESSION["_usrrol"]== "V" || $_SESSION["_usrrol"]== "A") {?>
-				<table border="0" width="100%">
+				<table>
 					<tr align="center">
 						<th align="center">
 							<button id="open-recibo" hidden></button>
@@ -550,7 +549,7 @@ function dac_EnviarRendicion(){
 		<fieldset id='box_error2' class="msg_error">          
 			<div id="msg_error2" align="center"></div>
 		</fieldset>
-		<fieldset id='box_cargando2' class="msg_informacion" style="alignment-adjust:central;">  
+		<fieldset id='box_cargando2' class="msg_informacion">  
 			<div id="msg_cargando2" align="center"></div>      
 		</fieldset>
 		<fieldset id='box_confirmacion2' class="msg_confirmacion">
@@ -559,11 +558,10 @@ function dac_EnviarRendicion(){
 		
 		<div class="content-popup-talonario"> <!-- INICIO content-popup-talonario--> 
 			<div class="close-talonario"> <?php echo $_btn_close_popup; ?> </div>
-			
 			<form id="fm_nvo_recibo" name="fm_nvo_recibo" method="POST" enctype="multipart/form-data"> 
 				<input id="rendid" type="text" name="rendid" value="<?php echo $_rendID;?>" hidden/>	 
 				<!-- Recibo --> 
-				<div id="rec_recuadro">
+				<div class="content-popup-recibo">
 					<div class="bloque_7">
 						<input id="nro_tal" name="nro_tal" type="text" placeholder="Talonario" style="text-align:center;"/>
 					</div>
@@ -658,10 +656,11 @@ function dac_EnviarRendicion(){
 							</div>
 						
 							<div class="bloque_7">
+								<br>
 								<input id="btnuevo_1" class="btn_plus" type="button" value="+">
 							</div>
 							
-							<hr style="border-bottom: 2px solid #CCC;"> 
+							<hr class="hr-line"> 
 						</div> <!--FIN DATOS fact-->
 					</div>  <!--FIN CONTENIDO facturas-->
 
@@ -700,7 +699,7 @@ function dac_EnviarRendicion(){
 							<div class="bloque_8"> 
 								<input id="boton_1" class="btn_checque_plus" type="button" value="+"/>
 							</div>	
-							<hr style="border-bottom: 2px solid #CCC;"> 
+							<hr class="hr-line"> 
 						</div>
 					</div> <!--FIN CONTENIDO cheques--> 
 

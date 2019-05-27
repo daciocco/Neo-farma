@@ -6,40 +6,46 @@ if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	exit;
 }
 
-$idPropuesta	= empty($_REQUEST['propuesta'])	?	0	:	$_REQUEST['propuesta'];
+$idPropuesta = empty($_REQUEST['propuesta'])	?	0	:	$_REQUEST['propuesta'];
+$condPago	 = 0;
 
 if($idPropuesta) {
-	$propObject 	=	DataManager::newObjectOfClass('TPropuesta', $idPropuesta);
-	$idCuenta		= 	$propObject->__get('Cuenta');
-	$usrAsignado	= 	$propObject->__get('UsrAsignado');
-	$idEmpresa		= 	$propObject->__get('Empresa');
-	$estado			= 	$propObject->__get('Estado');
-	$idLaboratorio	= 	$propObject->__get('Laboratorio');
-	$nombreCuenta 	= 	DataManager::getCuenta('ctanombre', 'ctaidcuenta', $idCuenta, $idEmpresa);
-	$observacion	= 	$propObject->__get('Observacion');
+	$propObject 	= DataManager::newObjectOfClass('TPropuesta', $idPropuesta);
+	$idCuenta		= $propObject->__get('Cuenta');
+	$usrAsignado	= $propObject->__get('UsrAsignado');
+	$idEmpresa		= $propObject->__get('Empresa');
+	$estado			= $propObject->__get('Estado');
+	$idLaboratorio	= $propObject->__get('Laboratorio');
+	$nombreCuenta 	= DataManager::getCuenta('ctanombre', 'ctaidcuenta', $idCuenta, $idEmpresa);
 	
-	$detalles	= 	DataManager::getPropuestaDetalle($idPropuesta);
+	$lista			= DataManager::getCuenta('ctalista', 'ctaidcuenta', $idCuenta, $idEmpresa);
+	$listaNombre	= DataManager::getLista('NombreLT', 'IdLista', $lista);
+	
+	$observacion	= $propObject->__get('Observacion');
+	$detalles		= DataManager::getPropuestaDetalle($idPropuesta);
 	if ($detalles) { 
 		foreach ($detalles as $j => $det) {	
-			$condPago		= 	$det["pdcondpago"];
-			$idArt			=	$det['pdidart'];
-			$unidades		=	$det['pdcantidad'];
-			$descripcion	=	DataManager::getArticulo('artnombre', $idArt, 1, 1);									
-			$precio			=	$det['pdprecio'];//str_replace('EUR','',money_format('%.2n', $det['pdprecio']));
-			$b1				=	($det['pdbonif1'] == 0)	?	''	:	$det['pdbonif1'];
-			$b2				=	($det['pdbonif2'] == 0)	?	''	:	$det['pdbonif2'];
-			$desc1			=	($det['pddesc1'] == 0)	?	''	:	$det['pddesc1'];
-			$desc2			=	($det['pddesc2'] == 0)	?	''	:	$det['pddesc2'];
+			$condPago		= $det["pdcondpago"];
+			$idArt			= $det['pdidart'];
+			$unidades		= $det['pdcantidad'];
+			$descripcion	= DataManager::getArticulo('artnombre', $idArt, 1, 1);	
+			$precio			= $det['pdprecio'];
+			$b1				= ($det['pdbonif1'] == 0)	?	''	:	$det['pdbonif1'];
+			$b2				= ($det['pdbonif2'] == 0)	?	''	:	$det['pdbonif2'];
+			$desc1			= ($det['pddesc1'] == 0)	?	''	:	$det['pddesc1'];
+			$desc2			= ($det['pddesc2'] == 0)	?	''	:	$det['pddesc2'];
 		}
 	}		
 } else {
-	$idCuenta 			= 	"";
-	$nombreCuenta 		= 	"";
-	$usrAsignado		= 	$_SESSION["_usrid"];
-	$idEmpresa			=	1;
-	$estado				=	"";
-	$idLaboratorio		=	1;
-	$observacion		= 	"";
+	$idCuenta 		= "";
+	$nombreCuenta 	= "";
+	$usrAsignado	= $_SESSION["_usrid"];
+	$idEmpresa		= 1;
+	$estado			= "";
+	$idLaboratorio	= 1;
+	$observacion	= "";
+	$lista		 	= 0;
+	$listaNombre	= "";
 } ?>
 
 <!DOCTYPE html>
@@ -73,15 +79,24 @@ if($idPropuesta) {
                     <div id="msg_confirmacion"></div>      
                 </fieldset>
                 <fieldset id='box_observacion' class="msg_alerta">
-					<div id="msg_atencion" align="center"></div>       
+					<div id="msg_atencion"></div>       
 				</fieldset>
             </div>      
 
         	<form id="fmPedidoWeb" name="fmPedidoWeb" method="post">
-            	<input type="text" id="pwestado" name="pwestado" value="<?php echo $estado; ?>" hidden="hidden"/>
-            	<input type="text" id="pwidcondcomercial" name="pwidcondcomercial" hidden="hidden"/>
+            	<input type="text" id="pwestado" name="pwestado" value="<?php echo $estado; ?>" hidden="hidden">
+            	<input type="text" id="pwidcondcomercial" name="pwidcondcomercial" value="0" hidden="hidden">
+				<div class="bloque_5">
+					<h2><label id="pwcondcomercial"></label></h2>
+				</div>
+				<input type="text" id="pwlista" name="pwlista" value="<?php echo $lista; ?>" hidden="hidden">
+				<div class="bloque_5">
+					<h2><label id="pwlistanombre"><?php echo $listaNombre; ?></label></h2>
+				</div>
+           	<hr>
             	<fieldset>
                 	<legend>Pedido Web</legend>
+                   
                     <div class="bloque_5">
                     	<label for="pwusrasignado">Asignado a</label>
                         <select id="pwusrasignado" name="pwusrasignado">
@@ -92,7 +107,6 @@ if($idPropuesta) {
                                     $idVend		=	$vend["uid"];
                                     $nombreVend	=	$vend['unombre'];
                                     $rolVend	= 	$vend['urol'];
-									
 									if ($rolVend == 'V'){									
 										if ($usrAsignado == $idVend	){ 
 											?><option id="<?php echo $idVend; ?>" value="<?php echo $idVend; ?>" selected><?php echo $nombreVend; ?></option><?php
@@ -120,10 +134,8 @@ if($idPropuesta) {
                     
                     <div class="bloque_7">
                         <a id="btsend" title="Enviar">
-                            <img 
-                                src="/pedidos/images/icons/icono-send.png" 
-                                onmouseover="this.src='/pedidos/images/icons/icono-send-hover.png'" 
-                                onmouseout="this.src='/pedidos/images/icons/icono-send.png'">
+                        	<br>
+                            <img class="icon-send">
                         </a>
                     </div>                   
                     
@@ -165,23 +177,22 @@ if($idPropuesta) {
                     
                     <div class="bloque_8"> 
                         <label for="pwidcta">Cuenta</label>
-                        <input type="text" name="pwidcta" id="pwidcta" value="<?php echo $idCuenta; ?>" readonly style="border:none;"/>
+                        <input type="text" name="pwidcta" id="pwidcta" value="<?php echo $idCuenta; ?>" readonly/>
                     </div>
                     
                     <div class="bloque_5"> 
                     	<label>Raz&oacute;n social</label>
-                    	<input type="text" name="pwnombrecta" id="pwnombrecta" value="<?php echo $nombreCuenta; ?>" readonly style="border:none;"/>
+                    	<input type="text" name="pwnombrecta" id="pwnombrecta" value="<?php echo $nombreCuenta; ?>" readonly/>
                     </div>
                     
                     <div class="bloque_8">
-                        <label for="pworden">Nro Orden</label>
+                        <label for="pworden">Orden</label>
                         <input type="text" name="pworden" id="pworden" maxlength="10"/>
                     </div>
                     
                     <div class="bloque_7">
-						<div class="inputfile">
-							<input name="file" class="file" type="file">
-						</div>  
+                    	<label>Archivo</label>
+						<input name="file" class="file" type="file" hidden="hidden">
 					</div>
                     
                    	<div class="bloque_5">  
@@ -195,26 +206,19 @@ if($idPropuesta) {
 									$condCodigo	= $cond['IdCondPago'];										
 									$condNombre	= DataManager::getCondicionDePagoTipos('Descripcion', 'ID', $cond['condtipo']);
 									
-									$condDias	= "(";					
-									$condDias	.= empty($cond['Dias1CP']) ? '' : $cond['Dias1CP'];
-									$condDias	.= empty($cond['Dias2CP']) ? '' : ', '.$cond['Dias2CP'];
-									$condDias	.= empty($cond['Dias3CP']) ? '' : ', '.$cond['Dias3CP'];
-									$condDias	.= empty($cond['Dias4CP']) ? '' : ', '.$cond['Dias4CP'];
-									$condDias	.= empty($cond['Dias5CP']) ? '' : ', '.$cond['Dias5CP'];
-									$condDias	.= " D&iacute;as)";					
-									$condPorc	= ($cond['Porcentaje1CP']== '0.00') ? '' : $cond['Porcentaje1CP'];
+									$condDias = "(";
+									$condDias .= empty($cond['Dias1CP']) ? '0' : $cond['Dias1CP'];
+									$condDias .= empty($cond['Dias2CP']) ? '' : ', '.$cond['Dias2CP'];
+									$condDias .= empty($cond['Dias3CP']) ? '' : ', '.$cond['Dias3CP'];
+									$condDias .= empty($cond['Dias4CP']) ? '' : ', '.$cond['Dias4CP'];
+									$condDias .= empty($cond['Dias5CP']) ? '' : ', '.$cond['Dias5CP'];
+									$condDias .= " D&iacute;as)";
+									$condDias .= ($cond['Porcentaje1CP'] == '0.00') ? '' : ' '.$cond['Porcentaje1CP'].' %';
 									
-                                    //Descarto la opción FLETERO porque se supone que ya no debería usarse
-                                    if(trim($condNombre) != "FLETERO"){
-                                        if($condPago == $condCodigo){ ?>                        		
-                                            <option id="<?php echo $idCond; ?>" value="<?php echo $condCodigo; ?>" selected><?php echo $condNombre." - ".$condDias." - [".$condPorc."%]"; ?></option><?php							
-                                        } else { ?> 
-                                            <option id="<?php echo $idCond; ?>" value="<?php echo $condCodigo; ?>" ><?php echo $condNombre." - ".$condDias." - [".$condPorc."%]"; ?></option><?php	
-                                        }
-                                    }
-                                }
-                                $objJason = json_encode($_datos);
-                                echo $objJason;					  
+									$selected = ($condPago == $condCodigo) ? 'selected' : '' ;
+									?>                        		
+									<option id="<?php echo $idCond; ?>" value="<?php echo $condCodigo; ?>" <?php echo $selected; ?>><?php echo $condNombre." - ".$condDias; ?></option><?php
+                                }				  
                             } ?>
                         </select>
                     </div>
@@ -249,17 +253,7 @@ if($idPropuesta) {
             </form>                         
         </div> <!-- FIN box_body-->	
         
-        <div class="box_seccion">
-        	<div class="barra">
-                <div class="bloque_1">
-                    <h1>Condiciones Comerciales</h1>                	
-                </div>
-                <hr>
-            </div> <!-- Fin barra -->            
-            <div class="lista"> 
-            	<div id='tablacondiciones'></div>
-            </div> <!-- Fin lista -->	
-            
+        <div class="box_seccion">            
             <div class="barra">
                 <div class="bloque_5">
                     <h1>Cuentas</h1>                	
@@ -272,7 +266,17 @@ if($idPropuesta) {
             </div> <!-- Fin barra -->            
             <div class="lista"> 
                 <div id='tablacuenta'></div>
-            </div> <!-- Fin lista -->		
+            </div> <!-- Fin lista -->
+            
+            <div class="barra">
+                <div class="bloque_1">
+                    <h1>Packs</h1>                	
+                </div>
+                <hr>
+            </div> <!-- Fin barra -->            
+            <div class="lista"> 
+            	<div id='tablacondiciones'></div>
+            </div> <!-- Fin lista -->			
             
             <div class="barra">
                 <div class="bloque_5">
@@ -285,8 +289,8 @@ if($idPropuesta) {
                 <hr>
             </div> <!-- Fin barra -->            
             <div class="lista">
-               <fieldset id='box_cargando3' class="msg_informacion" style="alignment-adjust:central;"> 
-					<div id="msg_cargando3" align="center"></div>      
+               <fieldset id='box_cargando3' class="msg_informacion"> 
+					<div id="msg_cargando3"></div>      
 				</fieldset> 
                 <div id='tablaarticulos'></div>
             </div> <!-- Fin lista -->	
@@ -310,11 +314,10 @@ if($idPropuesta){
 	$detalles	= 	DataManager::getPropuestaDetalle($idPropuesta);
 	if ($detalles) { 
 		foreach ($detalles as $j => $det) {	
-			//$condPago	= 	$det["pdcondpago"];
 			$idArt		=	$det['pdidart'];
 			$unidades	=	$det['pdcantidad'];
 			$descripcion=	DataManager::getArticulo('artnombre', $idArt, 1, 1);									
-			$precio		=	$det['pdprecio']; //str_replace('EUR','',money_format('%.2n', $det['pdprecio']));
+			$precio		=	$det['pdprecio'];
 			$b1			=	($det['pdbonif1'] == 0)	?	''	:	$det['pdbonif1'];
 			$b2			=	($det['pdbonif2'] == 0)	?	''	:	$det['pdbonif2'];
 			$desc1		=	($det['pddesc1'] == 0)	?	''	:	$det['pddesc1'];

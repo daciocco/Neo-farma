@@ -9,7 +9,7 @@ $idSector		=	empty($_POST['sector']) 		? 0 	: $_POST['sector'];
 
 $motivos	= DataManager::getTicketMotivos(); 
 if (count($motivos)) {
-	echo '<table id="tblMotivos" class="datatab" width="100%" border="0">';
+	echo '<table id="tblMotivos">';
 	echo '<thead><tr><th>Motivo</th><th>Responsable</th></tr></thead>';
 	echo '<tbody>';
 	
@@ -32,7 +32,7 @@ if (count($motivos)) {
 	echo "</tbody></table>";
 	
 } else {
-	echo	'<table border="0" width="100%"><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
+	echo	'<table><thead><tr><th align="center">No hay registros activos.</th></tr></thead></table>'; exit;
 }
 
 ?>

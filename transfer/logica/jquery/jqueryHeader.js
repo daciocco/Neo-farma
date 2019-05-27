@@ -1,7 +1,6 @@
 
 //-----------------------------------/
 //	Limpia Artículos del Pedido		
-//-----------------------------------/
 function dac_limpiarArticulos(){
 	"use strict";
 	$('#pwsubtotal').html('');
@@ -21,75 +20,8 @@ function dac_mostrarCuentasRelacionada(id){
 	}
 }
 
-//**********************//
-//	Nuevo div Artículo	//
-//**********************//
-/*
-var nextinput = 0;
-function dac_CargarArticulo(idart, ean, nombre, precio){
-	document.getElementById("field_listart").style.display	=	'block';
-	nextinput++;		
-
-	var campo	= 	'<div id="rut'+nextinput+'">';
-
-		campo += 	'<input id="ptidart'+nextinput+'" name="ptidart[]" type="text" value="'+idart+'" hidden/>';
-		campo += 	'<input id="ptnombreart'+nextinput+'" name="ptnombreart[]" type="text" value="'+nombre+'" hidden/>';
-		campo += 	'<input id="ptean'+nextinput+'" name="ptean[]" type="text" value="'+ean+'" hidden/>';
-		campo += 	'<input id="ptprecioart'+nextinput+'" name="ptprecioart[]" type="text" value="'+precio+'" hidden/>';				
-		campo	+= '<div class="bloque_1"><strong> Art&iacute;culo '+idart+'</strong></br>'+nombre+'</div>';
-
-		campo += 	'<div class="bloque_4"><strong> Cantidad </strong><input id="ptcant'+nextinput+'" name="ptcant[]" onblur="javascript:dac_CalcularSubtotalTransfer();" maxlength="5"/></div>';
-
-		campo += 	'<div class="bloque_4"><strong>% Desc </strong> <input id="ptdesc'+nextinput+'" name="ptdesc[]" onkeydown="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onkeyup="ControlComa(this.id, this.value); dac_ControlNegativo(this.id, this.value);" onblur="javascript:dac_CalcularSubtotalTransfer();" maxlength="5"/></div>';
-
-		var plazos = '';
-		<?php
-		$plazos	= DataManager::getCondicionesDePagoTransfer(0, 0, 1);
-		if (count($plazos)) { 
-
-			foreach ($plazos as $j => $plazo) {
-				$plazo			=	$plazos[$j];
-				$plazoId		=	$plazo["condid"];
-				$plazoNombre	= 	$plazo["condnombre"];
-
-				//if ($plazoId != 3) {
-					if ($plazoId == 1) { ?>	
-						plazos += '<option value="<?php echo $plazoId; ?>" selected><?php echo $plazoNombre; ?></option>';
-						<?php
-					} else { ?>
-						plazos += '<option value="<?php echo $plazoId; ?>"><?php echo $plazoNombre; ?></option>';
-							<?php	
-					}
-				//}                                        
-			} 
-		} ?>
-
-		campo += 	'<div class="bloque_4"><strong>Condici&oacute;n</strong><select id="ptcondpago" name="ptcondpago[]">'+plazos+'</select></div>';	
-
-		campo += 	'<div class="bloque_4"></br><input id="btmenos" type="button" value="-" onClick="EliminarArt('+nextinput+')"  style="width:25px; background-color:#C22632;"></div>';
-
-		campo += 	'<hr>'
-	campo	+= '</div>';
-
-	$("#lista_articulos2").append(campo);		
-	dac_CargarDescAbm(nextinput);		
-
-}		
-
-// Quitar div de artículo
-function EliminarArt(id){
-	elemento=document.getElementById('rut'+id);
-	elemento.parentNode.removeChild(elemento);
-	dac_CalcularSubtotalTransfer();
-}
-
-function dac_limpiarArticulos(){
-	$("#lista_articulos2").empty();
-}
-*/
 //**************//
 //	Carga %ABM	//
-//**************//
 function dac_CargarDescAbm(id) {
 	"use strict";
 	var elem = document.getElementsByName("cuentaId[]");
@@ -109,7 +41,7 @@ function dac_CargarDescAbm(id) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});					
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) {							
 					if (result){
@@ -132,7 +64,6 @@ function dac_CargarDescAbm(id) {
 
 //**************//
 //	SUBTOTAL	//
-//**************//
 function dac_CalcularSubtotalTransfer(){
 	"use strict";
 	var cantArts	=	document.getElementsByName('ptidart[]').length;
@@ -155,7 +86,6 @@ function dac_CalcularSubtotalTransfer(){
 
 //*****************************************//
 // Crea Div de Cuenta Transfer relacionada //
-//*****************************************//
 var nextCuentaTransfer = 0;
 function dac_cargarCuentaTransferRelacionada(id, idCta, idCuenta, nombre, nroClienteTransfer, ctaRelEmpresa){
 	"use strict";
@@ -165,9 +95,9 @@ function dac_cargarCuentaTransferRelacionada(id, idCta, idCuenta, nombre, nroCli
 
 	nextCuentaTransfer++;
 	var campo =	'<div id="rutcuenta'+nextCuentaTransfer+'">';
-		campo +='<div class="bloque_4"><input id="cuentaIdTransfer'+nextCuentaTransfer+'" name="cuentaIdTransfer[]" type="text" size="10" maxlength="10" placeholder="Cliente Transfer" value="'+nroClienteTransfer+'"/></div>';
-		campo +='<div class="bloque_1"><input id="cuentaId'+nextCuentaTransfer+'" name="cuentaId[]" type="text" size="2" value='+idCta+' hidden/>&nbsp;'+idCuenta+" - "+nombre.substring(0,25)+'</div>';
-		campo +='<div class="bloque_4"><input id="btmenos" class="btmenos" type="button" value=" - " onClick="dac_deleteCuentaTransferRelacionada('+id+', '+nextCuentaTransfer+')"></div>';
+		campo +='<div class="bloque_7"><input id="cuentaIdTransfer'+nextCuentaTransfer+'" name="cuentaIdTransfer[]" type="text" placeholder="Cliente Transfer" value="'+nroClienteTransfer+'" readonly/></div>';
+		campo +='<div class="bloque_4"><input id="cuentaId'+nextCuentaTransfer+'" name="cuentaId[]" type="text" value='+idCta+' hidden/>&nbsp;'+idCuenta+" - "+nombre.substring(0,25)+'</div>';
+		campo +='<div class="bloque_8"><input id="btmenos" class="btmenos" type="button" value=" - " onClick="dac_deleteCuentaTransferRelacionada('+id+', '+nextCuentaTransfer+')"></div>';
 	campo +='</div>';
 
 	$("#detalle_cuenta").append(campo);	
@@ -177,7 +107,6 @@ function dac_cargarCuentaTransferRelacionada(id, idCta, idCuenta, nombre, nroCli
 
 /********************/
 /*	Carga Artículos */
-/********************/
 function dac_CargarArticulos(idEmpresa, idlab, condicion){
 	"use strict";
 	$.ajax({
@@ -192,10 +121,10 @@ function dac_CargarArticulos(idEmpresa, idlab, condicion){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 
 			$('#box_cargando3').css({'display':'block'});
-			$("#msg_cargando3").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando3").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});	

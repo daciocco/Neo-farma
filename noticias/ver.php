@@ -20,11 +20,7 @@ if ($_SESSION["_usrrol"]!="G" && $_SESSION["_usrrol"]!="V" && $_SESSION["_usrrol
 	$_nfecha = $dia."-".$mes."-".$ano;	
 	$_nnoticia			= $_noticia->__get('Descripcion');
 	$_nlink				= $_noticia->__get('Link');
- }
-  
- $_Navegacion 	= array();
- $_Navegacion[] = "Noticias";
-?>
+ } ?>
 
 <!DOCTYPE html>
 <html>

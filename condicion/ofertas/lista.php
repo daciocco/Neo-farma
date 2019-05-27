@@ -26,16 +26,16 @@ if (count($condiciones)) {
 } ?>
 
 <script src="/pedidos/js/jquery/html2canvas.js" type="text/javascript"></script>
-	<div id="offers" class="fm_edit2" style="background-color: #FFF;">
+	<offers>
 		<br>
-		<div class="bloque_3">	
+		<div class="bloque_1">	
 			<div class="section-title text-center center">
-				<h2 style="font-size: 240px;">&darr; Ofertas Del Mes &darr;</h2>
+				<h2>&darr; Ofertas Del Mes &darr;</h2>
 				<h3>Ofertas increibles de <?php echo strtoupper(Mes(date("m"))); ?></h3>
 			</div>
 		</div>
 		
-		<div class="bloque_3" align="center">	
+		<div class="bloque_1" align="center">	
 			<h3>Con la compra de los siguientes productos</h3>
 		</div>
 		
@@ -66,7 +66,7 @@ if (count($condiciones)) {
 		<h3>Preview:</h3>
 		<div id="previewImage"></div>
 		<hr>
-	</div>
+	</offers>
 
 <script>
 	var element = $("#offers"); // global variable

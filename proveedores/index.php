@@ -1,6 +1,5 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/start.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.ToolBar.php");
 if ($_SESSION["_usrrol"]!="A" && $_SESSION["_usrrol"]!="M" ){ 	
 	$_nextURL = sprintf("%s", "/pedidos/login/index.php");
 	echo $_SESSION["_usrol"];

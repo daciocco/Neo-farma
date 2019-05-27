@@ -18,7 +18,7 @@
  $_SESSION['s_codigo']	=	$_codigo;
  $_SESSION['s_nombre']	=	$_nombre;
  $_SESSION['s_dias']	=	$_dias;
- $_SESSION['s_porc']	=	$_porc;
+ $_SESSION['s_porcentaje']	=	$_porc;
  
   
 if (empty($_codigo)) {
@@ -51,7 +51,6 @@ $_condobject->__set('Porcentaje',	$_porc);
 
 //--------------------
 //	MOVIMIENTO
-//--------------------
 $movimiento = 	'CONDICION_PAGO_TRANSFER';
  if ($condId) {
 	 DataManager::updateSimpleObject($_condobject);	 
@@ -65,12 +64,13 @@ $movimiento = 	'CONDICION_PAGO_TRANSFER';
 	$movTipo	= 'INSERT';
 	 $condId	=	$ID;
  }
+
 dac_registrarMovimiento($movimiento, $movTipo, "TCuenta", $condId);
 
  unset($_SESSION['s_codigo']);
  unset($_SESSION['s_nombre']);
  unset($_SESSION['s_dias']);
- unset($_SESSION['s_porc']);
+ unset($_SESSION['s_porcentaje']);
  
  header('Location:' . $backURL);
 ?>

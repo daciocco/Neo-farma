@@ -17,7 +17,6 @@ if ($_sms) {
 //generales
 $_button_notificar = sprintf("<input type=\"submit\" id=\"btsExportar Tablasend\" name=\"_accion\" value=\"Notificar\"/>");
 $_action_notificar = sprintf("/pedidos/informes/logica/new.noticia.php");
-
 $btnExporTbl =	sprintf("<input type=\"button\" id=\"btnExporTbl\" value=\"Exportar\" title=\"Exportar Tabla Seleccionada\"/>");
 $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"Exportar\" title=\"Exportar Informe Seleccionado\"/>");
 ?>
@@ -25,20 +24,80 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 <div class="box_body">	<!-- datos -->
 	<div class="bloque_1">
 		<fieldset id='box_cargando' class="msg_informacion">                  
-			<div id="msg_cargando" align="center"></div>      
+			<div id="msg_cargando"></div>      
 		</fieldset>
 		<fieldset id='box_error' class="msg_error">           
-			<div id="msg_error" align="center"></div>
+			<div id="msg_error"></div>
 		</fieldset>
 		<fieldset id='box_confirmacion' class="msg_confirmacion">
-			<div id="msg_confirmacion" align="center"></div>      
-		</fieldset>
+			<div id="msg_confirmacion"></div>      
+		</fieldset>		
+		<?php if ($_sms) { 
+			if($_sms == 6){ ?>
+				<fieldset id='box_observacion' class="msg_alerta" style="display: block">
+					<div id="msg_atencion" align="center"><?php echo $_info; ?></div>       
+				</fieldset> <?php
+			}
+		} ?>
 	</div>
+	
+	<div class="temas2">
+		<a href="javascript:dac_exportar(11);">
+			<div class="box_mini2">
+				Comprobantes <br> <p>Neo-farma</p>
+			</div>
+		</a>	
+		<?php if($_SESSION["_usrdni"] == "3035" || $_SESSION["_usrrol"]== "A" || $_SESSION["_usrrol"]== "G") { ?>
+		<a href="javascript:dac_exportar(22);" >
+			<div class="box_mini2">
+				Comprobantes <br> <p>Gezzi</p>
+			</div>
+		</a>
+		<?php } ?>			
+	</div> 
+	
+	<div class="temas2">
+		<a href="https://neo-farma.com.ar/pedidos/informes/archivos/DevolucionesNeo.xls">
+			<div class="box_mini2">
+				Devoluciones <br> <p>Neo-farma</p>
+			</div>
+		</a>		
+		<a href="https://neo-farma.com.ar/pedidos/informes/archivosgezzi/DevolucionesGezzi.xls" >
+			<div class="box_mini2">
+				Devoluciones <br> <p>Gezzi</p>
+			</div>
+		</a>
+	</div>
+	
+	<div class="temas2">
+	 	<a href="javascript:dac_exportar(12);"  >
+			<div class="box_mini2">
+				Deudas <br> <p>Neo-farma</p>
+			</div>
+		</a> 
+		<?php if($_SESSION["_usrdni"] == "3035" || $_SESSION["_usrrol"]== "A" || $_SESSION["_usrrol"]== "G") { ?>
+		<a href="https://neo-farma.com.ar/pedidos/informes/archivosgezzi/deudores/30_Informe_de_Deudas.XLS" >
+			<div class="box_mini2">
+				Deudas <br> <p>Gezzi</p>
+			</div>
+		</a>	   
+		<?php } ?>
+	</div>
+	
+	<div class="temas2">
+		<a href="https://neo-farma.com.ar/pedidos/informes/archivos/NotasValor.xls" >
+			<div class="box_mini2">
+				Notas de Valor <br> <p>Neo-farma</p>
+			</div>
+		</a>
+	</div>
+	
+	<hr>
 		
 	<?php if ($_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]== "M"){ ?>
-		<fieldset class="fm_edit2">
+		<fieldset>
 			<legend>Archivos &Uacute;nicos</legend>
-			<div class="bloque_1">                      
+			<div class="bloque_6">                      
 				<select id="tipo_informeUnico" name="tipo_informeUnico">
 					<option value="0">Seleccione archivo...</option>
 					<option value="Ofertas">Ofertas</option>
@@ -48,24 +107,23 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 					<option value="PedidosPendientes">Neo Pedidos pendientes</option>
 					<option value="DevolucionesNeo">Neo Devoluciones</option-->
 					<!--option value="Stock">Neo Stock</option-->
-
 					<!--option value="PedidosPendientesGezzi">Gezzi Pedidos pendientes</option>
-					<option value="DevolucionesGezzi">Gezzi Devoluciones</option-->
-					
+					<option value="DevolucionesGezzi">Gezzi Devoluciones</option-->					
 				</select>  
 			</div>
-			<div class="bloque_2">
+			<div class="bloque_5">
+				<input id="informesUnicos" class="file" type="file"/>
+			</div>
+			<div class="bloque_8">
 				<input type="button" id="enviar_informesUnicos" value="Enviar">    			
 			</div>
-			<div class="bloque_3">
-				<div class="inputfile"><input id="informesUnicos" class="file" type="file"/></div>  
-			</div>
+			
 			
 		</fieldset>
 		
-		<fieldset class="fm_edit2">
-			<legend>Archivos M&uacute;ltiples <div class="legenda_comentario">(M&aacute;ximo 20 archivos por vez)</div></legend>
-			<div class="bloque_1">                      
+		<fieldset>
+			<legend>Archivos M&uacute;ltiples (M&aacute;ximo 20 archivos por vez)</legend>
+			<div class="bloque_6">                      
 				<select id="tipo_informe" name="tipo_informe">
 					<option value="0">Seleccione archivos...</option>
 					<!--option value="archivos/comprobantes">Neo Comprobantes</option>
@@ -78,51 +136,45 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 					
 				</select>  
 			</div>
-			<div class="bloque_2">
+			<div class="bloque_5">
+				<input id="informes" class="file" type="file" multiple/>
+			</div>
+			<div class="bloque_8">
 				<input type="button" id="enviar_informes" value="Enviar">    			
 			</div>
-			<div class="bloque_3">
-				<div class="inputfile"><input id="informes" class="file" type="file" multiple/></div>  
-			</div>
-			
 		</fieldset>
 	<?php } ?>
+	
 </div>
 
 
 <div class="box_seccion">
 	<?php if ($_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]== "M"){ ?>
-		<form name="fm_noticia" class="fm_edit_seccion" method="post" action="<?php echo $_action_notificar;?>" enctype="multipart/form-data">
+		<form name="fm_noticia" method="post" action="<?php echo $_action_notificar;?>" enctype="multipart/form-data">
 			<fieldset>
 				<legend>Notificar Cambios</legend> 
-					<div class="bloque_1">
-						<?php echo $_button_notificar; ?>
-					</div>
-					<div class="bloque_1">
-					<?php if ($_sms) { if($_sms == 6){
-						echo sprintf("<p style=\"background-color:#fcf5f4;color:#ba140c;font-weight:bold;padding:4px;\">%s</p>", $_info); }
-					} ?>
-					</div>
+				<div class="bloque_1">
+					<?php echo $_button_notificar; ?>
+				</div>					
 			</fieldset>
 		</form>
 	<?php } ?>     
 		
-	<form id="exportInforme" action="#" class="fm_edit_seccion" method="POST"> 
+	<form id="exportInforme" action="#" method="POST"> 
 		<fieldset>
 			<legend>Exportar Informes</legend>
-				<div class="bloque_2">
+				<div class="bloque_5">
 					<input id="fechaDesde" name="fechaDesde" type="text" placeholder="* DESDE" size="14" readonly/>
 				</div>
-				<div class="bloque_2">
+				<div class="bloque_5">
 					<input id="fechaHasta" name="fechaHasta" type="text" placeholder="* HASTA" size="14" readonly/>
 				</div>
 				
-				<div class="bloque_2"> 
+				<div class="bloque_5"> 
 					<select id="exportReport">
 						<option value="0">Seleccione...</option>
 						<option value="llamadas">Llamadas</option>
-						<option value="transfers">Transfers</option>
-						
+						<option value="transfers">Transfers</option>						
 						<?php if ($_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]== "M"){ ?>
 							<option value="pedidos">Pedidos</option>
 							<!--option value="liqPendExce">Liquidaciones Pendientes Excedentes</option-->
@@ -130,13 +182,13 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 						
 					</select>
 				</div>
-				<div class="bloque_2"><?php echo $btnExporReport; ?> </div>
+				<div class="bloque_5"><?php echo $btnExporReport; ?> </div>
 		</fieldset>
 		
 		<fieldset>
 			<legend>Exportar Tablas</legend>
 			<?php if ($_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]== "M"){ ?>
-				<div class="bloque_2"> 
+				<div class="bloque_5"> 
 					<select id="exportTable">
 						<option value="0">Seleccione...</option>
 						<!--option value="abm">Abm</option-->
@@ -153,7 +205,7 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 						<option value="proveedor">Proveedores</option>
 					</select>
 				</div>
-				<div class="bloque_2"><?php echo $btnExporTbl; ?> </div>
+				<div class="bloque_5"><?php echo $btnExporTbl; ?> </div>
 				
 			<?php } ?> 
 		</fieldset> 
@@ -161,26 +213,26 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 		<fieldset>
 			<legend>Importar Tablas</legend>
 			<?php if ($_SESSION["_usrrol"]=="G" || $_SESSION["_usrrol"]=="A" || $_SESSION["_usrrol"]== "M"){ ?>
-				<div class="bloque_2"> 
+				<div class="bloque_5"> 
 					<select id="importTable" name="importTable">
 						<option value="0">Seleccione...</option>
 						<!--option value="abm">Abm</option-->
 					</select>
 				</div>
-				<div class="bloque_2">
+				<div class="bloque_5">
 					<input type="button" id="sendImportFile" value="Importar">    			
 				</div>
 			
-				<div class="bloque_3">
-					<div class="inputfile"><input id="importTableFile" class="file" type="file"/></div>  
+				<div class="bloque_1">
+					<input id="importTableFile" class="file" type="file"/>  
 				</div>
 			<?php } ?> 
 		</fieldset>
 	</form>
 	
-	<fieldset class="fm_edit_seccion"> 
+	<fieldset> 
 		<legend>Facturas Contrareembolso Actuales:</legend>
-		<div class="bloque_3">
+		<div class="bloque_1">
 			<div class="lista"> <?php
 				$ruta 	= $_SERVER['DOCUMENT_ROOT'].'/pedidos/informes/archivos/facturas/contrareembolso/';
 				$data	= dac_listar_directorios($ruta);	
@@ -285,6 +337,46 @@ $btnExporReport =	sprintf("<input type=\"button\" id=\"btnExporReport\" value=\"
 				
 		}
 	});
+</script>
+
+
+<script type="text/javascript">
+	function dac_exportar(nro){
+		switch (nro){
+			case 11:	
+				if (confirm("ATENCI\u00d3N: Se proceder\u00e1 a descargar un archivo por cada una de las zonas que le corresponda. Si no consigue hacerlo, p\u00f3ngase en contacto con el administrador de la web. Si no encuentra el archivo descargado, busque en la carpeta descargas de la PC. \u00A1Gracias!")){
+					<?php 
+					$zona = explode(', ', $_SESSION["_usrzonas"]);
+					for($i = 0;	$i < count($zona);	$i++){
+						$_archivo	=	$_SERVER["DOCUMENT_ROOT"]."/pedidos/informes/archivos/comprobantes/".trim($zona[$i])."_Ventas_por_Vendedor.XLS";							
+						if (file_exists($_archivo)){ ?>
+							archivo	  = <?php echo trim($zona[$i]); ?>+'_Ventas_por_Vendedor.XLS';							
+							direccion = 'https://neo-farma.com.ar/pedidos/informes/archivos/comprobantes/'+archivo;
+							window.open(direccion, '_blank');	<?php  
+						}else{ ?>	
+							alert("No hay Ventas correspondiente a la zona <?php echo trim($zona[$i]); ?>"); <?php  
+						} 
+					} ?>
+				}
+				break;
+			case 12:	
+				if (confirm("ATENCI\u00d3N: Se proceder\u00e1 a descargar un archivo por cada una de las zonas que le corresponda. Si no consigue hacerlo, p\u00f3ngase en contacto con el administrador de la web. Si no encuentra el archivo descargado, busque en la carpeta descargas de la PC. \u00A1Gracias!")){
+					<?php 
+					$zona = explode(', ', $_SESSION["_usrzonas"]);							
+					for($i = 0;	$i < count($zona);	$i++){							
+						$_archivo	=	$_SERVER["DOCUMENT_ROOT"]."/pedidos/informes/archivos/comprobantes/".trim($zona[$i])."_Ventas_por_Vendedor.XLS";							
+						if (file_exists($_archivo)){ ?>
+							archivo	  = <?php echo trim($zona[$i]); ?>+'_Informe_de_Deudas.XLS';							
+							direccion = 'https://neo-farma.com.ar/pedidos/informes/archivos/deudores/'+archivo;							
+							window.open(direccion, '_blank'); <?php  
+						}else{ ?>	
+							alert("No hay Deudores correspondiente a la zona <?php echo trim($zona[$i]); ?>"); <?php  
+						} 
+					} ?>
+				}
+				break;	
+		}
+	}
 </script>
 
 <script type="text/javascript">

@@ -4,12 +4,12 @@ function dac_Carga_Planificacion(cliente, nombre, direccion, activa) {
 	nextplanifinput++;
 	var borrar;
 	if(activa === '1'){
-		borrar = '<img id="borrar_planif" src="/pedidos/images/icons/icono-delete50.png" height="30" width="30" align="absmiddle" onClick="EliminarDetallePlanif('+nextplanifinput+')"/>';			
+		borrar = '<img id="borrar_planif" class="icon-uncheck" onClick="EliminarDetallePlanif('+nextplanifinput+')"/>';			
 	} else {
-		borrar = '<img id="borrar_planif" src="/pedidos/images/icons/icono-check.png" height="30" width="30" align="absmiddle"/>';
+		borrar = '<img id="borrar_planif" class="icon-check"/>';
 	}
 	
-	var campo = '<div id="rutplanif'+nextplanifinput+'"><div class="bloque_9">'+borrar+'</div><div class="bloque_8"><input id="planifcliente'+nextplanifinput+'" name="planifcliente[]" type="text" value="'+cliente+'" placeholder="* CLIENTE" onblur=\"javascript:dac_Buscar_Cliente(this.value, '+nextplanifinput+', 0)\"></div><div class="bloque_6"><input id="planifnombre'+nextplanifinput+'" name="planifnombre[]" type="text" value="'+nombre+'" placeholder="* NOMBRE" readonly="readonly"></div><div class="bloque_6"><input id="planifdir'+nextplanifinput+'" name="planifdir[]" type="text" value="'+direccion+'" placeholder="* CALLE" readonly="readonly"></div></div><hr>';
+	var campo = '<div id="rutplanif'+nextplanifinput+'"><div class="bloque_9">'+borrar+'</div><div class="bloque_8"><input id="planifcliente'+nextplanifinput+'" name="planifcliente[]" type="text" value="'+cliente+'" placeholder="* CUENTA" onblur=\"javascript:dac_Buscar_Cliente(this.value, '+nextplanifinput+', 0)\"></div><div class="bloque_6"><input id="planifnombre'+nextplanifinput+'" name="planifnombre[]" type="text" value="'+nombre+'" placeholder="* NOMBRE" readonly="readonly"></div><div class="bloque_6"><input id="planifdir'+nextplanifinput+'" name="planifdir[]" type="text" value="'+direccion+'" placeholder="* CALLE" readonly="readonly"></div></div><hr>';
 
 	$("#detalle_planif").after(campo);
 }
@@ -24,7 +24,7 @@ var nextparteinput = 0;
 function dac_Carga_Parte(cliente, nombre, direccion, trabaja, observacion, accion, activo, planificado, acciones){
 	"use strict";
 	nextparteinput++;
-	var campo = '<div id="rutparte'+nextparteinput+'" class="parte">';
+	var campo = '<div id="rutparte'+nextparteinput+'">';
 	var readonly	=	'';
 	var readonly_2	=	'';
 	var deshabilitar=	'';
@@ -34,18 +34,19 @@ function dac_Carga_Parte(cliente, nombre, direccion, trabaja, observacion, accio
 		readonly_2	= 'readonly="readonly"';
 		deshabilitar= 'disabled="disabled"';
 		
-		campo = campo + '<div class="bloque_8"><img id="borrar_parte" src="/pedidos/images/icons/icono-check.png" height="30" width="30" border="0" align="absmiddle"/></div><div class="bloque_9"><label>' + nextparteinput + '</label></div><div class="bloque_8"><input  id="partecliente'+nextparteinput+'" name="partecliente[]" type="text" value="'+cliente+'" '+readonly+'/></div>';	
+		campo = campo + '<div class="bloque_8"><label>' + nextparteinput + '</label><img id="borrar_parte" class="icon-check"/></div><div class="bloque_8"><input  id="partecliente'+nextparteinput+'" name="partecliente[]" type="text" value="'+cliente+'" '+readonly+'/></div>';	
 	}else{	
-		if(planificado==='1'){//no se puodrá eliminar o modificar el cliente de los registros ya planificados				
+		if(planificado==='1'){//no se puodrá eliminar o modificar el cliente de los registros ya planificados
 			readonly	=	'readonly="readonly"';
-			campo = campo + '<div class="bloque_8"><label>' + nextparteinput + '</label><img id="borrar_parte" src="/pedidos/images/icons/icono-delete50.png" height="30" width="30" border="0" align="absmiddle"/></div>';
-			campo = campo + '<div class="bloque_8"><input  id="partecliente'+nextparteinput+'" name="partecliente[]" type="text" value="'+cliente+'" '+readonly+'/></div>';			
-		} else { //readonly	=	'';
-			campo = campo + '<div class="bloque_8"><label>' + nextparteinput + '</label><img id="borrar_parte" src="/pedidos/images/icons/icono-delete50.png" height="30" width="30" border="0" align="absmiddle" onClick="EliminarDetalleParte('+nextparteinput+')"/></div>';
+			campo = campo + '<div class="bloque_8"><label>' + nextparteinput + '</label><img id="borrar_parte" class="icon-uncheck"/></div>';
+			campo = campo + '<div class="bloque_8"><input id="partecliente'+nextparteinput+'" name="partecliente[]" type="text" value="'+cliente+'" '+readonly+'/></div>';			
+		} else { //readonly
+			campo = campo + '<div class="bloque_8"><label>' + nextparteinput + '</label><img id="borrar_parte" class="icon-uncheck" onClick="EliminarDetalleParte('+nextparteinput+')"/></div>';
 			campo = campo + '<div class="bloque_8"><input id="partecliente'+nextparteinput+'" name="partecliente[]" type="text" value="'+cliente+'" placeholder="* CLIENTE" onblur=\"javascript:dac_Buscar_Cliente(this.value, '+nextparteinput+', 1)\"/></div>';	
 		}			
 	}			
-	campo = campo + '<div class="bloque_3"><input id="partenombre'+nextparteinput+'" name="partenombre[]" type="text" value="'+nombre+'" placeholder="NOMBRE" '+readonly+'/></div><div class="bloque_4"><input id="partedir'+nextparteinput+'" name="partedir[]" type="text" value="'+direccion+'" placeholder="CALLE" '+readonly+'/></div><div class="bloque_6"><input id="partetrabaja'+nextparteinput+'" name="partetrabaja[]" type="text" value="'+trabaja+'" placeholder="TRABAJ&Oacute; CON..." '+readonly_2+'/></div>';	
+	campo = campo + '<div class="bloque_5"><input id="partenombre'+nextparteinput+'" name="partenombre[]" type="text" value="'+nombre+'" placeholder="NOMBRE" '+readonly+'/></div>';
+	campo = campo + '<div class="bloque_7"><input id="partedir'+nextparteinput+'" name="partedir[]" type="text" value="'+direccion+'" placeholder="CALLE" '+readonly+'/></div>';
 
 	//------------
 	//	ACCIONES 
@@ -59,7 +60,7 @@ function dac_Carga_Parte(cliente, nombre, direccion, trabaja, observacion, accio
 	}	
 	//------------
 	campo = campo + '<input id="partenro'+nextparteinput+'" name="partenro[]" type="text" value="'+nextparteinput+'" readonly hidden/>';
-	campo = campo + '<div class="bloque_6"><div class="desplegable">';
+	campo = campo + '<div class="bloque_5"><div class="desplegable">';
 		//alert(accion); ejemplo 1,3,10
 		var idacciones	=	accion.split(",");
 		for (var i=0; i<acid.length; i++){ //acid.length = 10	
@@ -70,9 +71,10 @@ function dac_Carga_Parte(cliente, nombre, direccion, trabaja, observacion, accio
 			campo = campo + '<input id="parteaccion'+nextparteinput+'" type="checkbox" name="parteaccion'+nextparteinput+'[]" value="'+acid[i]+'" '+checked+' '+deshabilitar+' style="float:left;"><label>'+acnombre[i]+'</label><hr>';
 		}	
 	campo = campo + '</div></div>';
-	campo = campo + '<div class="bloque_4"><textarea id="parteobservacion'+nextparteinput+'" name="parteobservacion[]" type="text" value="'+observacion+'" placeholder="OBSERVACI&Oacute;N" '+readonly_2+'>'+observacion+'</textarea></div>';
 	
-	campo = campo + '<hr style="border-bottom: 1px solid #117db6;">';
+	campo = campo + '<div class="bloque_5"><input id="partetrabaja'+nextparteinput+'" name="partetrabaja[]" type="text" value="'+trabaja+'" placeholder="TRABAJ&Oacute; CON..." '+readonly_2+'/></div>';	
+	campo = campo + '<div class="bloque_5"><textarea id="parteobservacion'+nextparteinput+'" name="parteobservacion[]" type="text" value="'+observacion+'" placeholder="OBSERVACI&Oacute;N" '+readonly_2+' onkeypress="return dac_ValidarCaracteres(event)">'+observacion+'</textarea></div>';	
+	campo = campo + '<hr class="hr-line">';
 	campo = campo + '</div>';
 
 	$("#detalle_parte").after(campo);
@@ -185,7 +187,7 @@ function dac_Guardar_Planificacion(enviar){
 					$('#box_confirmacion').css({'display':'none'});
 					$('#box_error').css({'display':'none'});
 					$('#box_cargando').css({'display':'block'});
-					$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+					$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 				},
 			success : function (result) { 
 						$('#box_cargando').css({'display':'none'});
@@ -321,7 +323,7 @@ function dac_Guardar_Parte(enviar){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : function (result) { 
 			$('#box_cargando').css({'display':'none'});
@@ -366,7 +368,7 @@ function dac_Duplicar_Planificacion(fecha_origen){
 				$('#box_confirmacion').css({'display':'none'});
 				$('#box_error').css({'display':'none'});
 				$('#box_cargando').css({'display':'block'});
-				$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+				$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 			},
 			success : function (result) {
 						$('#box_cargando').css({'display':'none'});

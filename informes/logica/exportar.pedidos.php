@@ -34,7 +34,7 @@ header("content-disposition: attachment;filename=PedidosWeb-".date('d-m-y').".xl
 <TITLE>::. Exportacion de Datos .::</TITLE>
 <head></head>
 <body>
-	<table border="0" cellpadding="0" cellspacing="0">
+	<table border="0">
 	<thead>
 		<tr>
             <TD width="1px">Fecha</TD>
@@ -55,12 +55,8 @@ header("content-disposition: attachment;filename=PedidosWeb-".date('d-m-y').".xl
 	<?php	
 	$pedidos	= DataManager::getPedidosEntre(0, $fechaInicio->format("Y-m-d"), $fechaFin->format("Y-m-d")); 
 	if($pedidos){
-		foreach ($pedidos as $k => $pedido) {	
-			//$fecha 		= 	explode(" ", $pedido["ptfechapedido"]);
-			//				list($ano, $mes, $dia) 	= 	explode("-", $fecha[0]);
-			//$_fecha 	= 	$dia."-".$mes."-".$ano;						
-			$nroPedido	= 	$pedido["pidpedido"];				
-			//$_nombre	= 	$pedido["ptclirs"];
+		foreach ($pedidos as $k => $pedido) {					
+			$nroPedido	= 	$pedido["pidpedido"];
 			
 			$detalles	= 	DataManager::getPedidos(NULL, 0, $nroPedido, NULL, NULL, NULL);
 			if ($detalles) {
@@ -94,27 +90,6 @@ header("content-disposition: attachment;filename=PedidosWeb-".date('d-m-y').".xl
 					echo sprintf("<tr align=\"left\">");
 					echo sprintf("<td >%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", $_fecha_pedido, $_nombreusr, $_idcli, $_nropedido, $_idlab, $_idart, $_cantidad, $_precio, $_b1, $_b2, $_desc1, $_desc2, $_desc3, $_condpago, $_ordencompra, $_observacion);
 					echo sprintf("</tr>");
-					
-					/*?>
-					<tr align="left">
-						<td ><?php echo $_fecha_pedido; ?></td>
-						<td><?php echo $_nombreusr; ?></td>
-						<td><?php echo $_idcli; ?></td>
-						<td><?php echo $_nropedido; ?></td>
-						<td><?php echo $_idlab; ?></td>
-						<td><?php echo $_idart; ?></td>
-						<td><?php echo $_cantidad; ?></td>
-						<td><?php echo $_precio; ?></td>
-						<td><?php echo $_b1; ?></td>
-						<td><?php echo $_b2; ?></td>
-						<td><?php echo $_desc1; ?></td>
-						<td><?php echo $_desc2; ?></td>
-						<td><?php echo $_desc3; ?></td>
-						<td><?php echo $_condpago; ?></td>
-						<td><?php echo $_ordencompra; ?></td>
-						<td><?php echo $_observacion; ?></td>
-					</tr>
-					<?php*/
 				}
 			}
 		}

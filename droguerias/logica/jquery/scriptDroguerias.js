@@ -9,7 +9,7 @@ function dac_getDroguerias(empresa) {
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});
@@ -63,14 +63,12 @@ function dac_drogueriaRelacionada(id, idCuenta, nombre, localidad, rentTl, rentT
 	var campo;
 	campo =	'<div id="rutdrog'+nextDrogueria+'">';		
 		campo += '<input id="drogtid'+nextDrogueria+'" name="drogtid[]" type="text" value='+id+' hidden>';
-
-		campo += '<div class="bloque_2">'+localidad+'</div>';
-		campo +='<input id="drogtcliid'+nextDrogueria+'" name="drogtcliid[]" type="text" value='+idCuenta+' hidden><div class="bloque_4">'+idCuenta+'</div>';
-		campo +='<div class="bloque_4"><input id="rentTl'+nextDrogueria+'" name="rentTl[]" type="text" value='+rentTl+' maxlength="10" onkeydown="ControlComa(this.id, this.value);" onkeyup="ControlComa(this.id, this.value);"></div>';
-		campo +='<div class="bloque_4"><input id="rentTd'+nextDrogueria+'" name="rentTd[]" type="text" value='+rentTd+'  maxlength="10" onkeydown="ControlComa(this.id, this.value);" onkeyup="ControlComa(this.id, this.value);"></div>';
-		campo +='<div class="bloque_4"><a href="editar.php?drogtid='+id+'" target="_blank" title="editar"><img src="../images/icons/icono-editar.png" border="0" align="absmiddle" style="height:30px;" onmouseover="this.src=\'/pedidos/images/icons/icono-editar-hover.png\';" onmouseout="this.src=\'/pedidos/images/icons/icono-editar.png\';"/></a>';	
-		campo +='<a title="eliminar" onclick="javascript:dac_deleteDrogRelacionada('+id+', '+nextDrogueria+')"><img src="../images/icons/icono-eliminar.png" border="0" align="absmiddle" style="height:30px;" onmouseover="this.src=\'/pedidos/images/icons/icono-eliminar-hover.png\';" onmouseout="this.src=\'/pedidos/images/icons/icono-eliminar.png\';"/></a></div>';
-	
+		campo += '<div class="bloque_7">'+localidad+'</div>';
+		campo +='<input id="drogtcliid'+nextDrogueria+'" name="drogtcliid[]" type="text" value='+idCuenta+' hidden><div class="bloque_7">'+idCuenta+'</div>';
+		campo +='<div class="bloque_8"><input id="rentTl'+nextDrogueria+'" name="rentTl[]" type="text" value='+rentTl+' maxlength="10" onkeydown="ControlComa(this.id, this.value);" onkeyup="ControlComa(this.id, this.value);"></div>';
+		campo +='<div class="bloque_8"><input id="rentTd'+nextDrogueria+'" name="rentTd[]" type="text" value='+rentTd+'  maxlength="10" onkeydown="ControlComa(this.id, this.value);" onkeyup="ControlComa(this.id, this.value);"></div>';
+		campo +='<div class="bloque_7"><a href="editar.php?drogtid='+id+'" target="_blank" title="editar"><img class=\"icon-edit\"/></a>';	
+		campo +='<a title="eliminar" onclick="javascript:dac_deleteDrogRelacionada('+id+', '+nextDrogueria+')"><img class=\"icon-delete\"/></a></div><hr>';	
 	campo +='</div>';
 	$("#drogueria_relacionada").append(campo);		
 }
@@ -90,7 +88,7 @@ function dac_deleteDrogRelacionada(id, nextDrogueria){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});
@@ -119,7 +117,7 @@ function dac_deleteDrogRelacionada(id, nextDrogueria){
 function dac_newDrogRelacionada(id, empresa){
 	"use strict";
 	var campo;
-		campo ='<a href="editar.php?drogid='+id+'&empresa='+empresa+'" target="_blank" title="Nueva Drogueria Relacionada"><img src="../images/icons/icono-nuevo.png" border="0" align="absmiddle" style="height:30px;" onmouseover="this.src=\'/pedidos/images/icons/icono-nuevo-hover.png\';" onmouseout="this.src=\'/pedidos/images/icons/icono-nuevo.png\';"/></a>';
+		campo ='<a href="editar.php?drogid='+id+'&empresa='+empresa+'" target="_blank" title="Nueva Drogueria Relacionada"><img class="icon-new" /></a>';
 
 	$("#acciones").append(campo);
 }
@@ -136,7 +134,7 @@ function dac_getCuentasDrogueria(empresa, drogidCAD){
 			$('#box_confirmacion').css({'display':'none'});
 			$('#box_error').css({'display':'none'});
 			$('#box_cargando').css({'display':'block'});
-			$("#msg_cargando").html('<img src="/pedidos/images/gif/loading.gif" height="24" style="margin-right:10px;" />Cargando... espere por favor!');
+			$("#msg_cargando").html('<img class="icon-loading"/>Cargando... espere por favor!');
 		},
 		success : 	function (resultado) {
 						$('#box_cargando').css({'display':'none'});	
