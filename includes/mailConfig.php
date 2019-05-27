@@ -1,4 +1,7 @@
 <?php
+
+
+
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.phpmailer.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/pedidos/includes/class.smtp.php" );
 
